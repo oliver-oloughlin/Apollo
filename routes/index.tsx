@@ -10,9 +10,11 @@ export default function Home() {
       <Head>
         <Style fileName="buttons.css" />
       </Head>
-      <main class="page">
-        <button class="btn-red btn-big">RED</button>
-        <button class="btn-blue btn-big">BLUE</button>
+      <main class="page box-bg">
+        <div class="btn-switch">
+          <button class="btn-red btn-round btn-big">NO</button>
+          <button class="btn-blue btn-round btn-big">YES</button>
+        </div>
       </main>
     </App>
   );

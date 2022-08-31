@@ -7,6 +7,7 @@
     --accent: hsl(185 50% 55%);
     --accent-dark: hsl(185 50% 40%);
     --shadow: hsl(0 0% 0% / .6);
+    --shadow-light: hsl(0 0% 100% / .5);
 
     --border-r: .15rem;
     --border-w: .075em;
@@ -44,12 +45,31 @@ h1, h2, h3, h4, h5, h6, p, input, textarea, button {
 button {
     border: none;
     outline: none;
-    border-radius: var(--border-r);
     position: relative;
     isolation: isolate;
     cursor: pointer;
     text-transform: uppercase;
     overflow: hidden;
+    box-shadow: 0 0 .2em var(--shadow), inset 0 0 1em var(--shadow);
+}
+
+button:active {
+    box-shadow: inset 0 0 1em var(--shadow);
+    border-bottom: none;
+    border-right: none;
+}
+
+button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: black;
+    opacity: 0;
+    transition: opacity var(--trs);
+}
+
+button:hover::after {
+    opacity: .15;
 }
 
 input {
