@@ -1,5 +1,5 @@
 package sql;
 
-public class sqlConnecter {
+public class sqlConnecter{
 
 }
