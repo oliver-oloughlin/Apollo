@@ -1,0 +1,13 @@
+.btn-big {
+  font-size: 3rem;
+}
+
+.btn-red {
+  background-color: red;
+  color: white;
+}
+
+.btn-blue {
+  background-color: blue;
+  color: white;
+}

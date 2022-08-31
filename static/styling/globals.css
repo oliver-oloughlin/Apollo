@@ -1,0 +1,95 @@
+:root {
+    --bg-primary: hsl(220 20% 93%);
+    --bg-secondary: hsl(0 0% 100%);
+    --clr-primary: hsl(0 0% 15%);
+    --clr-secondary: hsl(0 0% 30%);
+    --clr-title: hsl(0 0% 0%);
+    --accent: hsl(185 50% 55%);
+    --accent-dark: hsl(185 50% 40%);
+    --shadow: hsl(0 0% 0% / .6);
+
+    --border-r: .15rem;
+    --border-w: .075em;
+    --padding: .5rem 1rem;
+    --trs: 200ms;
+
+    --ff-primary: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+html, body {
+    font-family: var(--ff-primary);
+    background-color: var(--bg-primary);
+    color: var(--clr-primary);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.layout {
+    width: 100%;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, strong {
+    color: var(--clr-title);
+}
+
+h1, h2, h3, h4, h5, h6, p, input, textarea, button {
+    padding: var(--padding);
+}
+
+button {
+    border: none;
+    outline: none;
+    border-radius: var(--border-r);
+    position: relative;
+    isolation: isolate;
+    cursor: pointer;
+    text-transform: uppercase;
+    overflow: hidden;
+}
+
+input {
+    outline: none;
+    border: var(--border-w) solid currentColor;
+    border-radius: var(--border-r);
+}
+
+input:focus {
+    border-color: var(--accent);
+}
+
+a {
+    color: var(--accent-dark);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color var(--trs);
+    text-decoration: none;
+    width: fit-content;
+}
+
+a:hover {
+    color: var(--accent);
+}
+
+a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: .125em;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--trs) ease-in-out;
+}
+
+a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}

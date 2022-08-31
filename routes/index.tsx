@@ -1,20 +1,19 @@
 /** @jsx h */
 import { h } from "preact";
-import Counter from "../islands/Counter.tsx";
+import App from "../components/App.tsx"
+import Style from "../components/Style.tsx"
+import { Head } from "$fresh/runtime.ts"
 
 export default function Home() {
   return (
-    <div>
-      <img
-        src="/logo.svg"
-        height="100px"
-        alt="the fresh logo: a sliced lemon dripping with juice"
-      />
-      <p>
-        Welcome to `fresh`. Try updating this message in the ./routes/index.tsx
-        file, and refresh.
-      </p>
-      <Counter start={3} />
-    </div>
+    <App>
+      <Head>
+        <Style fileName="buttons.css" />
+      </Head>
+      <main class="page">
+        <button class="btn-red btn-big">RED</button>
+        <button class="btn-blue btn-big">BLUE</button>
+      </main>
+    </App>
   );
 }
