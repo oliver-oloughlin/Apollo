@@ -8,11 +8,6 @@
     padding: 1em;
 }
 
-.btn-big {
-  font-size: 4rem;
-  width: 20rem;
-}
-
 .btn-red {
   background: radial-gradient(hsl(0 75% 55%), hsl(0 75% 45%));
   color: white;
@@ -24,6 +19,7 @@
 }
 
 .btn-switch {
+  width: min(95vw, 75ch);
   display: flex;
   justify-content: center;
   gap: 4rem;
@@ -33,4 +29,9 @@
   border-radius: 2rem;
   border-bottom: .25rem solid var(--shadow-light);
   border-right: .25rem solid var(--shadow-light);
+}
+
+.btn-switch button {
+  width: 40%;
+  font-size: 3rem;
 }
