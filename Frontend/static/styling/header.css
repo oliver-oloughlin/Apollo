@@ -24,11 +24,14 @@ header > * {
 .header-content-vertical {
   display: none;
   flex-direction: column;
+  margin: 0 4vw;
 }
 
 .header-item {
-  display: grid;
-  place-content: center;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   position: relative;
   cursor: pointer;
 }
@@ -48,6 +51,26 @@ header > * {
   transform: scaleX(1);
 }
 
+.header-dropdown-btn {
+  height: 100%;
+  display: grid;
+  place-content: center;
+  padding: var(--padding);
+  cursor: pointer;
+  background-image: url("../pictures/menu_icon.svg");
+  width: 24px;
+}
+
+.header-dropdown-container {
+  position: fixed;
+  top: var(--header-h);
+  right: 0;
+  text-align: left;
+  background-color: var(--glass-secondary);
+  border-radius: var(--border-r);
+  box-shadow: 0 0 .05rem var(--shadow);
+}
+
 @media only screen and (max-width: 768px) {
   header {
     justify-content: right;
@@ -57,7 +80,7 @@ header > * {
     display: flex;
   }
 
-  .header-content-vertical {
+  .header-content-horisontal {
     display: none;
   }
 }
