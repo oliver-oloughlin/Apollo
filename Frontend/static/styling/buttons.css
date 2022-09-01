@@ -1,13 +1,3 @@
-.btn-round {
-    border: none;
-    border-bottom: .1em solid var(--shadow);
-    border-right: .05em solid var(--shadow);
-    outline: none;
-    border-radius: 100vmax;
-    aspect-ratio: 1/1;
-    padding: 1em;
-}
-
 .btn-red {
   background: radial-gradient(hsl(0 75% 55%), hsl(0 75% 45%));
   color: white;
@@ -27,11 +17,23 @@
   background-color: hsl(0 0% 20%);
   box-shadow: 0 0 .25rem var(--shadow);
   border-radius: 2rem;
-  border-bottom: .25rem solid var(--shadow-light);
-  border-right: .25rem solid var(--shadow-light);
+  border-bottom: .25rem solid var(--shadow);
+  border-right: .125rem solid var(--shadow);
 }
 
 .btn-switch button {
+  border: none;
+  border-bottom: .1em solid var(--shadow);
+  border-right: .05em solid var(--shadow);
+  outline: none;
+  border-radius: 100vmax;
+  aspect-ratio: 1/1;
+  padding: 1em;
   width: 40%;
   font-size: 3rem;
+}
+
+.btn-switch button:active {
+  border-bottom: none;
+  border-right: none;
 }
