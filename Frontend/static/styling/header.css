@@ -41,7 +41,7 @@ header > * {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--trs) ease-in-out;
-  background-color: var(--accent);
+  background-color: currentColor;
 }
 
 .header-item:hover::after {
