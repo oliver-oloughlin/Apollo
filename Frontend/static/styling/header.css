@@ -28,7 +28,6 @@ header > * {
 }
 
 .header-item {
-  width: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
