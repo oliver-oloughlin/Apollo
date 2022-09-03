@@ -5,6 +5,10 @@
   place-content: center;
 }
 
+.text-container {
+  width: min(65ch, 95vw);
+}
+
 .box-bg {
   position: relative;
   isolation: isolate;
