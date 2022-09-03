@@ -7,6 +7,7 @@ export type Customer = {
 export type Poll = {
   id: number,
   customer: Customer,
+  question: string,
   greenVotes: number,
   redVotes: number,
   private: boolean
