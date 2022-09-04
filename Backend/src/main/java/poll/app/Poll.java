@@ -10,24 +10,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class Poll implements Serializable{
 	
-	final String  TITLE;
-	// Poll ID to show on screen for connection
-	int ID; 
-	// Author of the Poll
-	private String AUTHOR; 
-	private String POLLCODE;
-	private Question question;
+	private final String TITLE; //Required
+	private String author = "Incognito"; //optional, should give INCOGNITO if applicable
+	private String POLLCODE; //Required
+	private Question question; //Required
 	
-	public Poll(String title) {
-		this.TITLE = title;
-		this.AUTHOR = "Incognito";
+	public Poll(PollBuilder builder) {
+		this.TITLE = builder.TITLE;
+		this.author = builder.AUTHOR;
 		this.POLLCODE = makePollCode();
-	}
-	
-	public Poll(String title, String author) {
-		this.TITLE = title;
-		this.AUTHOR = author;
-		this.POLLCODE = makePollCode();
+		this.question = new Question();
+		
 	}
 
 	private String makePollCode() {
@@ -40,31 +33,39 @@ public class Poll implements Serializable{
 	public String getPollAndAnswers() {
 		return "Poll on " + this.TITLE + "red answers: " + question.red + " green answers: " + question.green;
 	}
-	
-	
-	
-	public int getID() {
-		return ID;
+
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setID(int id) {
-		ID = id;
-	}
-
-	public String getAUTHOR() {
-		return AUTHOR;
-	}
-
-	public void setAUTHOR(String author) {
-		AUTHOR = author;
-	}
 
 	public String getPOLLCODE() {
 		return POLLCODE;
 	}
 
-
 	@Component
+	public class PollBuilder {
+		private String TITLE;
+		private String AUTHOR;
+
+		public PollBuilder(String title) {
+			this.TITLE = title;
+		}
+		
+		public PollBuilder author(String author) {
+			this.AUTHOR = author;
+			return this;
+		}
+		
+		//Returns final object
+		public Poll build(){
+			Poll poll = new Poll(this);
+			
+			return poll;
+		}
+		
+	}
+
 	private class Question {
 		//Questions are answered by RED or GREEN votes.
 		private int red = 0;
