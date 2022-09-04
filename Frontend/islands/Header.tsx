@@ -11,16 +11,14 @@ export default function Header() {
         <Items />
       </div>
       <div class="header-content-vertical">
-        <div
-          onClick={() => setOpen((o) => !o)}
-          class="header-dropdown-btn icon"
-        />
+        <span class="header-dropdown-btn" onClick={() => setOpen((o) => !o)}>
+          <i class="icon menu-icon" />
+        </span>
         {open &&
-          (
-            <div class="header-dropdown-container">
-              <Items />
-            </div>
-          )}
+          <div class="header-dropdown-container">
+            <Items />
+          </div>
+        }
       </div>
     </header>
   );

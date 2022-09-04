@@ -1,15 +1,16 @@
 header {
   width: 100%;
   height: var(--header-h);
+  padding: 0 2vh;
   position: fixed;
   z-index: 1;
-  background-color: var(--glass-secondary);
-  backdrop-filter: blur(.75rem);
-  box-shadow: 0 0 .05rem var(--shadow);
-
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-color: var(--glass-secondary);
+  backdrop-filter: blur(.75rem);
+  box-shadow: 0 0 .05rem var(--shadow);
 }
 
 header > * {
@@ -23,8 +24,6 @@ header > * {
 
 .header-content-vertical {
   display: none;
-  flex-direction: column;
-  margin: 0 4vw;
 }
 
 .header-item {
@@ -52,10 +51,13 @@ header > * {
 
 .header-dropdown-btn {
   height: 100%;
+  padding: var(--padding);
   display: grid;
   place-content: center;
-  padding: var(--padding);
   cursor: pointer;
+}
+
+.menu-icon {
   background-image: url("../pictures/menu_icon.svg");
   width: 24px;
 }
@@ -64,8 +66,12 @@ header > * {
   position: fixed;
   top: var(--header-h);
   right: 0;
-  text-align: left;
+  height: fit-content;
+  display: flex;
+  flex-direction: column !important;
+
   background-color: var(--glass-secondary);
+  backdrop-filter: blur(.75rem);
   border-radius: var(--border-r);
   box-shadow: 0 0 .05rem var(--shadow);
 }
@@ -76,7 +82,7 @@ header > * {
   }
 
   .header-content-vertical {
-    display: flex;
+    display: block;
   }
 
   .header-content-horisontal {
