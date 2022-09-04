@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Poll implements Serializable{
 	
+	final String  TITLE;
 	// Poll ID to show on screen for connection
 	int ID; 
 	// Author of the Poll
@@ -12,13 +13,15 @@ public class Poll implements Serializable{
 	private String POLLCODE;
 	private Question question;
 	
-	public Poll() {
+	public Poll(String title) {
+		this.TITLE = title;
 		this.AUTHOR = "Incognito";
 		this.POLLCODE = makePollCode();
 		this.question = new Question();
 	}
 	
-	public Poll(String author) {
+	public Poll(String title, String author) {
+		this.TITLE = title;
 		this.AUTHOR = author;
 		this.POLLCODE = makePollCode();
 		this.question = new Question();
@@ -28,6 +31,10 @@ public class Poll implements Serializable{
 		Random random = new Random();
 		int number = random.nextInt(10000);
 		return String.format("%04d", number);
+	}
+	
+	public String getPollAndAnswers() {
+		return "Poll on " + this.TITLE + "red answers: " + question.red + " green answers: " + question.green;
 	}
 	
 	
