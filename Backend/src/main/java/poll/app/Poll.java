@@ -3,6 +3,11 @@ package poll.app;
 import java.io.Serializable;
 import java.util.Random;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.stereotype.Component;
+
+@Component
 public class Poll implements Serializable{
 	
 	final String  TITLE;
@@ -17,14 +22,12 @@ public class Poll implements Serializable{
 		this.TITLE = title;
 		this.AUTHOR = "Incognito";
 		this.POLLCODE = makePollCode();
-		this.question = new Question();
 	}
 	
 	public Poll(String title, String author) {
 		this.TITLE = title;
 		this.AUTHOR = author;
 		this.POLLCODE = makePollCode();
-		this.question = new Question();
 	}
 
 	private String makePollCode() {
@@ -33,6 +36,7 @@ public class Poll implements Serializable{
 		return String.format("%04d", number);
 	}
 	
+	@PostConstruct
 	public String getPollAndAnswers() {
 		return "Poll on " + this.TITLE + "red answers: " + question.red + " green answers: " + question.green;
 	}
@@ -59,20 +63,8 @@ public class Poll implements Serializable{
 		return POLLCODE;
 	}
 
-	public void setPOLLCODE(String pollcode) {
-		POLLCODE = pollcode;
-	}
 
-	public Question getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-
-
-
+	@Component
 	private class Question {
 		//Questions are answered by RED or GREEN votes.
 		private int red = 0;
@@ -86,14 +78,9 @@ public class Poll implements Serializable{
 			if(vote) setRed(getRed() + 1);
 			else setGreen(getGreen() + 1);
 		}
-		
-		//Oh the boilerplate.
+
 		public int getGreen() {
 			return green;
-		}
-
-		public void setGreen(int green) {
-			this.green = green;
 		}
 
 		public int getRed() {
@@ -103,5 +90,11 @@ public class Poll implements Serializable{
 		public void setRed(int red) {
 			this.red = red;
 		}
+
+		public void setGreen(int green) {
+			this.green = green;
+		}
+		
+		
 	}
 }
