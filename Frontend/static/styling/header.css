@@ -59,7 +59,7 @@ header > * {
 
 .menu-icon {
   background-image: url("../pictures/menu_icon.svg");
-  width: 24px;
+  width: var(--icon-size);
 }
 
 .header-dropdown-container {

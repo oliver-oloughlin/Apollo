@@ -17,6 +17,7 @@
     --trs: 200ms;
     --header-h: 3rem;
     --view-h: calc(100vh - var(--header-h));
+    --icon-size: 24px;
 
     --ff-primary: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
