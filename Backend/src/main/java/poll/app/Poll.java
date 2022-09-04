@@ -1,15 +1,16 @@
 package poll.app;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Poll {
+public class Poll implements Serializable{
 	
 	// Poll ID to show on screen for connection
 	int ID; 
 	// Author of the Poll
-	String AUTHOR; 
-	String POLLCODE;
-	Question question;
+	private String AUTHOR; 
+	private String POLLCODE;
+	private Question question;
 	
 	public Poll() {
 		this.AUTHOR = "Incognito";
@@ -29,6 +30,42 @@ public class Poll {
 		return String.format("%04d", number);
 	}
 	
+	
+	
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int id) {
+		ID = id;
+	}
+
+	public String getAUTHOR() {
+		return AUTHOR;
+	}
+
+	public void setAUTHOR(String author) {
+		AUTHOR = author;
+	}
+
+	public String getPOLLCODE() {
+		return POLLCODE;
+	}
+
+	public void setPOLLCODE(String pollcode) {
+		POLLCODE = pollcode;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+
+
 	private class Question {
 		//Questions are answered by RED or GREEN votes.
 		private int red = 0;
