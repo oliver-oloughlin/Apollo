@@ -44,7 +44,7 @@ public class Poll implements Serializable{
 	}
 
 	@Component
-	public class PollBuilder {
+	public static class PollBuilder {
 		private String TITLE;
 		private String AUTHOR;
 
