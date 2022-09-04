@@ -70,3 +70,7 @@
   transform: scaleX(1);
   transform-origin: left;
 }
+
+.highlighted {
+  box-shadow: 0 0 0 100vmax var(--shadow) !important;
+}
