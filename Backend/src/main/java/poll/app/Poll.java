@@ -31,7 +31,7 @@ public class Poll implements Serializable{
 	
 	@PostConstruct
 	public String getPollAndAnswers() {
-		return "Poll on " + this.TITLE + "red answers: " + question.red + " green answers: " + question.green;
+		return "Poll on " + this.TITLE + " red answers: " + question.red + " green answers: " + question.green;
 	}
 
 	public String getAuthor() {

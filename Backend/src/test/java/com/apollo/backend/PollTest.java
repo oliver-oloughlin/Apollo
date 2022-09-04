@@ -14,6 +14,7 @@ public class PollTest {
 		Poll tp = new Poll.PollBuilder("test")
 				.build();
 		
+		System.out.println(tp.getPollAndAnswers());
 	}
 
 }
