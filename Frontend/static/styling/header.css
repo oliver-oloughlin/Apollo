@@ -19,7 +19,7 @@ header > * {
 
 .header-content-horisontal {
   display: flex;
-  gap: 2vw;
+  gap: 5vw;
 }
 
 .header-content-vertical {
@@ -30,6 +30,7 @@ header > * {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: var(--padding);
   position: relative;
   cursor: pointer;
 }
@@ -39,6 +40,7 @@ header > * {
   position: absolute;
   inset: auto 0 0 0;
   height: .125em;
+  border-radius: 100vmax;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--trs) ease-in-out;

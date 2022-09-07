@@ -37,10 +37,8 @@ export default function Header() {
 function Items() {
   return (
     <Fragment>
-      <p class="header-item">POLLS</p>
-      <p class="header-item">RESULT</p>
-      <p class="header-item">VOTES</p>
-      <p class="header-item">ETC.</p>
+      <a href="/" class="header-item">HOME</a>
+      <a href="/user" class="header-item">ACCOUNT</a>
     </Fragment>
   );
 }

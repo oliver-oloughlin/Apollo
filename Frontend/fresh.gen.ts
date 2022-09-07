@@ -4,14 +4,20 @@
 
 import * as $0 from "./routes/_404.tsx";
 import * as $1 from "./routes/index.tsx";
-import * as $2 from "./routes/poll.tsx";
+import * as $2 from "./routes/user/create-poll.tsx";
+import * as $3 from "./routes/user/index.tsx";
+import * as $4 from "./routes/user/manage-poll.tsx";
+import * as $5 from "./routes/vote.tsx";
 import * as $$0 from "./islands/Header.tsx";
 
 const manifest = {
   routes: {
     "./routes/_404.tsx": $0,
     "./routes/index.tsx": $1,
-    "./routes/poll.tsx": $2,
+    "./routes/user/create-poll.tsx": $2,
+    "./routes/user/index.tsx": $3,
+    "./routes/user/manage-poll.tsx": $4,
+    "./routes/vote.tsx": $5,
   },
   islands: {
     "./islands/Header.tsx": $$0,
