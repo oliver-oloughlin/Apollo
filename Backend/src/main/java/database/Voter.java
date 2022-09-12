@@ -15,11 +15,11 @@ import java.util.Set;
 @Table(name = "VOTER")
 public class Voter {
 
-	@Id
 	/**
 	 * PK in db
 	 * name@domain.toppdomain
 	 */
+	@Id
 	private String username;
 
 	/**

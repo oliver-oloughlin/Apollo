@@ -15,7 +15,7 @@ public interface VoterDAO {
 
 	/**
 	 * Gives the ability of voting to a voter
-	 * @param vote The vote casted by the voter, by default red or green
+	 * @param vote The vote cast by the voter, by default red or green
 	 * @return true or false
 	 */
 	public boolean addVote(Vote vote);
