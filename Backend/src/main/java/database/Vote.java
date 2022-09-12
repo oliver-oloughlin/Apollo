@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "VOTE")
-public class Vote implements VoteDAO {
+public class Vote {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

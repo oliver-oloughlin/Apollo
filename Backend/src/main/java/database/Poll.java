@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "POLL")
-public class Poll implements PollDAO {
+public class Poll {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

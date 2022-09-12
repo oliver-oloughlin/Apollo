@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "VOTER")
-public class Voter implements VoterDAO {
+public class Voter {
 
 	@Id
 	private String username;
@@ -73,23 +73,9 @@ public class Voter implements VoterDAO {
 		polls.add(poll);
 	}
 
-	@Override
-	public Voter getVoter(String username, String password) {
-		return ;
-	}
-
 	public boolean addVote(Vote vote) {
 		votes.add(vote);
 		return true;
 	}
 
-	@Override
-	public Voter updateVoter(Voter voter) {
-		return null;
-	}
-
-	@Override
-	public boolean deleteVoter(Voter voter) {
-		return false;
-	}
 }

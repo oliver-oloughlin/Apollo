@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "QUESTION")
-public class Question implements QuestionDAO {
+public class Question {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
