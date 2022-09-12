@@ -31,5 +31,5 @@ public interface VoterDAO {
 	 * @param voter: The voter that is to be saved in the db
 	 * @return True if user was created was and false if user already existed in the db
 	 */
-	public boolean createVoter(Voter voter);
+	public boolean saveVoter(Voter voter);
 }

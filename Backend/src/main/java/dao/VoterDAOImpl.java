@@ -45,7 +45,7 @@ public class VoterDAOImpl implements VoterDAO{
 	}
 
 	@Override
-	public boolean createVoter(Voter voter) {
+	public boolean saveVoter(Voter voter) {
 		try {
 			em.getTransaction().begin();
 			em.persist(voter);
