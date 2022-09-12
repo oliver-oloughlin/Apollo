@@ -1,5 +1,6 @@
 package dao;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
@@ -24,7 +25,17 @@ public class VoteDAOImpl implements VoteDAO{
 		Question question = vote.getQuestion();
 		question.addVote(vote);
 		
-		
+		try {
+			em.getTransaction().begin();
+			em.persist(vote);
+			if(voter != null) {
+				em.merge(voter);
+			}
+			em.merge(question);
+			em.getTransaction().commit();
+			return true;
+		} catch(EntityExistsException | IllegalArgumentException e) {
+			return false;
+		}
 	}
-
 }
