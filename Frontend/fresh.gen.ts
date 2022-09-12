@@ -9,6 +9,7 @@ import * as $3 from "./routes/user/index.tsx";
 import * as $4 from "./routes/user/manage-poll.tsx";
 import * as $5 from "./routes/vote.tsx";
 import * as $$0 from "./islands/Header.tsx";
+import * as $$1 from "./islands/PollsView.tsx";
 
 const manifest = {
   routes: {
@@ -21,6 +22,7 @@ const manifest = {
   },
   islands: {
     "./islands/Header.tsx": $$0,
+    "./islands/PollsView.tsx": $$1,
   },
   baseUrl: import.meta.url,
 };
