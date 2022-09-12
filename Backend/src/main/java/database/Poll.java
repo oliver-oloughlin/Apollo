@@ -1,5 +1,7 @@
 package database;
 
+import interfaces.PollDAO;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "POLL")
-public class Poll {
+public class Poll implements PollDAO {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

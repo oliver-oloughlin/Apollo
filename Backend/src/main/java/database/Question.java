@@ -1,5 +1,7 @@
 package database;
 
+import interfaces.QuestionDAO;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "QUESTION")
-public class Question {
+public class Question implements QuestionDAO {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

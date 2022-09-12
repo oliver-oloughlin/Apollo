@@ -1,10 +1,10 @@
 package database;
 
+import interfaces.VoterDAO;
+
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "VOTER")
-public class Voter {
+public class Voter implements VoterDAO {
 
 	@Id
 	private String username;
@@ -72,8 +72,24 @@ public class Voter {
 	public void addPoll(Poll poll) {
 		polls.add(poll);
 	}
-	
-	public void addVote(Vote vote) {
+
+	@Override
+	public Voter getVoter(String username, String password) {
+		return ;
+	}
+
+	public boolean addVote(Vote vote) {
 		votes.add(vote);
+		return true;
+	}
+
+	@Override
+	public Voter updateVoter(Voter voter) {
+		return null;
+	}
+
+	@Override
+	public boolean deleteVoter(Voter voter) {
+		return false;
 	}
 }

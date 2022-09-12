@@ -1,5 +1,7 @@
 package database;
 
+import interfaces.VoteDAO;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "VOTE")
-public class Vote {
+public class Vote implements VoteDAO {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
