@@ -1,7 +1,5 @@
 package database;
 
-import interfaces.VoteDAO;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -58,6 +56,14 @@ public class Vote {
 	
 	public void setRed(int red) {
 		this.red = red;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public Voter getVoter() {
+		return voter;
 	}
 	
 	

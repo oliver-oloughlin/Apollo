@@ -1,7 +1,6 @@
 package database;
 
 import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -32,10 +31,10 @@ public class Voter {
 	 */
 	private boolean isAdmin;
 	
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "owner")
 	private Set<Poll> polls;
 	
-	@OneToMany(mappedBy = "voter", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "voter")
 	private Set<Vote> votes;
 	
 	public Voter () {}
@@ -85,7 +84,7 @@ public class Voter {
 		polls.add(poll);
 	}
 
-	public void addVote(Vote vote) throws Exception{
+	public void addVote(Vote vote){
 		votes.add(vote);
 	}
 
