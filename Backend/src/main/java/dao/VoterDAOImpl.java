@@ -1,9 +1,9 @@
 package dao;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import database.Vote;
 import database.Voter;
 import interfaces.VoterDAO;
 
@@ -17,7 +17,6 @@ public class VoterDAOImpl implements VoterDAO{
 	
 	@Override
 	public Voter getVoter(String username, String password) {
-		
 		Voter voter = em.find(Voter.class, username);
 		if(voter != null) {
 			return voter.getPassword().equals(password) ? voter : null;
@@ -26,14 +25,7 @@ public class VoterDAOImpl implements VoterDAO{
 	}
 
 	@Override
-	public boolean addVote(Vote vote) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Voter updateVoter(Voter voter) {
-		
 		em.getTransaction().begin();
 		Voter managedVoter = em.merge(voter);
 		em.getTransaction().commit();
@@ -42,15 +34,25 @@ public class VoterDAOImpl implements VoterDAO{
 
 	@Override
 	public boolean deleteVoter(Voter voter) {
-		
 		try {
 			em.getTransaction().begin();
-			em.remove(voter);
+			em.remove(em.merge(voter));
 			em.getTransaction().commit();
 			return true;
-		} catch(Exception e) {
+		} catch(IllegalArgumentException e) {
 			return false;
 		}
 	}
 
+	@Override
+	public boolean createVoter(Voter voter) {
+		try {
+			em.getTransaction().begin();
+			em.persist(voter);
+			em.getTransaction().commit();
+			return true;
+		} catch (EntityExistsException e) {
+			return false;
+		}
+	}
 }

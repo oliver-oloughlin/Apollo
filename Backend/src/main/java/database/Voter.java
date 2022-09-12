@@ -1,7 +1,5 @@
 package database;
 
-import interfaces.VoterDAO;
-
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -87,9 +85,8 @@ public class Voter {
 		polls.add(poll);
 	}
 
-	public boolean addVote(Vote vote) {
+	public void addVote(Vote vote) throws Exception{
 		votes.add(vote);
-		return true;
 	}
 
 }
