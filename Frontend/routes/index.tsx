@@ -14,17 +14,23 @@ export const handler: Handlers<Data> = {
     const polls: Poll[] = [
       {
         id: 1,
-        name: "Poll 1",
+        title: "Poll 1",
+        code: "12121",
+        timeToStop: "2022.09.15, 14:23",
         private: false
       },
       {
         id: 2,
-        name: "Poll 2",
+        title: "Poll 2",
+        code: "12345",
+        timeToStop: "2023.01.1, 00:01",
         private: true
       },
       {
         id: 3,
-        name: "Poll 3",
+        title: "Poll 3",
+        code: "54321",
+        timeToStop: "2022.12.24, 18:00",
         private: false
       },
     ]

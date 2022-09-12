@@ -6,7 +6,9 @@ export type Customer = {
 
 export type Poll = {
   id: number,
-  name: string,
+  title: string,
+  code: string,
+  timeToStop: string,
   private: boolean
 }
 

@@ -10,11 +10,11 @@ export default function PollsView({ polls }: { polls: Poll[] }) {
   const [search, setSearch] = useState<string>("")
 
   const PollRows = useMemo(() => {
-    return polls.filter(p => p.name.toLowerCase().includes(search.toLowerCase())).map((poll, index) => {
+    return polls.filter(p => p.title.toLowerCase().includes(search.toLowerCase())).map((poll, index) => {
       return (
         <tr key={`poll-${index}`}>
-          <td>{poll.name}</td>
-          <td>Active</td>
+          <td>{poll.title}</td>
+          <td>{poll.timeToStop}</td>
           <td>{poll.private ? "PRIVATE" : "PUBLIC"}</td>
         </tr>
       )
@@ -35,8 +35,8 @@ export default function PollsView({ polls }: { polls: Poll[] }) {
         />
         <table class="poll-table">
           <tr>
-            <th>Name</th>
-            <th>Status</th>
+            <th>Title</th>
+            <th>Stop</th>
             <th>Access</th>
           </tr>
           {PollRows}
