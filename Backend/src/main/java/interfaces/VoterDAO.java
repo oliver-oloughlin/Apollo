@@ -26,5 +26,11 @@ public interface VoterDAO {
 	 * @return
 	 */
 	public Voter updateVoter(Voter voter);
+
+	/**
+	 * deletes a voter from db
+	 * @param voter
+	 * @return true if voter was present in db AND voter was deleted for db
+	 */
 	public boolean deleteVoter(Voter voter);
 }

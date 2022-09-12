@@ -16,8 +16,22 @@ import java.util.Set;
 public class Voter {
 
 	@Id
+	/**
+	 * PK in db
+	 * name@domain.toppdomain
+	 */
 	private String username;
+
+	/**
+	 * User password
+	 * TODO: hash password
+	 */
 	private String password;
+
+	/**
+	 * Describe if user is Admin
+	 * by default false
+	 */
 	private boolean isAdmin;
 	
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
