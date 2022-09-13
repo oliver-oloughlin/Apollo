@@ -8,7 +8,7 @@
     --glass-secondary: hsl(0 0% 100% / .75);
     --accent: hsl(185 50% 55%);
     --accent-dark: hsl(185 50% 40%);
-    --shadow: hsl(0 0% 0% / .6);
+    --shadow: hsl(0 0% 0% / .45);
     --shadow-light: hsl(0 0% 100% / .5);
 
     --border-r: .15rem;
@@ -56,19 +56,23 @@ h1, h2, h3, h4, h5, h6, p, input, textarea, button {
 
 button {
     border: none;
+    border-bottom: .15em solid var(--shadow);
     outline: none;
     position: relative;
     isolation: isolate;
     cursor: pointer;
     text-transform: uppercase;
     overflow: hidden;
-    box-shadow: 0 0 .2em var(--shadow), inset 0 0 1em var(--shadow);
+    background-image: linear-gradient(45deg, hsl(180 50% 50%), hsl(200 50% 50%));
+    color: white;
     display: grid;
     place-content: center;
+    border-radius: var(--border-r);
 }
 
 button:active {
-    box-shadow: inset 0 0 1em var(--shadow);
+    border-bottom: none;
+    margin-top: .15em;
 }
 
 button::after {
@@ -92,5 +96,5 @@ input {
 }
 
 input:focus {
-    border-color: var(--accent);
+    box-shadow: 0 0 .25rem var(--accent);
 }
