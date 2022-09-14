@@ -4,10 +4,10 @@
              version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
     <persistence-unit name="ApolloPU" transaction-type="RESOURCE_LOCAL">
 
-        <class>database.Voter</class>
-        <class>database.Question</class>
-        <class>database.Poll</class>
-        <class>database.Vote</class>
+        <class>model.Voter</class>
+        <class>model.Question</class>
+        <class>model.Poll</class>
+        <class>model.Vote</class>
         
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>

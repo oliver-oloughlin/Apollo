@@ -4,8 +4,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import database.Question;
-import interfaces.QuestionDAO;
+import model.Question;
 
 public class QuestionDAOImpl implements QuestionDAO{
 

@@ -1,6 +1,4 @@
-package database;
-
-import interfaces.PollDAO;
+package model;
 
 import java.util.HashSet;
 import java.util.Set;

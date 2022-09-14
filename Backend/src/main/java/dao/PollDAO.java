@@ -1,9 +1,10 @@
-package interfaces;
+package dao;
 
-import database.Poll;
 import utils.VoteCount;
 
 import java.util.List;
+
+import model.Poll;
 
 public interface PollDAO {
 

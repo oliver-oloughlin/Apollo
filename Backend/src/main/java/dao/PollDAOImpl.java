@@ -1,8 +1,6 @@
 package dao;
 
-import database.Poll;
-import database.Vote;
-import interfaces.PollDAO;
+import model.Poll;
 import utils.VoteCount;
 
 import javax.persistence.*;

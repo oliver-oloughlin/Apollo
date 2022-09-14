@@ -4,10 +4,9 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import database.Question;
-import database.Vote;
-import database.Voter;
-import interfaces.VoteDAO;
+import model.Question;
+import model.Vote;
+import model.Voter;
 
 public class VoteDAOImpl implements VoteDAO{
 
