@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,29 +13,15 @@ import java.util.Set;
 @Table(name = "VOTER")
 public class Voter {
 
-	/**
-	 * PK in db
-	 * name@domain.toppdomain
-	 */
 	@Id
 	private String username;
-
-	/**
-	 * User password
-	 * TODO: hash password
-	 */
 	private String password;
-
-	/**
-	 * Describe if user is Admin
-	 * by default false
-	 */
 	private boolean isAdmin;
 	
-	@OneToMany(mappedBy = "owner")
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	private Set<Poll> polls;
 	
-	@OneToMany(mappedBy = "voter")
+	@OneToMany(mappedBy = "voter", cascade = CascadeType.PERSIST)
 	private Set<Vote> votes;
 	
 	public Voter () {}
