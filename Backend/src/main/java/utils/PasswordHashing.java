@@ -1,4 +1,4 @@
-package database;
+package utils;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -11,7 +11,7 @@ import java.security.spec.KeySpec;
 public class PasswordHashing {
 
     /**
-     * HAshes a password before saving in db
+     * Hashes a password before saving in db
      * @param password to be hashed
      * @return a hashed password as a byte array
      */

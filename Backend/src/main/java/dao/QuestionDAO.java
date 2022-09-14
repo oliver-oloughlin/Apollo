@@ -1,6 +1,6 @@
-package interfaces;
+package dao;
 
-import database.Question;
+import model.Question;
 
 public interface QuestionDAO {
 

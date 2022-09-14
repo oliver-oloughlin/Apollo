@@ -1,4 +1,4 @@
-package database;
+package model;
 
 import javax.persistence.OneToMany;
 import javax.persistence.Entity;

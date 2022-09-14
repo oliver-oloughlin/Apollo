@@ -1,6 +1,4 @@
-package database;
-
-import interfaces.QuestionDAO;
+package model;
 
 import java.util.HashSet;
 import java.util.Set;

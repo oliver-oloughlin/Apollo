@@ -1,6 +1,6 @@
-package interfaces;
+package dao;
 
-import database.Voter;
+import model.Voter;
 
 public interface VoterDAO {
 
