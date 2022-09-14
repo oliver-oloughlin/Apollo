@@ -3,13 +3,11 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,14 +20,7 @@ public class Question {
     private Long id;
 	private String text;
 	
-	@ManyToOne
-	@JoinTable(
-		name = "QUESTIONS_POLL",
-		joinColumns = @JoinColumn(name = "QUESTION_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "POLL_ID"))
-	private Poll poll;
-	
-	@OneToMany(mappedBy = "question")
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	private Set<Vote> votes;
 
 	public Question () {}
@@ -47,8 +38,8 @@ public class Question {
 		this.text = text;
 	}
 	
-	public void setPoll(Poll poll) {
-		this.poll = poll;
+	public Set<Vote> getVotes() {
+		return votes;
 	}
 	
 	public void addVote(Vote vote) {

@@ -3,9 +3,8 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -18,10 +17,8 @@ import javax.persistence.Table;
 public class Poll {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long code;
 	private String title;
-	private int code;
 	private String timeToStop;
 	private boolean privatePoll;
 	
@@ -32,12 +29,16 @@ public class Poll {
 		inverseJoinColumns = @JoinColumn(name = "USER_ID"))
 	private Voter owner;
 	
-	@OneToMany(mappedBy = "poll")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+		name = "POLL_QUESTIONS",
+		joinColumns = @JoinColumn(name = "POLL_ID"), 
+		inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
 	private Set<Question> questions;
 	
 	public Poll () {}
 	
-	public Poll(String title, int code, String timeToStop, boolean privatePoll, Voter owner) {
+	public Poll(Long code, String title, String timeToStop, boolean privatePoll, Voter owner) {
 		this.title = title;
 		this.code = code;
 		this.timeToStop = timeToStop;
@@ -54,12 +55,8 @@ public class Poll {
 		this.title = title;
 	}
 	
-	public int getCode() {
+	public Long getCode() {
 		return code;
-	}
-	
-	public void setCode(int code) {
-		this.code = code;
 	}
 	
 	public String getTimeToStop() {
@@ -76,6 +73,10 @@ public class Poll {
 	
 	public void setPrivatePoll(boolean privatePoll) {
 		this.privatePoll = privatePoll;
+	}
+	
+	public Set<Question> getQuestions(){
+		return questions;
 	}
 	
 	public void addQuestion(Question question) {
