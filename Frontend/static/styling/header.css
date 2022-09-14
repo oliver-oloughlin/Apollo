@@ -74,8 +74,9 @@ header > * {
 
   background-color: var(--glass-secondary);
   backdrop-filter: blur(.75rem);
-  border-radius: var(--border-r);
-  box-shadow: 0 0 .05rem var(--shadow);
+  border-bottom-left-radius: var(--border-r);
+  border-bottom-right-radius: var(--border-r);
+  box-shadow: 0 .025em .05rem var(--shadow);
 }
 
 @media only screen and (max-width: 768px) {

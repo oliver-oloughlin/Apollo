@@ -10,6 +10,8 @@
     --accent-dark: hsl(185 50% 40%);
     --shadow: hsl(0 0% 0% / .45);
     --shadow-light: hsl(0 0% 100% / .5);
+    --error: hsl(0 50% 55%);
+    --success: hsl(110 50% 55%);
 
     --border-r: .15rem;
     --border-w: .075em;
