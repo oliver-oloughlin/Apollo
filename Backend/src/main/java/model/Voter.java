@@ -14,9 +14,10 @@ import java.util.Set;
 public class Voter {
 
 	@Id
-	private String username;
+	private String email;
 	private String password;
 	private boolean isAdmin;
+	private AccountType accountType;
 	
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	private Set<Poll> polls;
@@ -26,21 +27,30 @@ public class Voter {
 	
 	public Voter () {}
 	
-	public Voter(String username, String password, boolean isAdmin) {
-		this.username = username;
+	public Voter(String email, String password, boolean isAdmin, AccountType accountType) {
+		this.email = email;
 		this.password = password;
 		this.isAdmin = isAdmin;
+		this.accountType = accountType;
 		
 		polls = new HashSet<Poll>();
 		votes = new HashSet<Vote>();
 	}
 
-	public String getUsername() {
-		return username;
+	public AccountType getAccountType() {
+		return accountType;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getemail() {
+		return email;
+	}
+
+	public void setemail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

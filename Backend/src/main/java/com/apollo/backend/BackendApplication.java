@@ -32,8 +32,8 @@ public class BackendApplication {
 		
 		//Create DB code:
 		/*
-		Voter anders = new Voter("Anders", "Password", true);
-		Voter oliver = new Voter("Oliver", "Pass123", false);
+		Voter anders = new Voter("Anders@email.com", "Password", true, AccountType.FACEBOOK);
+		Voter oliver = new Voter("Oliver@email.com", "Pass123", false, AccountType.NORMAL);
 		Question myQuestion1 = new Question("Have you had a nice day?");
 		Question myQuestion2 = new Question("Do you like cars?");
 		Question myQuestion3 = new Question("Do you like food?");
@@ -65,8 +65,10 @@ public class BackendApplication {
 		*/
 		
 		//Test DB code:
-		Voter anders = em.find(Voter.class, "Anders");
+		
+		Voter anders = em.find(Voter.class, "Anders@email.com");
 		System.out.println("\n" + (anders.getPassword().equals("Password") ? "Admin fetched successfully" : "Error"));
+		System.out.println("AccountType: " + anders.getAccountType());
 		System.out.println("Admin polls:");
 		anders.getPolls().forEach((Poll p) -> System.out.println(p.getTitle()));
 		System.out.println("Questions in \"My Public Poll\":");
@@ -75,7 +77,7 @@ public class BackendApplication {
 		System.out.println("Votes for in \"Do you like food\":");
 		Question foodQuestion = publicPoll.getQuestions().stream().filter((Question q) -> q.getText().equals("Do you like food?")).findAny().get();
 		foodQuestion.getVotes().forEach((Vote v) -> System.out.println("Green: " + v.getGreen() + ", Red: " + v.getRed()));
-		 
+		
 		em.close();
 		emf.close();
 		
