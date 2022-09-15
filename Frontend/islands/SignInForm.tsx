@@ -13,6 +13,7 @@ export default function SignInForm() {
     const form = formRef.current!
     const formData = new FormData(form)
     const data = Object.fromEntries(formData.entries())
+    
     const res = await fetch("/some-api-endpoint", {
       method: "POST",
       headers: {
@@ -20,6 +21,7 @@ export default function SignInForm() {
       },
       body: JSON.stringify(data)
     })
+
     if (res.ok) {
       const params = new URL(window.location.search).searchParams
       const next = params.get("next")
@@ -27,6 +29,14 @@ export default function SignInForm() {
     } else {
       errorRef.current!.innerText = "Wrong email or password"
     }
+  }
+
+  const signInWithFacebook = () => {
+
+  }
+
+  const signInWithGoogle = () => {
+
   }
 
   return (
@@ -50,7 +60,9 @@ export default function SignInForm() {
           required
         />
         <button type="submit">SIGN IN</button>
-        <p class="centered-text"><a href="/sign-in" class="link">Create new account</a></p>
+        <button onClick={signInWithFacebook} type="button" class="btn-fb">SIGN IN WITH FACEBOOK</button>
+        <button onClick={signInWithGoogle} type="button" class="btn-google">SIGN IN WITH GOOGLE</button>
+        <p class="centered-text"><a href="/sign-up" class="link">Create new account</a></p>
       </form>
     </Fragment>
   );

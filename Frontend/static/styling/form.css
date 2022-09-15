@@ -9,3 +9,11 @@
   border-radius: var(--border-r);
   box-shadow: 0 0 .5rem var(--shadow);
 }
+
+.btn-fb {
+  background: hsl(220 50% 40%);
+}
+
+.btn-google {
+  background: hsl(0 50% 45%);
+}
