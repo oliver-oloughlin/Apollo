@@ -21,6 +21,7 @@ public class Poll {
 	private String title;
 	private String timeToStop;
 	private boolean privatePoll;
+	private boolean isClosed;
 	
 	@ManyToOne
 	@JoinTable(
@@ -45,6 +46,7 @@ public class Poll {
 		this.privatePoll = privatePoll;
 		this.owner = owner;
 		this.questions = new HashSet<Question>();
+		this.isClosed = false;
 	}
 	
 	public String getTitle() {
@@ -81,5 +83,13 @@ public class Poll {
 	
 	public void addQuestion(Question question) {
 		questions.add(question);
+	}
+
+	public boolean isClosed() {
+		return isClosed;
+	}
+
+	public void setClosed(boolean isClosed) {
+		this.isClosed = isClosed;
 	}
 }
