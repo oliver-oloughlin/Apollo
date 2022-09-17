@@ -35,7 +35,7 @@ public class Poll {
 		name = "POLL_QUESTIONS",
 		joinColumns = @JoinColumn(name = "POLL_ID"), 
 		inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
-	private Set<Question> questions;
+	private Set<Question> questions = new HashSet<Question>();
 	
 	public Poll () {}
 	
@@ -45,7 +45,6 @@ public class Poll {
 		this.timeToStop = timeToStop;
 		this.privatePoll = privatePoll;
 		this.owner = owner;
-		this.questions = new HashSet<Question>();
 		this.isClosed = false;
 	}
 	

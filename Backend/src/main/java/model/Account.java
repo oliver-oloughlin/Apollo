@@ -20,10 +20,10 @@ public class Account {
 	private AccountType accountType;
 	
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-	private Set<Poll> polls;
+	private Set<Poll> polls = new HashSet<Poll>();
 	
 	@OneToMany(mappedBy = "voter", cascade = CascadeType.PERSIST)
-	private Set<Vote> votes;
+	private Set<Vote> votes = new HashSet<Vote>();
 	
 	public Account () {}
 	
@@ -32,9 +32,6 @@ public class Account {
 		this.password = password;
 		this.isAdmin = isAdmin;
 		this.accountType = accountType;
-		
-		polls = new HashSet<Poll>();
-		votes = new HashSet<Vote>();
 	}
 
 	public AccountType getAccountType() {

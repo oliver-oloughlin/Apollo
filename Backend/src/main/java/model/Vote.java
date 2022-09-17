@@ -33,13 +33,34 @@ public class Vote {
 		inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID"))
 	private Account voter;
 	
+	@ManyToOne(optional = true)
+	@JoinTable(
+		name = "VOTE_DEVICE",
+		joinColumns = @JoinColumn(name = "VOTE_ID"), 
+		inverseJoinColumns = @JoinColumn(name = "DEVICE_TOKEN"))
+	private IoTDevice device;
+	
+	
 	public Vote() {}
+	
+	public Vote (int green, int red, Question question) {
+		this.green = green;
+		this.red = red;
+		this.question = question;
+	}
 	
 	public Vote (int green, int red, Question question, Account voter) {
 		this.green = green;
 		this.red = red;
 		this.question = question;
 		this.voter = voter;
+	}
+	
+	public Vote (int green, int red, Question question, IoTDevice device) {
+		this.green = green;
+		this.red = red;
+		this.question = question;
+		this.device = device;
 	}
 	
 	public int getGreen() {
@@ -65,8 +86,9 @@ public class Vote {
 	public Account getVoter() {
 		return voter;
 	}
-	
-	
-	
+
+	public IoTDevice getDevice() {
+		return device;
+	}
 	
 }

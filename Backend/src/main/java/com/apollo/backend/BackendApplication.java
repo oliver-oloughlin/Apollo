@@ -32,22 +32,24 @@ public class BackendApplication {
 		
 		//Create DB code:
 		/*
-		Voter anders = new Voter("Anders@email.com", "Password", true, AccountType.FACEBOOK);
-		Voter oliver = new Voter("Oliver@email.com", "Pass123", false, AccountType.NORMAL);
+		Account anders = new Account("Anders@email.com", "Password", true, AccountType.FACEBOOK);
+		Account oliver = new Account("Oliver@email.com", "Pass123", false, AccountType.NORMAL);
 		Question myQuestion1 = new Question("Have you had a nice day?");
 		Question myQuestion2 = new Question("Do you like cars?");
 		Question myQuestion3 = new Question("Do you like food?");
 		Question myQuestion4 = new Question("Do you like politics?");
+		IoTDevice device = new IoTDevice(myQuestion1);
 		Poll poll1 = new Poll(4829L, "My Private Poll", "testTime", true, anders);
 		Poll poll2 = new Poll(4830L, "My Public Poll", "testTime", false, anders);
 		Vote vote1 = new Vote(1, 0, myQuestion1, oliver);
 		Vote vote2 = new Vote(1, 2, myQuestion2, oliver);
 		Vote vote3 = new Vote(4, 0, myQuestion3, oliver);
 		Vote vote4 = new Vote(0, 5, myQuestion4, oliver);
+		Vote vote5 = new Vote(1, 1, myQuestion1, device);
 		
 		anders.addPoll(poll1);
 		anders.addPoll(poll2);
-		
+		device.addVote(vote5);
 		poll1.addQuestion(myQuestion1);
 		poll1.addQuestion(myQuestion2);
 		poll2.addQuestion(myQuestion3);
@@ -61,6 +63,7 @@ public class BackendApplication {
 		tx.begin();
 		em.persist(anders);
 		em.persist(oliver);
+		em.persist(device);
 		tx.commit();
 		*/
 		
@@ -77,6 +80,8 @@ public class BackendApplication {
 		System.out.println("Votes for in \"Do you like food\":");
 		Question foodQuestion = publicPoll.getQuestions().stream().filter((Question q) -> q.getText().equals("Do you like food?")).findAny().get();
 		foodQuestion.getVotes().forEach((Vote v) -> System.out.println("Green: " + v.getGreen() + ", Red: " + v.getRed()));
+		IoTDevice device = (IoTDevice) em.createQuery("SELECT d FROM IoTDevice d").getSingleResult();
+		device.getVotes().forEach((Vote v) -> System.out.println("Green: " + v.getGreen() + ", Red: " + v.getRed()));
 		
 		em.close();
 		emf.close();
