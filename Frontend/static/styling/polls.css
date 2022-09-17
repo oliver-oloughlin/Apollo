@@ -1,0 +1,30 @@
+.polls-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: var(--border-r);
+  box-shadow: 0 0 .2rem var(--shadow);
+}
+
+.poll-table {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  width: min(90vw, 60ch);
+  text-align: left;
+}
+
+.poll-table tr {
+  border: var(--border-w) solid currentColor;
+}
+
+.poll-table th {
+  background-color: hsl(0 0% 80%);
+  padding: var(--padding);
+}
+
+.poll-table td {
+  padding: var(--padding);
+}

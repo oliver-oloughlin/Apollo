@@ -5,6 +5,13 @@
   place-content: center;
 }
 
+.page-content {
+  min-height: var(--view-h);
+  display: flex;
+  flex-direction: column;
+  padding-top: 4vh;
+}
+
 .text-container {
   width: min(65ch, 95vw);
 }

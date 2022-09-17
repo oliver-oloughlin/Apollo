@@ -27,7 +27,7 @@ export default function Poll({ data }: PageProps<Poll>) {
   return (
     <App>
       <Head>
-        <Style fileName="poll.css" />
+        <Style fileName="vote.css" />
       </Head>
       <main class="page box-bg">
         <div class="poll-container">
