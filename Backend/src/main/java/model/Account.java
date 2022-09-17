@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "VOTER")
-public class Voter {
+public class Account {
 
 	@Id
 	private String email;
@@ -25,9 +25,9 @@ public class Voter {
 	@OneToMany(mappedBy = "voter", cascade = CascadeType.PERSIST)
 	private Set<Vote> votes;
 	
-	public Voter () {}
+	public Account () {}
 	
-	public Voter(String email, String password, boolean isAdmin, AccountType accountType) {
+	public Account(String email, String password, boolean isAdmin, AccountType accountType) {
 		this.email = email;
 		this.password = password;
 		this.isAdmin = isAdmin;

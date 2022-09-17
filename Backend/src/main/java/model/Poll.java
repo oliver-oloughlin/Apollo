@@ -27,8 +27,8 @@ public class Poll {
 	@JoinTable(
 		name = "POLL_OWNER",
 		joinColumns = @JoinColumn(name = "POLL_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-	private Voter owner;
+		inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID"))
+	private Account owner;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(
@@ -39,7 +39,7 @@ public class Poll {
 	
 	public Poll () {}
 	
-	public Poll(Long code, String title, String timeToStop, boolean privatePoll, Voter owner) {
+	public Poll(Long code, String title, String timeToStop, boolean privatePoll, Account owner) {
 		this.title = title;
 		this.code = code;
 		this.timeToStop = timeToStop;

@@ -66,7 +66,7 @@ public class BackendApplication {
 		
 		//Test DB code:
 		
-		Voter anders = em.find(Voter.class, "Anders@email.com");
+		Account anders = em.find(Account.class, "Anders@email.com");
 		System.out.println("\n" + (anders.getPassword().equals("Password") ? "Admin fetched successfully" : "Error"));
 		System.out.println("AccountType: " + anders.getAccountType());
 		System.out.println("Admin polls:");

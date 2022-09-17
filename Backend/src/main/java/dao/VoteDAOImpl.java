@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 
 import model.Question;
 import model.Vote;
-import model.Voter;
+import model.Account;
 
 public class VoteDAOImpl implements VoteDAO{
 
@@ -19,7 +19,7 @@ public class VoteDAOImpl implements VoteDAO{
 	@Override
 	public boolean saveVote(Vote vote) {
 		
-		Voter voter = vote.getVoter();
+		Account voter = vote.getVoter();
 		voter.addVote(vote);
 		Question question = vote.getQuestion();
 		question.addVote(vote);

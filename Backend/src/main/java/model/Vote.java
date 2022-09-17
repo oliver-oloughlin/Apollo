@@ -30,12 +30,12 @@ public class Vote {
 	@JoinTable(
 		name = "VOTE_VOTER",
 		joinColumns = @JoinColumn(name = "VOTE_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-	private Voter voter;
+		inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID"))
+	private Account voter;
 	
 	public Vote() {}
 	
-	public Vote (int green, int red, Question question, Voter voter) {
+	public Vote (int green, int red, Question question, Account voter) {
 		this.green = green;
 		this.red = red;
 		this.question = question;
@@ -62,7 +62,7 @@ public class Vote {
 		return question;
 	}
 
-	public Voter getVoter() {
+	public Account getVoter() {
 		return voter;
 	}
 	
