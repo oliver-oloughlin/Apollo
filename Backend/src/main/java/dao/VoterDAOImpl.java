@@ -4,7 +4,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import model.Voter;
+import model.Account;
 
 public class VoterDAOImpl implements VoterDAO{
 
@@ -15,8 +15,8 @@ public class VoterDAOImpl implements VoterDAO{
 	}
 	
 	@Override
-	public Voter getVoter(String username, String password) {
-		Voter voter = em.find(Voter.class, username);
+	public Account getVoter(String username, String password) {
+		Account voter = em.find(Account.class, username);
 		if(voter != null) {
 			return voter.getPassword().equals(password) ? voter : null;
 		}
@@ -24,15 +24,15 @@ public class VoterDAOImpl implements VoterDAO{
 	}
 
 	@Override
-	public Voter updateVoter(Voter voter) {
+	public Account updateVoter(Account voter) {
 		em.getTransaction().begin();
-		Voter managedVoter = em.merge(voter);
+		Account managedVoter = em.merge(voter);
 		em.getTransaction().commit();
 		return managedVoter;
 	}
 
 	@Override
-	public boolean deleteVoter(Voter voter) {
+	public boolean deleteVoter(Account voter) {
 		try {
 			em.getTransaction().begin();
 			em.remove(em.merge(voter));
@@ -44,7 +44,7 @@ public class VoterDAOImpl implements VoterDAO{
 	}
 
 	@Override
-	public boolean saveVoter(Voter voter) {
+	public boolean saveVoter(Account voter) {
 		try {
 			em.getTransaction().begin();
 			em.persist(voter);

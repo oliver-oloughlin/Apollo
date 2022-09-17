@@ -27,25 +27,24 @@ public class Poll {
 	@JoinTable(
 		name = "POLL_OWNER",
 		joinColumns = @JoinColumn(name = "POLL_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "USER_ID"))
-	private Voter owner;
+		inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID"))
+	private Account owner;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "POLL_QUESTIONS",
 		joinColumns = @JoinColumn(name = "POLL_ID"), 
 		inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
-	private Set<Question> questions;
+	private Set<Question> questions = new HashSet<Question>();
 	
 	public Poll () {}
 	
-	public Poll(Long code, String title, String timeToStop, boolean privatePoll, Voter owner) {
+	public Poll(Long code, String title, String timeToStop, boolean privatePoll, Account owner) {
 		this.title = title;
 		this.code = code;
 		this.timeToStop = timeToStop;
 		this.privatePoll = privatePoll;
 		this.owner = owner;
-		this.questions = new HashSet<Question>();
 		this.isClosed = false;
 	}
 	

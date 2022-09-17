@@ -4,7 +4,8 @@
              version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
     <persistence-unit name="ApolloPU" transaction-type="RESOURCE_LOCAL">
 
-        <class>model.Voter</class>
+        <class>model.Account</class>
+        <class>model.IoTDevice</class>
         <class>model.Question</class>
         <class>model.Poll</class>
         <class>model.Vote</class>

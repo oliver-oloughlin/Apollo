@@ -21,13 +21,12 @@ public class Question {
 	private String text;
 	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-	private Set<Vote> votes;
+	private Set<Vote> votes = new HashSet<Vote>();;
 
 	public Question () {}
 	
 	public Question(String text) {
 		this.text = text;
-		this.votes = new HashSet<Vote>();
 	}
 
 	public String getText() {

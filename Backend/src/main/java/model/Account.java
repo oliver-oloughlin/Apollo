@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "VOTER")
-public class Voter {
+public class Account {
 
 	@Id
 	private String email;
@@ -20,21 +20,18 @@ public class Voter {
 	private AccountType accountType;
 	
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-	private Set<Poll> polls;
+	private Set<Poll> polls = new HashSet<Poll>();
 	
 	@OneToMany(mappedBy = "voter", cascade = CascadeType.PERSIST)
-	private Set<Vote> votes;
+	private Set<Vote> votes = new HashSet<Vote>();
 	
-	public Voter () {}
+	public Account () {}
 	
-	public Voter(String email, String password, boolean isAdmin, AccountType accountType) {
+	public Account(String email, String password, boolean isAdmin, AccountType accountType) {
 		this.email = email;
 		this.password = password;
 		this.isAdmin = isAdmin;
 		this.accountType = accountType;
-		
-		polls = new HashSet<Poll>();
-		votes = new HashSet<Vote>();
 	}
 
 	public AccountType getAccountType() {
