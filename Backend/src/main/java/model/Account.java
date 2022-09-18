@@ -3,6 +3,8 @@ package model;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,9 +19,11 @@ public class Account {
 	private String email;
 	private String password;
 	private boolean isAdmin;
+	
+	@Enumerated(EnumType.STRING)
 	private AccountType accountType;
 	
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Poll> polls = new HashSet<Poll>();
 	
 	@OneToMany(mappedBy = "voter", cascade = CascadeType.PERSIST)

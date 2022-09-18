@@ -21,11 +21,11 @@ public class IoTDevice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long token;
 	
-	@OneToMany(mappedBy = "device", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "device", cascade = CascadeType.PERSIST)
 	private Set<Vote> votes = new HashSet<Vote>();
 	
 	@ManyToOne
-	@JoinColumn(name = "QUESTION_ID")
+	@JoinColumn(name = "questionId")
 	private Question question;
 	
 	public IoTDevice () {}

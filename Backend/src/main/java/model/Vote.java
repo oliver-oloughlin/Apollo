@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,24 +19,15 @@ public class Vote {
 	private int red;
 	
 	@ManyToOne
-	@JoinTable(
-		name = "VOTE_QUESTION",
-		joinColumns = @JoinColumn(name = "VOTE_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
+	@JoinColumn(name = "questionId")
 	private Question question;
 	
 	@ManyToOne(optional = true)
-	@JoinTable(
-		name = "VOTE_VOTER",
-		joinColumns = @JoinColumn(name = "VOTE_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID"))
+	@JoinColumn(name = "accountId")
 	private Account voter;
 	
 	@ManyToOne(optional = true)
-	@JoinTable(
-		name = "VOTE_DEVICE",
-		joinColumns = @JoinColumn(name = "VOTE_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "DEVICE_TOKEN"))
+	@JoinColumn(name = "deviceId")
 	private IoTDevice device;
 	
 	

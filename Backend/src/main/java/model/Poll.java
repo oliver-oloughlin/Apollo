@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -24,17 +25,14 @@ public class Poll {
 	private boolean isClosed;
 	
 	@ManyToOne
-	@JoinTable(
-		name = "POLL_OWNER",
-		joinColumns = @JoinColumn(name = "POLL_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "ACCOUNT_ID"))
+	@JoinColumn(name = "accountId")
 	private Account owner;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinTable(
 		name = "POLL_QUESTIONS",
-		joinColumns = @JoinColumn(name = "POLL_ID"), 
-		inverseJoinColumns = @JoinColumn(name = "QUESTION_ID"))
+		joinColumns = @JoinColumn(name = "pollId"), 
+		inverseJoinColumns = @JoinColumn(name = "questionId"))
 	private Set<Question> questions = new HashSet<Question>();
 	
 	public Poll () {}
