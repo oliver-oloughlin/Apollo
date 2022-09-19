@@ -22,7 +22,10 @@ public class Question {
 	private String text;
 	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private Set<Vote> votes = new HashSet<Vote>();;
+	private Set<Vote> votes = new HashSet<Vote>();
+	
+	@OneToMany(mappedBy = "question")
+	private Set<IoTDevice> devices = new HashSet<IoTDevice>();
 
 	public Question () {}
 	

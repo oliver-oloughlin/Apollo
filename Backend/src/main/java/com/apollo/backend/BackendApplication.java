@@ -82,7 +82,6 @@ public class BackendApplication {
 		foodQuestion.getVotes().forEach((Vote v) -> System.out.println("Green: " + v.getGreen() + ", Red: " + v.getRed()));
 		IoTDevice device = (IoTDevice) em.createQuery("SELECT d FROM IoTDevice d").getSingleResult();
 		device.getVotes().forEach((Vote v) -> System.out.println("Green: " + v.getGreen() + ", Red: " + v.getRed()));
-		
 		em.close();
 		emf.close();
 		
