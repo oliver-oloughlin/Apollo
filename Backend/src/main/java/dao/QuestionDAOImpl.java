@@ -24,4 +24,15 @@ private EntityManager em;
 			return false;
 		}
 	}
+	@Override
+	public boolean deleteQuestion(Question question) {
+		try {
+			em.getTransaction().begin();
+			em.remove(em.merge(question));
+			em.getTransaction().commit();
+			return true;
+		} catch(IllegalArgumentException e) {
+			return false;
+		}
+	}
 }

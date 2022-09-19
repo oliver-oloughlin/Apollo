@@ -23,28 +23,41 @@ public class PollDAOImpl implements PollDAO {
             return false;
         }
     }
-
+    
     @Override
-    public boolean updatePoll(Poll poll) {
-        try {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            Poll p = em.merge(poll);
-            transaction.commit();
-            return p != null;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    @Override
-    public Poll getPollById(int id) {
+    public Poll getPoll(long id) {
         try {
             return em.find(Poll.class, id);
         } catch(EntityNotFoundException e) {
             return null;
         }
     }
+
+    @Override
+    public Poll updatePoll(Poll poll) {
+        try {
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+            Poll p = em.merge(poll);
+            transaction.commit();
+            return p; 
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
+	public boolean deletePoll(Poll poll) {
+    	try {
+			em.getTransaction().begin();
+			em.remove(em.merge(poll));
+			em.getTransaction().commit();
+			return true;
+		} catch(IllegalArgumentException e) {
+			return false;
+		}
+	}
+
 
     @Override
     public List<Poll> getAllPolls() {
@@ -61,5 +74,4 @@ public class PollDAOImpl implements PollDAO {
         int greenCount = greenQuery.getFirstResult();
         return new VoteCount(greenCount, redCount);
     }
-
 }
