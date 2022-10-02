@@ -14,10 +14,9 @@ public interface AccountDAO {
 	/**
 	 * Gets a account from db
 	 * @param username: PK in db, can not be changed by user
-	 * @param password: Hashed in db
 	 * @return The account from db or NULL if it does not exist
 	 */
-	public Account getAccount(String email, String password);
+	public Account getAccount(String email);
 
 	/**
 	 * Updates an account

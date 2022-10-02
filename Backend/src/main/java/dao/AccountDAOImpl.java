@@ -27,12 +27,8 @@ public class AccountDAOImpl implements AccountDAO{
 	}
 	
 	@Override
-	public Account getAccount(String email, String password) {
-		Account account = em.find(Account.class, email);
-		if(account != null) {
-			return account.getPassword().equals(password) ? account : null;
-		}
-		return null;
+	public Account getAccount(String email) {
+		return em.find(Account.class, email);
 	}
 
 	@Override
