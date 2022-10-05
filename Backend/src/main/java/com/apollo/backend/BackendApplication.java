@@ -68,8 +68,8 @@ public class BackendApplication {
 		
 		//IoTDevice
 		post("/device", (req, res) -> {
-			DeviceClient questionId = gson.fromJson(req.body(), DeviceClient.class);
-			Question question = questionService.getQuestion(questionId.getQuestionId());
+			DeviceClient deviceClient = gson.fromJson(req.body(), DeviceClient.class);
+			Question question = questionService.getQuestion(deviceClient.getQuestionId());
         	return gson.toJson(iotService.addNewDevice(new IoTDevice(question)));
         });
 		
@@ -90,8 +90,8 @@ public class BackendApplication {
 		
 		//Poll
 		post("/poll", (req, res) -> {
-        	PollClient poll = gson.fromJson(req.body(), PollClient.class);
-        	return gson.toJson(pollService.addNewPoll(mapper.mapPollClientToPoll(poll)));
+        	PollClient pollClient = gson.fromJson(req.body(), PollClient.class);
+        	return gson.toJson(pollService.addNewPoll(mapper.mapPollClientToPoll(pollClient)));
         });
 		
 		get("/poll/:code", (req, res) -> {
@@ -126,8 +126,8 @@ public class BackendApplication {
 		
 		//Vote
 		post("/vote", (req, res) -> {
-        	VoteClient vote = gson.fromJson(req.body(), VoteClient.class);
-        	return gson.toJson(voteService.addNewVote(mapper.mapVoteClientToVote(vote)));
+        	VoteClient voteClient = gson.fromJson(req.body(), VoteClient.class);
+        	return gson.toJson(voteService.addNewVote(mapper.mapVoteClientToVote(voteClient)));
         });
 	}
 }
