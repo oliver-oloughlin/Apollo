@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Wed Oct 05 11:34:20 CEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-a77e-fadf-00001f435568 
-on database directory C:\Users\olive\OneDrive\Skrivebord\Work\Apollo\Backend\db\projectDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@1d44bcfa 
-Loaded from file:/C:/Users/olive/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
-java.vendor=Eclipse Adoptium
-java.runtime.version=17.0.1+12
-user.dir=C:\Users\olive\OneDrive\Skrivebord\Work\Apollo\Backend
-os.name=Windows 10
-os.arch=amd64
-os.version=10.0
+Wed Oct 05 11:48:06 CEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-a78b-9468-0000014a94c8 
+on database directory /Users/andersaarsaether/Apollo/Backend/db/projectDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
+Loaded from file:/Users/andersaarsaether/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=16.0.1+9-24
+user.dir=/Users/andersaarsaether/Apollo/Backend
+os.name=Mac OS X
+os.arch=x86_64
+os.version=11.4
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

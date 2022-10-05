@@ -1,10 +1,10 @@
 package utils;
 
-public class JsonId {
+public class QuestionId {
 
     long id;
 
-    public JsonId(long id) {
+    public QuestionId(long id) {
         this.id = id;
     }
 

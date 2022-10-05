@@ -19,7 +19,7 @@ import service.IoTService;
 import service.PollService;
 import service.QuestionService;
 import service.VoteService;
-import utils.JsonId;
+import utils.QuestionId;
 
 public class BackendApplication {
 
@@ -64,8 +64,8 @@ public class BackendApplication {
 		
 		//IoTDevice
 		post("/device", (req, res) -> {
-			JsonId jsonId = gson.fromJson(req.body(), JsonId.class);
-			Question question = questionService.getQuestion(jsonId.getId());
+			QuestionId questionId = gson.fromJson(req.body(), QuestionId.class);
+			Question question = questionService.getQuestion(questionId.getId());
         	IoTDevice device = new IoTDevice(question);
         	return gson.toJson(iotService.addNewDevice(device));
         });

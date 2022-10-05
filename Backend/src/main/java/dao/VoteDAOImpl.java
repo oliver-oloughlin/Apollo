@@ -26,8 +26,8 @@ public class VoteDAOImpl implements VoteDAO{
 		Question question = vote.getQuestion();
 		question.addVote(vote);
 		
+		em.getTransaction().begin();
 		try {
-			em.getTransaction().begin();
 			em.persist(vote);
 			
 			if(voter != null) {
@@ -40,10 +40,11 @@ public class VoteDAOImpl implements VoteDAO{
 			}
 			
 			em.merge(question);
-			em.getTransaction().commit();
 			return true;
 		} catch(EntityExistsException | IllegalArgumentException e) {
 			return false;
+		} finally {
+		  em.getTransaction().commit();
 		}
 	}
 }

@@ -12,49 +12,41 @@ public class PollDAOImpl implements PollDAO {
 
     @Override
     public boolean savePoll(Poll poll) {
+        em.getTransaction().begin();
         try {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
             em.persist(poll);
-            transaction.commit();
             return true;
         } catch (EntityExistsException e) {
             return false;
+        } finally {
+          em.getTransaction().commit();
         }
     }
     
     @Override
     public Poll getPoll(long id) {
-        try {
-            return em.find(Poll.class, id);
-        } catch(EntityNotFoundException e) {
-            return null;
-        }
+        return em.find(Poll.class, id);
     }
 
     @Override
     public Poll updatePoll(Poll poll) {
-        try {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            Poll p = em.merge(poll);
-            transaction.commit();
-            return p; 
-        } catch (Exception e) {
-            return null;
-        }
+        em.getTransaction().begin();
+        Poll managedPoll = em.merge(poll);
+        em.getTransaction().commit();
+        return managedPoll; 
     }
     
     @Override
 	public boolean deletePoll(Poll poll) {
-    	try {
-			em.getTransaction().begin();
-			em.remove(em.merge(poll));
-			em.getTransaction().commit();
-			return true;
-		} catch(IllegalArgumentException e) {
-			return false;
-		}
+        em.getTransaction().begin();
+        try {
+            em.remove(em.merge(poll));
+            return true;
+        } catch(IllegalArgumentException e) {
+            return false;
+        } finally {
+          em.getTransaction().commit();
+        }
 	}
 
     @Override

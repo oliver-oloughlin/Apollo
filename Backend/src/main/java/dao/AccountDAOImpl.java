@@ -16,13 +16,14 @@ public class AccountDAOImpl implements AccountDAO{
 	
 	@Override
 	public boolean saveAccount(Account account) {
-		try {
-			em.getTransaction().begin();
+  	    em.getTransaction().begin();
+  	    try {
 			em.persist(account);
-			em.getTransaction().commit();
 			return true;
 		} catch (EntityExistsException e) {
 			return false;
+		} finally {
+		  em.getTransaction().commit();
 		}
 	}
 	
@@ -41,13 +42,14 @@ public class AccountDAOImpl implements AccountDAO{
 
 	@Override
 	public boolean deleteAccount(Account account) {
-		try {
-			em.getTransaction().begin();
+	    em.getTransaction().begin();	
+	    try {
 			em.remove(em.merge(account));
-			em.getTransaction().commit();
 			return true;
 		} catch(IllegalArgumentException e) {
 			return false;
+		} finally {
+		  em.getTransaction().commit();
 		}
 	}
 }

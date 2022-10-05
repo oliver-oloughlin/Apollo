@@ -2,7 +2,6 @@ package dao;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 
 import model.Question;
@@ -15,39 +14,32 @@ private EntityManager em;
 		em = Persistence.createEntityManagerFactory("ApolloPU").createEntityManager();
 	}
 	@Override
-	public boolean saveQuestion(Question question) {
-		try {
-			if(!em.getTransaction().isActive()) {
-				em.getTransaction().begin();
-			}
-			em.persist(question);
-			em.getTransaction().commit();
-			return true;
-		} catch(EntityExistsException e) {
-			return false;
-		}
-	}
-	
+    public boolean saveQuestion(Question question) {
+        em.getTransaction().begin();
+        try {
+            em.persist(question);
+            return true;
+        } catch (EntityExistsException e) {
+            return false;
+        } finally {
+          em.getTransaction().commit();
+        }
+    }	
 	@Override
     public Question getQuestion(long id) {
-        try {
-            return em.find(Question.class, id);
-        } catch(EntityNotFoundException e) {
-            return null;
-        }
+	    return em.find(Question.class, id);
     }
 	
 	@Override
-	public boolean deleteQuestion(Question question) {
-		try {
-			if(!em.getTransaction().isActive()) {
-				em.getTransaction().begin();
-			}
-			em.remove(em.merge(question));
-			em.getTransaction().commit();
-			return true;
-		} catch(IllegalArgumentException e) {
-			return false;
-		}
-	}
+    public boolean deleteQuestion(Question question) {
+        em.getTransaction().begin();
+        try {
+            em.remove(em.merge(question));
+            return true;
+        } catch(IllegalArgumentException e) {
+            return false;
+        } finally {
+          em.getTransaction().commit();
+        }
+    }
 }
