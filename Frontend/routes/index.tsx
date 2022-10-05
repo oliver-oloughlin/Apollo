@@ -1,5 +1,3 @@
-/** @jsx h */
-import { h } from "preact";
 import App from "../components/App.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Poll } from "../utils/models.ts";

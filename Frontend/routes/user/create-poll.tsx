@@ -1,12 +1,16 @@
-/** @jsx h */
-import { h } from "preact";
-import App from "../../components/App.tsx";
+
+import App from "../../components/App.tsx"
 
 export default function Home() {
   return (
     <App>
       <main>
-        Create Poll
+        <form>
+          <input />
+          <input />
+          <input />
+          <textarea />
+        </form>
       </main>
     </App>
   );

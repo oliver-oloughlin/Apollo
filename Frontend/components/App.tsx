@@ -1,8 +1,7 @@
-/** @jsx h */
-import { Fragment, h, JSX } from "preact";
-import { Head } from "$fresh/runtime.ts";
-import Style from "./Style.tsx";
-import Header from "../islands/Header.tsx";
+import { Fragment, JSX } from "preact"
+import { Head } from "$fresh/runtime.ts"
+import { Style } from "fresh_utils"
+import Header from "../islands/Header.tsx"
 
 export default function App({ children }: { children?: any }) {
   return (

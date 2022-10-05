@@ -1,9 +1,8 @@
-/** @jsx h */
-import { h } from "preact";
-import App from "../../components/App.tsx";
+
+import App from "../../components/App.tsx"
 import { Handlers } from "$fresh/server.ts"
 import { getCookies } from "http/cookie.ts"
-import { redirect } from "../../utils/api.ts";
+import { redirect } from "fresh_utils"
 
 export const handler: Handlers = {
   GET: (req, ctx) => {

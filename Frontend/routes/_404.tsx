@@ -1,7 +1,5 @@
-/** @jsx h */
-import { h } from "preact";
-import App from "../components/App.tsx";
-import { UnknownPageProps } from "$fresh/server.ts";
+import App from "../components/App.tsx"
+import { UnknownPageProps } from "$fresh/server.ts"
 
 export default function Error404({ url }: UnknownPageProps) {
   return (

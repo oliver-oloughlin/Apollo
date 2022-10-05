@@ -1,7 +1,7 @@
 
 import App from "../../components/App.tsx"
 
-export default function ManagePoll() {
+export default function ManageSystem() {
   return (
     <App>
       <main>

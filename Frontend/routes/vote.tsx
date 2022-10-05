@@ -1,8 +1,7 @@
-/** @jsx h */
-import { h } from "preact";
-import App from "../components/App.tsx";
-import Style from "../components/Style.tsx";
-import { Head } from "$fresh/runtime.ts";
+
+import App from "../components/App.tsx"
+import { Style } from "fresh_utils"
+import { Head } from "$fresh/runtime.ts"
 import type { Poll } from "../utils/models.ts"
 import { Handlers, PageProps } from "$fresh/server.ts"
 
@@ -32,7 +31,7 @@ export default function Poll({ data }: PageProps<Poll>) {
       <main class="page box-bg">
         <div class="poll-container">
           <div class="question-container centered-text">
-            <p>Question blah blah blah goes on and on very long and stuff?</p>
+            <p>Some sort of binary question?</p>
           </div>
           <div class="switch">
             <button class="btn-red switch-btn" />

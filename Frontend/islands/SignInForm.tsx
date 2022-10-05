@@ -1,8 +1,8 @@
-/** @jsx h */
-import { h, Fragment } from "preact";
+
+import { Fragment } from "preact"
 import { useRef } from "preact/hooks"
 import { Head } from "$fresh/runtime.ts"
-import Style from "../components/Style.tsx";
+import { Style } from "fresh_utils"
 
 export default function SignInForm() {
   const formRef = useRef<HTMLFormElement>(null)

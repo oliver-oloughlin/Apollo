@@ -1,7 +1,7 @@
-/** @jsx h */
-import { h, Fragment } from "preact";
+
+import { Fragment } from "preact"
 import { Head } from "$fresh/runtime.ts"
-import Style from "../components/Style.tsx";
+import { Style } from "fresh_utils"
 
 export default function SignUpForm() {
   const handleSubmit = async (e: Event) => {

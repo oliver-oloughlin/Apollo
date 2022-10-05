@@ -1,6 +1,6 @@
-/** @jsx h */
-import { Fragment, h } from "preact";
-import { useState, useEffect, useRef } from "preact/hooks";
+
+import { Fragment } from "preact"
+import { useState, useEffect, useRef } from "preact/hooks"
 
 export default function Header() {
   const [open, setOpen] = useState<boolean>(false);
