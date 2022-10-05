@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import client.DeviceClient;
 import client.PollClient;
+import client.VoteClient;
 import dao.AccountDAOImpl;
 import dao.IoTDeviceDAOImpl;
 import dao.PollDAOImpl;
@@ -15,7 +16,6 @@ import model.Account;
 import model.IoTDevice;
 import model.Poll;
 import model.Question;
-import model.Vote;
 import service.AccountService;
 import service.IoTService;
 import service.PollService;
@@ -32,7 +32,7 @@ public class BackendApplication {
 	static QuestionService questionService = new QuestionService(new QuestionDAOImpl());
 	static VoteService voteService = new VoteService(new VoteDAOImpl());
 	
-	static Mapper mapper = new Mapper(accountService);
+	static Mapper mapper = new Mapper(accountService, questionService, iotService);
 	
 	public static void main(String[] args) {
 
@@ -126,8 +126,8 @@ public class BackendApplication {
 		
 		//Vote
 		post("/vote", (req, res) -> {
-        	Vote vote = gson.fromJson(req.body(), Vote.class);
-        	return gson.toJson(voteService.addNewVote(vote));
+        	VoteClient vote = gson.fromJson(req.body(), VoteClient.class);
+        	return gson.toJson(voteService.addNewVote(mapper.mapVoteClientToVote(vote)));
         });
 	}
 }
