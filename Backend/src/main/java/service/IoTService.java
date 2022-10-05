@@ -2,6 +2,7 @@ package service;
 
 import dao.IoTDeviceDAO;
 import model.IoTDevice;
+import model.Question;
 
 public class IoTService {
 
@@ -16,8 +17,13 @@ public class IoTService {
 		return success ? device : null;
 	}
 	
-	public IoTDevice getDevice(String token) {
-		return dao.getDevice(token);
+	public IoTDevice getDevice(String tokenString) {
+		try {
+			long token  = Long.parseLong(tokenString);
+			return dao.getDevice(token);
+		} catch(NumberFormatException e) {
+			return null;
+		}
 	}
 	
 	public IoTDevice updateDevice(IoTDevice device) {

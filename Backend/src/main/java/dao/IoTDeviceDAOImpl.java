@@ -27,7 +27,7 @@ private EntityManager em;
 	}
 
 	@Override
-	public IoTDevice getDevice(String token) {
+	public IoTDevice getDevice(long token) {
 		return em.find(IoTDevice.class, token);
 	}
 
