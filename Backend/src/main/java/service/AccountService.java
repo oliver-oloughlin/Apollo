@@ -3,7 +3,6 @@ package service;
 import org.springframework.stereotype.Service;
 
 import dao.AccountDAO;
-import dao.AccountDAOImpl;
 import model.Account;
 
 @Service
@@ -11,8 +10,8 @@ public class AccountService {
 
 	AccountDAO dao;
 	
-	public AccountService() {
-		dao = new AccountDAOImpl();
+	public AccountService(AccountDAO dao) {
+		this.dao = dao;
 	}
 	
 	public Account addNewAccount(Account account) {

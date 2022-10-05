@@ -2,6 +2,7 @@ package dao;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 
 import model.Question;
@@ -24,6 +25,16 @@ private EntityManager em;
 			return false;
 		}
 	}
+	
+	@Override
+    public Question getQuestion(long id) {
+        try {
+            return em.find(Question.class, id);
+        } catch(EntityNotFoundException e) {
+            return null;
+        }
+    }
+	
 	@Override
 	public boolean deleteQuestion(Question question) {
 		try {

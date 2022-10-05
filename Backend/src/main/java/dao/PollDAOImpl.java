@@ -1,7 +1,6 @@
 package dao;
 
 import model.Poll;
-import utils.VoteCount;
 
 import javax.persistence.*;
 import java.util.List;
@@ -58,20 +57,8 @@ public class PollDAOImpl implements PollDAO {
 		}
 	}
 
-
     @Override
     public List<Poll> getAllPolls() {
-        Query q = em.createNativeQuery("SELECT * FROM Poll", Poll.class);
-        return q.getResultList();
-    }
-
-    @Override
-    public VoteCount countVotesByPollId(int id) {
-        // TODO: Create query strings to count all green and red votes for a given poll
-        Query redQuery = em.createNativeQuery("", Integer.class);
-        Query greenQuery = em.createNativeQuery("", Integer.class);
-        int redCount = redQuery.getFirstResult();
-        int greenCount = greenQuery.getFirstResult();
-        return new VoteCount(greenCount, redCount);
+        return em.createQuery("SELECT p FROM Poll p", Poll.class).getResultList();
     }
 }

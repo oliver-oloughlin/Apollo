@@ -13,9 +13,16 @@ public interface QuestionDAO {
 	
 	
 	/**
-	 * Deletes a question from db
+	 * Deletes a question from the database
 	 * @param question: The question to be deleted
 	 * @return True if deletion was successful and false otherwise
 	 */
 	public boolean deleteQuestion(Question question);
+	
+	/**
+	 * Gets a question from the database
+	 * @param id: The id of the question
+	 * @return the fetched question
+	 */
+	public Question getQuestion(long id);
 }
