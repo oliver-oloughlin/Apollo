@@ -15,6 +15,15 @@ public class QuestionService {
 		boolean success = dao.saveQuestion(question);
 		return success ? question : null;
 	}
+
+	public Question getQuestion(long id) {
+		try {
+			Question question = dao.getQuestion(id);
+			return question;
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
 	
 	public Question deleteQuestion(String idString) {
 		try {
