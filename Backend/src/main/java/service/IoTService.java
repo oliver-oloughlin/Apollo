@@ -2,7 +2,6 @@ package service;
 
 import dao.IoTDeviceDAO;
 import model.IoTDevice;
-import model.Question;
 
 public class IoTService {
 

@@ -7,9 +7,12 @@ import java.util.List;
 
 public class PollDAOImpl implements PollDAO {
 
-    @PersistenceContext(unitName = "ApolloPU")
     private EntityManager em;
 
+    public PollDAOImpl() {
+      em = Persistence.createEntityManagerFactory("ApolloPU").createEntityManager();
+    }
+    
     @Override
     public boolean savePoll(Poll poll) {
         em.getTransaction().begin();

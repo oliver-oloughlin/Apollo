@@ -29,6 +29,9 @@ public class QuestionService {
 		try {
 			long id = Long.parseLong(idString);
 			Question question = dao.getQuestion(id);
+			if(question == null) {
+			  return null;
+			}
 			boolean success = dao.deleteQuestion(question);
 			return success ? question : null;
 		} catch(NumberFormatException e) {
