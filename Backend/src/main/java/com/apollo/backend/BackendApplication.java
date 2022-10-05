@@ -45,9 +45,10 @@ public class BackendApplication {
         	return gson.toJson(accountService.addNewAccount(account));
         });
 		
-		get("/account/:email", (req, res) -> {
+		get("/account/:email/:pass", (req, res) -> {
 			String email = req.params("email");
-			return gson.toJson(accountService.getAccountWithPassword(email, "pass123")); //How to pass passwords without using as parameter?
+			String pass = req.params("pass");
+			return gson.toJson(accountService.getAccountWithPassword(email, pass)); //How to pass passwords without using as parameter?
 		});
 		
 		put("/account", (req, res) -> {
@@ -72,7 +73,7 @@ public class BackendApplication {
 		});
 		
 		put("/device", (req, res) -> {
-			IoTDevice device = gson.fromJson(req.body(), IoTDevice.class); //Should have id param?
+			IoTDevice device = gson.fromJson(req.body(), IoTDevice.class);
 			return gson.toJson(iotService.updateDevice(device));
 		});
 		
@@ -97,7 +98,7 @@ public class BackendApplication {
 		});
 		
 		put("/poll", (req, res) -> {
-			Poll poll = gson.fromJson(req.body(), Poll.class); //Should have id param?
+			Poll poll = gson.fromJson(req.body(), Poll.class);
 			return gson.toJson(pollService.updatePoll(poll));
 		});
 		

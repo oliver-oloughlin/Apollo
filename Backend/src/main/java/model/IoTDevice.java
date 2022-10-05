@@ -45,5 +45,4 @@ public class IoTDevice {
 	public void addVote(Vote vote) {
 		votes.add(vote);
 	}
-	
 }
