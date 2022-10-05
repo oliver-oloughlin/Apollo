@@ -17,7 +17,9 @@ private EntityManager em;
 	@Override
 	public boolean saveQuestion(Question question) {
 		try {
-			em.getTransaction().begin();
+			if(!em.getTransaction().isActive()) {
+				em.getTransaction().begin();
+			}
 			em.persist(question);
 			em.getTransaction().commit();
 			return true;
@@ -38,7 +40,9 @@ private EntityManager em;
 	@Override
 	public boolean deleteQuestion(Question question) {
 		try {
-			em.getTransaction().begin();
+			if(!em.getTransaction().isActive()) {
+				em.getTransaction().begin();
+			}
 			em.remove(em.merge(question));
 			em.getTransaction().commit();
 			return true;
