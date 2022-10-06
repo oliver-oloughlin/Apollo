@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu Oct 06 13:11:47 CEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-acfe-8e0f-0000015c8aa8 
+Thu Oct 06 13:17:25 CEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-ad03-b544-000001b4c468 
 on database directory /Users/andersaarsaether/Apollo/Backend/db/projectDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
 Loaded from file:/Users/andersaarsaether/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
 java.vendor=Oracle Corporation

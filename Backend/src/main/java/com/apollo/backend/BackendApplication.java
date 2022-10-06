@@ -25,13 +25,15 @@ import utils.Mapper;
 
 public class BackendApplication {
 
-	static Gson gson = new Gson();
+    //Services
 	static AccountService accountService = new AccountService(new AccountDAOImpl());
 	static IoTService iotService = new IoTService(new IoTDeviceDAOImpl());
 	static PollService pollService = new PollService(new PollDAOImpl());
 	static QuestionService questionService = new QuestionService(new QuestionDAOImpl());
 	static VoteService voteService = new VoteService(new VoteDAOImpl());
 	
+	//Utilities
+	static Gson gson = new Gson();
 	static Mapper mapper = new Mapper(accountService, questionService, iotService);
 	
 	public static void main(String[] args) {
