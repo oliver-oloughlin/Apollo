@@ -1,4 +1,4 @@
-package com.apollo.backend;
+package api;
 
 import static spark.Spark.*;
 
@@ -13,17 +13,17 @@ import model.Account;
 import model.IoTDevice;
 import model.Poll;
 import model.Question;
+import modelweb.WebDevice;
+import modelweb.WebPoll;
+import modelweb.WebVote;
 import service.AccountService;
 import service.IoTService;
 import service.PollService;
 import service.QuestionService;
 import service.VoteService;
 import utils.Mapper;
-import web.WebDevice;
-import web.WebPoll;
-import web.WebVote;
 
-public class BackendApplication {
+public class Api {
 
     //Services
 	static AccountService accountService = new AccountService(new AccountDAOImpl());
@@ -55,11 +55,11 @@ public class BackendApplication {
 		get("/account/:email/:pass", (req, res) -> {
 			String email = req.params("email");
 			String pass = req.params("pass");
-			return gson.toJson(accountService.getAccountWithPassword(email, pass)); //How to pass passwords without using as parameter?
+			return gson.toJson(accountService.getAccountWithPassword(email, pass));
 		});
 		
 		put("/account", (req, res) -> {
-			Account account = gson.fromJson(req.body(), Account.class); //Should have id param?
+			Account account = gson.fromJson(req.body(), Account.class);
 			return gson.toJson(accountService.updateAccount(account));
 		});
 		

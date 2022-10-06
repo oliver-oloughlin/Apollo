@@ -1,4 +1,4 @@
-package web;
+package modelweb;
 
 public class WebVote {
 

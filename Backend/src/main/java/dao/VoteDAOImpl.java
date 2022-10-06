@@ -19,16 +19,17 @@ public class VoteDAOImpl implements VoteDAO{
 	
 	@Override
 	public boolean saveVote(Vote vote) {
-		
+
 		Account voter = vote.getVoter();
 		IoTDevice device = vote.getDevice();
-
 		Question question = vote.getQuestion();
+		
 		question.addVote(vote);
 		
 		em.getTransaction().begin();
 		try {
 			em.persist(vote);
+			em.merge(question);
 			
 			if(voter != null) {
 				voter.addVote(vote);
@@ -38,8 +39,6 @@ public class VoteDAOImpl implements VoteDAO{
 				device.addVote(vote);
 				em.merge(device);
 			}
-			
-			em.merge(question);
 			return true;
 		} catch(EntityExistsException | IllegalArgumentException e) {
 			return false;

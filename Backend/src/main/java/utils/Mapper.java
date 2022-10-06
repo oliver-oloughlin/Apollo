@@ -5,11 +5,11 @@ import model.IoTDevice;
 import model.Poll;
 import model.Question;
 import model.Vote;
+import modelweb.WebPoll;
+import modelweb.WebVote;
 import service.AccountService;
 import service.IoTService;
 import service.QuestionService;
-import web.WebPoll;
-import web.WebVote;
 
 public class Mapper {
 
