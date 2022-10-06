@@ -1,10 +1,10 @@
-package client;
+package web;
 
-public class DeviceClient {
+public class WebDevice {
 
   private long questionId;
 
-  public DeviceClient(long questionId) {
+  public WebDevice(long questionId) {
     this.questionId = questionId;
   }
 

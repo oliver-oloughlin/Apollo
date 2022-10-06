@@ -1,6 +1,6 @@
-package client;
+package web;
 
-public class PollClient {
+public class WebPoll {
 
   private Long code;
   private String title;
@@ -8,7 +8,7 @@ public class PollClient {
   private boolean privatePoll;
   private String owner;
   
-  public PollClient(Long code, String title, String timeToStop, boolean privatePoll, String owner) {
+  public WebPoll(Long code, String title, String timeToStop, boolean privatePoll, String owner) {
     this.code = code;
     this.title = title;
     this.timeToStop = timeToStop;

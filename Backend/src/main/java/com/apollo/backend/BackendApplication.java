@@ -4,9 +4,6 @@ import static spark.Spark.*;
 
 import com.google.gson.Gson;
 
-import client.DeviceClient;
-import client.PollClient;
-import client.VoteClient;
 import dao.AccountDAOImpl;
 import dao.IoTDeviceDAOImpl;
 import dao.PollDAOImpl;
@@ -22,6 +19,9 @@ import service.PollService;
 import service.QuestionService;
 import service.VoteService;
 import utils.Mapper;
+import web.WebDevice;
+import web.WebPoll;
+import web.WebVote;
 
 public class BackendApplication {
 
@@ -70,8 +70,8 @@ public class BackendApplication {
 		
 		//IoTDevice
 		post("/device", (req, res) -> {
-			DeviceClient deviceClient = gson.fromJson(req.body(), DeviceClient.class);
-			Question question = questionService.getQuestion(deviceClient.getQuestionId());
+			WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
+			Question question = questionService.getQuestion(webDevice.getQuestionId());
         	return gson.toJson(iotService.addNewDevice(new IoTDevice(question)));
         });
 		
@@ -92,8 +92,8 @@ public class BackendApplication {
 		
 		//Poll
 		post("/poll", (req, res) -> {
-        	PollClient pollClient = gson.fromJson(req.body(), PollClient.class);
-        	return gson.toJson(pollService.addNewPoll(mapper.mapPollClientToPoll(pollClient)));
+        	WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
+        	return gson.toJson(pollService.addNewPoll(mapper.mapPollClientToPoll(webPoll)));
         });
 		
 		get("/poll/:code", (req, res) -> {
@@ -128,8 +128,8 @@ public class BackendApplication {
 		
 		//Vote
 		post("/vote", (req, res) -> {
-        	VoteClient voteClient = gson.fromJson(req.body(), VoteClient.class);
-        	return gson.toJson(voteService.addNewVote(mapper.mapVoteClientToVote(voteClient)));
+        	WebVote webVote = gson.fromJson(req.body(), WebVote.class);
+        	return gson.toJson(voteService.addNewVote(mapper.mapVoteClientToVote(webVote)));
         });
 	}
 }

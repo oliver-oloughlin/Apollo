@@ -1,6 +1,6 @@
-package client;
+package web;
 
-public class VoteClient {
+public class WebVote {
 
   private int green;
   private int red;
@@ -8,7 +8,7 @@ public class VoteClient {
   private String voter;
   private String device;
   
-  public VoteClient(int green, int red, Long questionId, String voter, String device) {
+  public WebVote(int green, int red, Long questionId, String voter, String device) {
     this.green = green;
     this.red = red;
     this.questionId = questionId;

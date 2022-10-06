@@ -1,7 +1,5 @@
 package utils;
 
-import client.PollClient;
-import client.VoteClient;
 import model.Account;
 import model.IoTDevice;
 import model.Poll;
@@ -10,6 +8,8 @@ import model.Vote;
 import service.AccountService;
 import service.IoTService;
 import service.QuestionService;
+import web.WebPoll;
+import web.WebVote;
 
 public class Mapper {
 
@@ -23,22 +23,22 @@ public class Mapper {
     this.deviceService = deviceService;
   }
   
-  public Poll mapPollClientToPoll(PollClient pollClient) {
-    Account owner = accountService.getAccount(pollClient.getOwner());
-    return new Poll(pollClient.getCode(), pollClient.getTitle(), pollClient.getTimeToStop(), pollClient.isPrivatePoll(), owner);
+  public Poll mapPollClientToPoll(WebPoll webPoll) {
+    Account owner = accountService.getAccount(webPoll.getOwner());
+    return new Poll(webPoll.getCode(), webPoll.getTitle(), webPoll.getTimeToStop(), webPoll.isPrivatePoll(), owner);
   }
   
-  public Vote mapVoteClientToVote(VoteClient voteClient) {
+  public Vote mapVoteClientToVote(WebVote webVote) {
     
-    Question question = questionService.getQuestion(voteClient.getQuestionId());
+    Question question = questionService.getQuestion(webVote.getQuestionId());
     
-    if(voteClient.getVoter() != null) {
-      Account voter = accountService.getAccount(voteClient.getVoter());
-      return new Vote(voteClient.getGreen(), voteClient.getRed(), question, voter);
+    if(webVote.getVoter() != null) {
+      Account voter = accountService.getAccount(webVote.getVoter());
+      return new Vote(webVote.getGreen(), webVote.getRed(), question, voter);
     }
     else {
-      IoTDevice device = deviceService.getDevice(voteClient.getDevice());
-      return new Vote(voteClient.getGreen(), voteClient.getRed(), question, device);
+      IoTDevice device = deviceService.getDevice(webVote.getDevice());
+      return new Vote(webVote.getGreen(), webVote.getRed(), question, device);
     }
   }
 }
