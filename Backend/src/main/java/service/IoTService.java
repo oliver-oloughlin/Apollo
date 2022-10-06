@@ -1,11 +1,8 @@
 package service;
 
-import org.springframework.stereotype.Service;
-
 import dao.IoTDeviceDAO;
 import model.IoTDevice;
 
-@Service
 public class IoTService {
 
 	IoTDeviceDAO dao;

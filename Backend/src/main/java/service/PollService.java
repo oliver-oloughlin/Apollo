@@ -2,12 +2,9 @@ package service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import dao.PollDAO;
 import model.Poll;
 
-@Service
 public class PollService {
 
 	PollDAO dao;

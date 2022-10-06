@@ -1,11 +1,8 @@
 package service;
 
-import org.springframework.stereotype.Service;
-
 import dao.AccountDAO;
 import model.Account;
 
-@Service
 public class AccountService {
 
 	AccountDAO dao;

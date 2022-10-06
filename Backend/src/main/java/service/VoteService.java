@@ -1,11 +1,8 @@
 package service;
 
-import org.springframework.stereotype.Service;
-
 import dao.VoteDAO;
 import model.Vote;
 
-@Service
 public class VoteService {
 
 	VoteDAO dao;
