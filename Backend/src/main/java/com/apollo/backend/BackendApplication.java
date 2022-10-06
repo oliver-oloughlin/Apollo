@@ -93,7 +93,7 @@ public class BackendApplication {
 		//Poll
 		post("/poll", (req, res) -> {
         	WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
-        	return gson.toJson(pollService.addNewPoll(mapper.mapPollClientToPoll(webPoll)));
+        	return gson.toJson(pollService.addNewPoll(mapper.mapWebPollToPoll(webPoll)));
         });
 		
 		get("/poll/:code", (req, res) -> {
@@ -129,7 +129,7 @@ public class BackendApplication {
 		//Vote
 		post("/vote", (req, res) -> {
         	WebVote webVote = gson.fromJson(req.body(), WebVote.class);
-        	return gson.toJson(voteService.addNewVote(mapper.mapVoteClientToVote(webVote)));
+        	return gson.toJson(voteService.addNewVote(mapper.mapWebVoteToVote(webVote)));
         });
 	}
 }

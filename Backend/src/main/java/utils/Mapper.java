@@ -23,12 +23,12 @@ public class Mapper {
     this.deviceService = deviceService;
   }
   
-  public Poll mapPollClientToPoll(WebPoll webPoll) {
+  public Poll mapWebPollToPoll(WebPoll webPoll) {
     Account owner = accountService.getAccount(webPoll.getOwner());
     return new Poll(webPoll.getCode(), webPoll.getTitle(), webPoll.getTimeToStop(), webPoll.isPrivatePoll(), owner);
   }
   
-  public Vote mapVoteClientToVote(WebVote webVote) {
+  public Vote mapWebVoteToVote(WebVote webVote) {
     
     Question question = questionService.getQuestion(webVote.getQuestionId());
     
