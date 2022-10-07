@@ -53,6 +53,10 @@ public class Vote {
 		this.device = device;
 	}
 	
+	public long getId() {
+	  return id;
+	}
+	
 	public int getGreen() {
 		return green;
 	}

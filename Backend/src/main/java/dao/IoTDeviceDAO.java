@@ -16,7 +16,7 @@ public interface IoTDeviceDAO {
 	 * @param token: Token for the wanted device
 	 * @return The device from db or NULL if it does not exist
 	 */
-	public IoTDevice getDevice(String token);
+	public IoTDevice getDevice(long token);
 
 	/**
 	 * Updates an device

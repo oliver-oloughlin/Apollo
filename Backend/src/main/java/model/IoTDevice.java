@@ -1,12 +1,9 @@
 package model;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,11 +15,10 @@ import javax.persistence.Table;
 public class IoTDevice {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long token;
 	
 	@OneToMany(mappedBy = "device", cascade = CascadeType.PERSIST)
-	private Set<Vote> votes = new HashSet<Vote>();
+	private Set<Vote> votes;
 	
 	@ManyToOne
 	@JoinColumn(name = "questionId")
@@ -30,12 +26,18 @@ public class IoTDevice {
 	
 	public IoTDevice () {}
 	
-	public IoTDevice (Question question) {
-		this.question = question;
+	public IoTDevice (long token, Question question, Set<Vote> votes) {
+		this.token = token;
+	    this.question = question;
+	    this.votes = votes;
 	}
 	
 	public long getToken () {
 		return token;
+	}
+	
+	public Question getQuestion() {
+	  return question;
 	}
 
 	public Set<Vote> getVotes() {
@@ -45,5 +47,4 @@ public class IoTDevice {
 	public void addVote(Vote vote) {
 		votes.add(vote);
 	}
-	
 }

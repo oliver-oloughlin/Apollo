@@ -1,77 +1,59 @@
 package dao;
 
 import model.Poll;
-import utils.VoteCount;
 
 import javax.persistence.*;
 import java.util.List;
 
 public class PollDAOImpl implements PollDAO {
 
-    @PersistenceContext(unitName = "ApolloPU")
     private EntityManager em;
 
+    public PollDAOImpl() {
+      em = Persistence.createEntityManagerFactory("ApolloPU").createEntityManager();
+    }
+    
     @Override
     public boolean savePoll(Poll poll) {
+        em.getTransaction().begin();
         try {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
             em.persist(poll);
-            transaction.commit();
             return true;
         } catch (EntityExistsException e) {
             return false;
+        } finally {
+          em.getTransaction().commit();
         }
     }
     
     @Override
-    public Poll getPoll(long id) {
-        try {
-            return em.find(Poll.class, id);
-        } catch(EntityNotFoundException e) {
-            return null;
-        }
+    public Poll getPoll(long code) {
+        return em.find(Poll.class, code);
     }
 
     @Override
     public Poll updatePoll(Poll poll) {
-        try {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            Poll p = em.merge(poll);
-            transaction.commit();
-            return p; 
-        } catch (Exception e) {
-            return null;
-        }
+        em.getTransaction().begin();
+        Poll managedPoll = em.merge(poll);
+        em.getTransaction().commit();
+        return managedPoll; 
     }
     
     @Override
 	public boolean deletePoll(Poll poll) {
-    	try {
-			em.getTransaction().begin();
-			em.remove(em.merge(poll));
-			em.getTransaction().commit();
-			return true;
-		} catch(IllegalArgumentException e) {
-			return false;
-		}
+        em.getTransaction().begin();
+        try {
+            em.remove(em.merge(poll));
+            return true;
+        } catch(IllegalArgumentException e) {
+            return false;
+        } finally {
+          em.getTransaction().commit();
+        }
 	}
-
 
     @Override
     public List<Poll> getAllPolls() {
-        Query q = em.createNativeQuery("SELECT * FROM Poll", Poll.class);
-        return q.getResultList();
-    }
-
-    @Override
-    public VoteCount countVotesByPollId(int id) {
-        // TODO: Create query strings to count all green and red votes for a given poll
-        Query redQuery = em.createNativeQuery("", Integer.class);
-        Query greenQuery = em.createNativeQuery("", Integer.class);
-        int redCount = redQuery.getFirstResult();
-        int greenCount = greenQuery.getFirstResult();
-        return new VoteCount(greenCount, redCount);
+        return em.createQuery("SELECT p FROM Poll p", Poll.class).getResultList();
     }
 }

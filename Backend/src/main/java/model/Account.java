@@ -8,7 +8,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,18 +23,20 @@ public class Account {
 	private AccountType accountType;
 	
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Poll> polls = new HashSet<Poll>();
+	private Set<Poll> polls;
 	
 	@OneToMany(mappedBy = "voter", cascade = CascadeType.PERSIST)
-	private Set<Vote> votes = new HashSet<Vote>();
+	private Set<Vote> votes;
 	
 	public Account () {}
 	
-	public Account(String email, String password, boolean isAdmin, AccountType accountType) {
+	public Account(String email, String password, boolean isAdmin, AccountType accountType, Set<Poll> polls, Set<Vote> votes) {
 		this.email = email;
 		this.password = password;
 		this.isAdmin = isAdmin;
 		this.accountType = accountType;
+		this.polls = polls;
+		this.votes = votes;
 	}
 
 	public AccountType getAccountType() {
@@ -46,11 +47,11 @@ public class Account {
 		this.accountType = accountType;
 	}
 
-	public String getemail() {
+	public String getEmail() {
 		return email;
 	}
 
-	public void setemail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 

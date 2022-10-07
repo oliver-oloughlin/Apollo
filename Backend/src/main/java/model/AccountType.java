@@ -1,5 +1,12 @@
 package model;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum AccountType {
-	NORMAL, FACEBOOK, GOOGLE;
+	@SerializedName("Normal")
+	NORMAL,
+	@SerializedName("Facebook")
+	FACEBOOK,
+	@SerializedName("Google")
+	GOOGLE;
 }

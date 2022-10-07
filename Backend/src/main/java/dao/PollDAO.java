@@ -1,7 +1,5 @@
 package dao;
 
-import utils.VoteCount;
-
 import java.util.List;
 
 import model.Poll;
@@ -20,7 +18,7 @@ public interface PollDAO {
      * @param id: The id of the poll that is to be fetched
      * @return The poll with given id
      */
-    public Poll getPoll(long id);
+    public Poll getPoll(long code);
 
     
     /**
@@ -42,8 +40,4 @@ public interface PollDAO {
      * @return: A list with all of the polls
      */
     public List<Poll> getAllPolls();
-
-    
-    public VoteCount countVotesByPollId(int id);
-
 }

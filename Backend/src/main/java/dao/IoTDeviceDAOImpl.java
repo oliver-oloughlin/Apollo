@@ -16,18 +16,19 @@ private EntityManager em;
 
 	@Override
 	public boolean saveDevice(IoTDevice device) {
-		try {
-			em.getTransaction().begin();
+	    em.getTransaction().begin();
+	    try {
 			em.persist(device);
-			em.getTransaction().commit();
 			return true;
 		} catch (EntityExistsException e) {
 			return false;
+		} finally {
+		  em.getTransaction().commit();
 		}
 	}
 
 	@Override
-	public IoTDevice getDevice(String token) {
+	public IoTDevice getDevice(long token) {
 		return em.find(IoTDevice.class, token);
 	}
 
@@ -41,13 +42,14 @@ private EntityManager em;
 
 	@Override
 	public boolean deleteDevice(IoTDevice device) {
-		try {
-			em.getTransaction().begin();
+	    em.getTransaction().begin();
+	    try {
 			em.remove(em.merge(device));
-			em.getTransaction().commit();
 			return true;
 		} catch(IllegalArgumentException e) {
 			return false;
-		}
+		} finally {
+          em.getTransaction().commit();
+        }
 	}
 }
