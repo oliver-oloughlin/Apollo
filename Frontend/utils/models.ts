@@ -1,18 +1,27 @@
-export type Customer = {
+export interface Customer {
   username: string,
   password: string,
   admin: boolean
 }
 
-export type Poll = {
-  id: number,
+export interface Poll {
+  code: number,
   title: string,
-  code: string,
   timeToStop: string,
-  private: boolean
+  privatePoll: boolean,
+  closed: boolean,
+  ownerEmail: string,
+  questionIds: number[]
 }
 
-export type Vote = {
+export interface Question {
+  id: number,
+  text: string,
+  voteIds: number[],
+  deviceTokens: number[]
+}
+
+export interface Vote {
   id: number,
   poll: Poll,
   green: number,

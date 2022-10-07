@@ -2,27 +2,30 @@
 import App from "../components/App.tsx"
 import { Style } from "fresh_utils"
 import { Head } from "$fresh/runtime.ts"
-import type { Poll } from "../utils/models.ts"
+import { Poll, Question } from "../utils/models.ts"
 import { Handlers, PageProps } from "$fresh/server.ts"
 
-/* export const handler: Handlers<Poll> = {
-  GET: async (req, ctx) => {
-    try {
-      const id = new URL(req.url).searchParams.get("id") ?? ""
-      const res = await fetch(`[backend api url]?id=${id}`)
-      const poll = await res.json() as Poll
-      // TODO - Change to: if (!poll) return ctx.renderNotFound()
-      //        when Fresh is updated
-      if (!poll) throw Error("Poll not found")
-      return ctx.render(poll);
-    } catch(err) {
-      console.error(err)
-      return new Response("Poll not found", { status: 404 });
-    }
-  }
-} */
+interface Data {
+  poll: Poll,
+  questions: Question[]
+}
 
-export default function Poll({ data }: PageProps<Poll>) {
+export const handler: Handlers<Data> = {
+  GET: async (_req, ctx) => {
+    const { id } = ctx.params
+    const res = await fetch(`host/poll/${id}`)
+    const poll = await res.json() as Poll
+    const qFetchers = poll.questionIds.map(qid => fetch(`host/question/${qid}`).then(res => res.json()))
+    const questions = await Promise.all(qFetchers) as Question[]
+    if (!poll) return ctx.renderNotFound()
+    return ctx.render({
+      poll,
+      questions
+    })
+  }
+}
+
+export default function VotePage({ data: { poll, questions } }: PageProps<Data>) {
   return (
     <App>
       <Head>
@@ -31,7 +34,7 @@ export default function Poll({ data }: PageProps<Poll>) {
       <main class="page box-bg">
         <div class="poll-container">
           <div class="question-container centered-text">
-            <p>Some sort of binary question?</p>
+            <p>{questions[0]}</p>
           </div>
           <div class="switch">
             <button class="btn-red switch-btn" />
@@ -40,5 +43,5 @@ export default function Poll({ data }: PageProps<Poll>) {
         </div>
       </main>
     </App>
-  );
+  )
 }
