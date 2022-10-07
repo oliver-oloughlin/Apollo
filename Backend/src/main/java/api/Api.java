@@ -3,6 +3,7 @@ package api;
 import static spark.Spark.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 
@@ -123,7 +124,7 @@ public class Api {
 		
 		get("/poll", (req, res) -> {
 		    List<Poll> polls = pollService.getAllPolls();
-		    List<WebPoll> webPolls = polls.stream().map(poll -> pollMapper.mapPollToWebPoll(poll)).toList();
+		    List<WebPoll> webPolls = polls.stream().map(poll -> pollMapper.mapPollToWebPoll(poll)).collect(Collectors.toList());
 			return gson.toJson(webPolls);
 		});
 		

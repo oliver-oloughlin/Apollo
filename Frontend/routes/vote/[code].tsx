@@ -15,11 +15,9 @@ export const handler: Handlers<Data> = {
     const { code } = ctx.params
     const res = await fetch(`http://localhost:8080/poll/${code}`)
     const poll = await res.json() as Poll
-    console.log(poll);
     if (!poll) return ctx.renderNotFound()
     const qFetchers = poll.questionIds.map(qid => fetch(`http://localhost:8080/question/${qid}`).then(res => res.json()))
     const questions = await Promise.all(qFetchers) as Question[]
-    console.log(questions);
     return ctx.render({
       poll,
       questions
@@ -28,6 +26,7 @@ export const handler: Handlers<Data> = {
 }
 
 export default function VotePage({ data: { poll, questions } }: PageProps<Data>) {
+  const { text } = questions[0]
   return (
     <App>
       <Head>
@@ -36,7 +35,7 @@ export default function VotePage({ data: { poll, questions } }: PageProps<Data>)
       <main class="page box-bg">
         <div class="poll-container">
           <div class="question-container centered-text">
-            <p>{questions[0]}</p>
+            <p>{text}</p>
           </div>
           <div class="switch">
             <button class="btn-red switch-btn" />
