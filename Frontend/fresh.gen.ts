@@ -12,6 +12,7 @@ import * as $5 from "./routes/user/index.tsx";
 import * as $6 from "./routes/user/manage-poll.tsx";
 import * as $7 from "./routes/user/manage-system.tsx";
 import * as $8 from "./routes/vote.tsx";
+import * as $9 from "./routes/vote/[code].tsx";
 import * as $$0 from "./islands/Header.tsx";
 import * as $$1 from "./islands/PollsView.tsx";
 import * as $$2 from "./islands/SignInForm.tsx";
@@ -28,6 +29,7 @@ const manifest = {
     "./routes/user/manage-poll.tsx": $6,
     "./routes/user/manage-system.tsx": $7,
     "./routes/vote.tsx": $8,
+    "./routes/vote/[code].tsx": $9,
   },
   islands: {
     "./islands/Header.tsx": $$0,

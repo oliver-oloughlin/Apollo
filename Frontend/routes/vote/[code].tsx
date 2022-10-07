@@ -1,8 +1,8 @@
 
-import App from "../components/App.tsx"
+import App from "../../components/App.tsx"
 import { Style } from "fresh_utils"
 import { Head } from "$fresh/runtime.ts"
-import { Poll, Question } from "../utils/models.ts"
+import { Poll, Question } from "../../utils/models.ts"
 import { Handlers, PageProps } from "$fresh/server.ts"
 
 interface Data {
@@ -14,12 +14,12 @@ export const handler: Handlers<Data> = {
   GET: async (_req, ctx) => {
     const { code } = ctx.params
     const res = await fetch(`http://localhost:8080/poll/${code}`)
-    console.log(res);
     const poll = await res.json() as Poll
     console.log(poll);
     if (!poll) return ctx.renderNotFound()
     const qFetchers = poll.questionIds.map(qid => fetch(`http://localhost:8080/question/${qid}`).then(res => res.json()))
     const questions = await Promise.all(qFetchers) as Question[]
+    console.log(questions);
     return ctx.render({
       poll,
       questions
