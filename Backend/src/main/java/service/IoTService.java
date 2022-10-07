@@ -16,7 +16,7 @@ public class IoTService {
 		return success ? device : null;
 	}
 	
-	public IoTDevice getDevice(String tokenString) {
+	public IoTDevice getDeviceFromString(String tokenString) {
 		try {
 			long token  = Long.parseLong(tokenString);
 			return dao.getDevice(token);
@@ -25,12 +25,16 @@ public class IoTService {
 		}
 	}
 	
+	public IoTDevice getDevice(long token) {
+	  return dao.getDevice(token);
+	}
+	
 	public IoTDevice updateDevice(IoTDevice device) {
 		return dao.updateDevice(device);
 	}
 	
 	public IoTDevice deleteDevice(String token) {
-		IoTDevice device = getDevice(token);
+		IoTDevice device = getDeviceFromString(token);
 		boolean success = dao.deleteDevice(device);
 		return success ? device : null;
 	}

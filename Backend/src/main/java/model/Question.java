@@ -1,6 +1,5 @@
 package model;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,17 +21,23 @@ public class Question {
 	private String text;
 	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private Set<Vote> votes = new HashSet<Vote>();
+	private Set<Vote> votes;
 	
-	@OneToMany(mappedBy = "question")
-	private Set<IoTDevice> devices = new HashSet<IoTDevice>();
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<IoTDevice> devices;
 
 	public Question () {}
 	
-	public Question(String text) {
+	public Question(String text, Set<Vote> votes, Set<IoTDevice> devices) {
 		this.text = text;
+		this.votes = votes;
+		this.devices = devices;
 	}
 
+	public Long getId() {
+	  return id;
+	}
+	
 	public String getText() {
 		return text;
 	}
@@ -43,6 +48,10 @@ public class Question {
 	
 	public Set<Vote> getVotes() {
 		return votes;
+	}
+	
+	public Set<IoTDevice> getDevices() {
+	  return devices;
 	}
 	
 	public void addVote(Vote vote) {

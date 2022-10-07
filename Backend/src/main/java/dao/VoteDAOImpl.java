@@ -46,4 +46,9 @@ public class VoteDAOImpl implements VoteDAO{
 		  em.getTransaction().commit();
 		}
 	}
+	
+	@Override
+	public Vote getVote(long id) {
+	  return em.find(Vote.class, id);
+	}
 }

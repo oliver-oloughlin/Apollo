@@ -18,13 +18,17 @@ public class PollService {
 		return success ? poll : null;
 	}
 	
-	public Poll getPoll(String codeString) {
+	public Poll getPollFromString(String codeString) {
 		try {
 			long code = Long.parseLong(codeString);
 			return dao.getPoll(code);
 		} catch(NumberFormatException e) {
 			return null;
 		}
+	}
+	
+	public Poll getPoll(long code) {
+	  return dao.getPoll(code);
 	}
 	
 	public List<Poll> getAllPolls(){

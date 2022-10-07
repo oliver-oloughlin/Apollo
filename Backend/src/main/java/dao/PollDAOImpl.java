@@ -27,8 +27,8 @@ public class PollDAOImpl implements PollDAO {
     }
     
     @Override
-    public Poll getPoll(long id) {
-        return em.find(Poll.class, id);
+    public Poll getPoll(long code) {
+        return em.find(Poll.class, code);
     }
 
     @Override

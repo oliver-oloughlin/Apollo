@@ -18,7 +18,7 @@ public interface PollDAO {
      * @param id: The id of the poll that is to be fetched
      * @return The poll with given id
      */
-    public Poll getPoll(long id);
+    public Poll getPoll(long code);
 
     
     /**

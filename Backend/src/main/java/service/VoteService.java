@@ -11,6 +11,10 @@ public class VoteService {
 		this.dao = dao;
 	}
 	
+	public Vote getVote(long id) {
+	  return dao.getVote(id);
+	}
+	
 	public Vote addNewVote(Vote vote) {
 		boolean success = dao.saveVote(vote);
 		return success ? vote : null;

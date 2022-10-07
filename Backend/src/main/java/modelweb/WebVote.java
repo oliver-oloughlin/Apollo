@@ -5,16 +5,17 @@ public class WebVote {
   private int green;
   private int red;
   private Long questionId;
-  private String voter;
-  private String device;
+  private String voterEmail;
+  private long deviceToken;
   
-  public WebVote(int green, int red, Long questionId, String voter, String device) {
+  public WebVote(int green, int red, Long questionId, String voterEmail, long deviceToken) {
     this.green = green;
     this.red = red;
     this.questionId = questionId;
-    this.voter = voter;
-    this.device = device;
+    this.voterEmail = voterEmail;
+    this.deviceToken = deviceToken;
   }
+  
   public int getGreen() {
     return green;
   }
@@ -24,12 +25,10 @@ public class WebVote {
   public Long getQuestionId() {
     return questionId;
   }
-  public String getVoter() {
-    return voter;
+  public String getVoterEmail() {
+    return voterEmail;
   }
-  public String getDevice() {
-    return device;
+  public long getDeviceToken() {
+    return deviceToken;
   }
-  
-  
 }

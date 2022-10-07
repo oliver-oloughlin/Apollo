@@ -1,6 +1,5 @@
 package model;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,7 +21,7 @@ public class Poll {
 	private String title;
 	private String timeToStop;
 	private boolean privatePoll;
-	private boolean isClosed;
+	private boolean closed;
 	
 	@ManyToOne
 	@JoinColumn(name = "accountId")
@@ -33,19 +32,19 @@ public class Poll {
 		name = "POLL_QUESTIONS",
 		joinColumns = @JoinColumn(name = "pollId"), 
 		inverseJoinColumns = @JoinColumn(name = "questionId"))
-	private Set<Question> questions = new HashSet<Question>();
+	private Set<Question> questions;
 	
 	public Poll () {}
 	
-	public Poll(Long code, String title, String timeToStop, boolean privatePoll, Account owner) {
+	public Poll(Long code, String title, String timeToStop, boolean privatePoll, Account owner, Set<Question> questions) {
 		this.title = title;
 		this.code = code;
 		this.timeToStop = timeToStop;
 		this.privatePoll = privatePoll;
 		this.owner = owner;
-		this.isClosed = false;
+		this.closed = false;
+		this.questions = questions;
 	}
-	
 	public String getTitle() {
 		return title;
 	}
@@ -74,6 +73,10 @@ public class Poll {
 		this.privatePoll = privatePoll;
 	}
 	
+	public Account getOwner() {
+	  return owner;
+	}
+	
 	public Set<Question> getQuestions(){
 		return questions;
 	}
@@ -83,10 +86,10 @@ public class Poll {
 	}
 
 	public boolean isClosed() {
-		return isClosed;
+		return closed;
 	}
 
 	public void setClosed(boolean isClosed) {
-		this.isClosed = isClosed;
+		this.closed = isClosed;
 	}
 }
