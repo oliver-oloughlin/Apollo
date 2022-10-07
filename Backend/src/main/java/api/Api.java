@@ -145,6 +145,18 @@ public class Api {
         	return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.addNewQuestion(question)));
         });
 		
+		get("/question/:id", (req, res) -> {
+		    String idString = req.params("id");
+		    return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.getQuestionFromString(idString)));
+		});
+		
+		put("/question", (req, res) -> {
+		    WebQuestion webQuestion = gson.fromJson(req.body(), WebQuestion.class);
+		    long id = webQuestion.getId();
+		    Question question = questionMapper.mapWebQuestionToQuestion(webQuestion);
+		    return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.updateQuestion(question, id)));
+		});
+		
 		delete("/question/:id", (req, res) -> {
 			String id = req.params("id");
 			return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.deleteQuestion(id)));
