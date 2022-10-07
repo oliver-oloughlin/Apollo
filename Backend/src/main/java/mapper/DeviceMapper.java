@@ -33,6 +33,10 @@ public class DeviceMapper {
   
   public WebDevice mapDeviceToWebDevice(IoTDevice device) {
     
+    if(device == null) {
+      return null;
+    }
+    
     Set<Long> voteIds = device.getVotes().stream()
         .map(vote -> vote.getId())
         .collect(Collectors.toSet());

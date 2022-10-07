@@ -33,6 +33,11 @@ public class QuestionMapper {
   }
   
   public WebQuestion mapQuestionToWebQuestion(Question question) {
+    
+    if(question == null) {
+      return null;
+    }
+    
     Set<Long> deviceTokens = question.getDevices().stream()
         .map(device -> device.getToken())
         .collect(Collectors.toSet());

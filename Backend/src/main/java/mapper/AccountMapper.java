@@ -34,6 +34,11 @@ public class AccountMapper {
   }
   
   public WebAccount mapAccountToWebAccount(Account account) {
+    
+    if(account == null) {
+      return null;
+    }
+    
     Set<Long> pollCodes = account.getPolls().stream()
         .map(poll -> poll.getCode())
         .collect(Collectors.toSet());

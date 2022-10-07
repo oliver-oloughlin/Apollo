@@ -37,6 +37,11 @@ public class VoteMapper {
   }
   
   public WebVote mapVoteToWebVote(Vote vote) {
+    
+    if(vote == null) {
+      return null;
+    }
+    
     if(vote.getVoter() == null) {
       return new WebVote(vote.getGreen(), vote.getRed(), vote.getQuestion().getId(), null, vote.getDevice().getToken());
     }

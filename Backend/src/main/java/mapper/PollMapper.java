@@ -30,6 +30,11 @@ public class PollMapper {
   }
   
   public WebPoll mapPollToWebPoll(Poll poll) {
+    
+    if(poll == null) {
+      return null;
+    }
+    
     Set<Long> questionIds = poll.getQuestions()
         .stream().map(question -> question.getId())
         .collect(Collectors.toSet());
