@@ -4,6 +4,7 @@ import { Style } from "fresh_utils"
 import { Head } from "$fresh/runtime.ts"
 import { Poll, Question } from "../../utils/models.ts"
 import { Handlers, PageProps } from "$fresh/server.ts"
+import { API_HOST } from "../../utils/api.ts"
 
 interface Data {
   poll: Poll,
@@ -13,10 +14,10 @@ interface Data {
 export const handler: Handlers<Data> = {
   GET: async (_req, ctx) => {
     const { code } = ctx.params
-    const res = await fetch(`http://localhost:8080/poll/${code}`)
+    const res = await fetch(`${API_HOST}/poll/${code}`)
     const poll = await res.json() as Poll
     if (!poll) return ctx.renderNotFound()
-    const qFetchers = poll.questionIds.map(qid => fetch(`http://localhost:8080/question/${qid}`).then(res => res.json()))
+    const qFetchers = poll.questionIds.map(qid => fetch(`${API_HOST}/question/${qid}`).then(res => res.json()))
     const questions = await Promise.all(qFetchers) as Question[]
     return ctx.render({
       poll,
