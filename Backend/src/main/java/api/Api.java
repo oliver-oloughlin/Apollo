@@ -47,7 +47,7 @@ public class Api {
 	//Mappers
 	static VoteMapper voteMapper = new VoteMapper(accountService, questionService, deviceService);
 	static PollMapper pollMapper = new PollMapper(accountService, questionService);
-	static QuestionMapper questionMapper = new QuestionMapper(deviceService, voteService);
+	static QuestionMapper questionMapper = new QuestionMapper(deviceService, voteService, pollService);
 	static AccountMapper accountMapper = new AccountMapper(pollService, voteService);
 	static DeviceMapper deviceMapper = new DeviceMapper(voteService, questionService);
 	

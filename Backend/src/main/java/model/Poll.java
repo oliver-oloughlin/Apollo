@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,11 +26,7 @@ public class Poll {
 	@JoinColumn(name = "accountId")
 	private Account owner;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	@JoinTable(
-		name = "POLL_QUESTIONS",
-		joinColumns = @JoinColumn(name = "pollId"), 
-		inverseJoinColumns = @JoinColumn(name = "questionId"))
+	@OneToMany(mappedBy="poll", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Question> questions;
 	
 	public Poll () {}

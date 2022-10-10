@@ -4,20 +4,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import model.IoTDevice;
+import model.Poll;
 import model.Question;
 import model.Vote;
 import modelweb.WebQuestion;
 import service.IoTService;
+import service.PollService;
 import service.VoteService;
 
 public class QuestionMapper {
 
   IoTService deviceService;
   VoteService voteService;
+  PollService pollService;
   
-  public QuestionMapper(IoTService deviceService, VoteService voteService) {
+  public QuestionMapper(IoTService deviceService, VoteService voteService, PollService pollService) {
     this.deviceService = deviceService;
     this.voteService = voteService;
+    this.pollService = pollService;
   }
   
   public Question mapWebQuestionToQuestion(WebQuestion webQuestion) {
@@ -29,7 +33,9 @@ public class QuestionMapper {
         .map(id -> voteService.getVote(id))
         .collect(Collectors.toSet());
     
-    return new Question(webQuestion.getText(), votes, devices);
+    Poll poll = pollService.getPoll(webQuestion.getPollCode());
+    
+    return new Question(webQuestion.getText(), poll, votes, devices);
   }
   
   public WebQuestion mapQuestionToWebQuestion(Question question) {
@@ -46,6 +52,6 @@ public class QuestionMapper {
         .map(vote -> vote.getId())
         .collect(Collectors.toSet());
     
-    return new WebQuestion(question.getId(), question.getText(), voteIds, deviceTokens);
+    return new WebQuestion(question.getId(), question.getText(), question.getPoll().getCode(), voteIds, deviceTokens);
   }
 }

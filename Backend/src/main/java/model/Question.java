@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,6 +22,10 @@ public class Question {
     private Long id;
 	private String text;
 	
+	@ManyToOne
+	@JoinColumn(name = "poll")
+	private Poll poll;
+	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Vote> votes;
 	
@@ -28,8 +34,9 @@ public class Question {
 
 	public Question () {}
 	
-	public Question(String text, Set<Vote> votes, Set<IoTDevice> devices) {
+	public Question(String text, Poll poll, Set<Vote> votes, Set<IoTDevice> devices) {
 		this.text = text;
+		this.poll = poll;
 		this.votes = votes;
 		this.devices = devices;
 	}
@@ -44,6 +51,10 @@ public class Question {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	public Poll getPoll() {
+	  return poll;
 	}
 	
 	public Set<Vote> getVotes() {
