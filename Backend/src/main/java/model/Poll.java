@@ -26,7 +26,7 @@ public class Poll {
 	@JoinColumn(name = "accountId")
 	private Account owner;
 	
-	@OneToMany(mappedBy="poll", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy="poll", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Question> questions;
 	
 	public Poll () {}

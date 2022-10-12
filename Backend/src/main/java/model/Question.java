@@ -26,10 +26,10 @@ public class Question {
 	@JoinColumn(name = "poll")
 	private Poll poll;
 	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Vote> votes;
 	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<IoTDevice> devices;
 
 	public Question () {}
@@ -68,4 +68,8 @@ public class Question {
 	public void addVote(Vote vote) {
 		votes.add(vote);
 	}
+	
+	public void addDevice(IoTDevice device) {
+      devices.add(device);
+  }
 }

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class IoTDevice {
 
 	@Id
-	private long token;
+	private Long token;
 	
 	@OneToMany(mappedBy = "device", cascade = CascadeType.PERSIST)
 	private Set<Vote> votes;

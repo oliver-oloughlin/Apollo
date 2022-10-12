@@ -13,7 +13,7 @@ public class AccountService {
 	
 	public Account addNewAccount(Account account) {
 		boolean success = dao.saveAccount(account);
-		return success ? account : null;
+		return success ? dao.getAccount(account.getEmail()) : null;
 	}
 	
 	public Account getAccountWithPassword(String email, String password) {

@@ -17,6 +17,6 @@ public class VoteService {
 	
 	public Vote addNewVote(Vote vote) {
 		boolean success = dao.saveVote(vote);
-		return success ? vote : null;
+		return success ? dao.getVote(vote.getId()) : null;
 	}
 }
