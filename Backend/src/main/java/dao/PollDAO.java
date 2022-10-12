@@ -9,7 +9,7 @@ public interface PollDAO {
 	/**
 	 * Creates a new poll in the db
 	 * @param poll: The poll that is to be saved in the db
-	 * @return True if poll was created was and false if poll already existed in the db
+	 * @return true if the poll was persisted and false otherwise
 	 */
     public boolean savePoll(Poll poll);
 

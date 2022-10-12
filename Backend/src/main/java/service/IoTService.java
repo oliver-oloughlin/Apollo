@@ -13,7 +13,7 @@ public class IoTService {
 	
 	public IoTDevice addNewDevice(IoTDevice device) {
 		boolean success = dao.saveDevice(device);
-		return success ? device : null;
+		return success ? dao.getDevice(device.getToken()) : null;
 	}
 	
 	public IoTDevice getDeviceFromString(String tokenString) {

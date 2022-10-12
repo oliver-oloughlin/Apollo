@@ -1,5 +1,6 @@
 package dao;
 
+import model.Account;
 import model.Poll;
 
 import javax.persistence.*;
@@ -16,8 +17,11 @@ public class PollDAOImpl implements PollDAO {
     @Override
     public boolean savePoll(Poll poll) {
         em.getTransaction().begin();
+        Account account = poll.getOwner();
+        account.addPoll(poll);
         try {
             em.persist(poll);
+            em.merge(account);
             return true;
         } catch (EntityExistsException e) {
             return false;
@@ -28,7 +32,15 @@ public class PollDAOImpl implements PollDAO {
     
     @Override
     public Poll getPoll(long code) {
-        return em.find(Poll.class, code);
+        Poll poll = em.find(Poll.class, code);
+        try {
+          if(poll != null) {
+            em.refresh(poll); //Gets the updated object
+          }
+          return poll;
+        }catch(EntityNotFoundException e) {
+          return null;
+        }
     }
 
     @Override

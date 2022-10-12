@@ -7,7 +7,7 @@ public interface IoTDeviceDAO {
 	/**
 	 * Creates a new device in the db
 	 * @param device: The device that is to be saved in the db
-	 * @return True if the device was created was and false if device already existed in the db
+	 * @return true if the device was persisted and false otherwise
 	 */
 	public boolean saveDevice(IoTDevice device);
 	

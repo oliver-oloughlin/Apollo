@@ -25,7 +25,7 @@ public class Account {
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Poll> polls;
 	
-	@OneToMany(mappedBy = "voter", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "voter")
 	private Set<Vote> votes;
 	
 	public Account () {}

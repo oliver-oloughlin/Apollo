@@ -7,7 +7,7 @@ public interface VoteDAO {
 	/**
 	 * Saves a vote in the db
 	 * @param vote: The vote to be saved
-	 * @return True if the vote was saved successfully and false otherwise
+	 * @return true if vote was persisted and false otherwise
 	 */
 	public boolean saveVote(Vote vote);
 	

@@ -2,9 +2,11 @@ package dao;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 
 import model.IoTDevice;
+import model.Question;
 
 public class IoTDeviceDAOImpl implements IoTDeviceDAO {
 
@@ -17,7 +19,10 @@ private EntityManager em;
 	@Override
 	public boolean saveDevice(IoTDevice device) {
 	    em.getTransaction().begin();
+	    Question question = device.getQuestion();
+	    question.addDevice(device);
 	    try {
+	        em.merge(device);
 			em.persist(device);
 			return true;
 		} catch (EntityExistsException e) {
@@ -29,7 +34,15 @@ private EntityManager em;
 
 	@Override
 	public IoTDevice getDevice(long token) {
-		return em.find(IoTDevice.class, token);
+		IoTDevice device = em.find(IoTDevice.class, token);
+        try {
+          if(device != null) {
+            em.refresh(device); //Gets the updated object
+          }
+          return device;
+        }catch(EntityNotFoundException e) {
+          return null;
+        }
 	}
 
 	@Override

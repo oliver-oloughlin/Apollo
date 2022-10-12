@@ -15,7 +15,7 @@ public class PollService {
 	
 	public Poll addNewPoll(Poll poll) {
 		boolean success = dao.savePoll(poll);
-		return success ? poll : null;
+		return success ? dao.getPoll(poll.getCode()) : null;
 	}
 	
 	public Poll getPollFromString(String codeString) {

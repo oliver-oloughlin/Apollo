@@ -7,7 +7,7 @@ public interface AccountDAO {
 	/**
 	 * Creates a new account in the db
 	 * @param account: The account that is to be saved in the db
-	 * @return True if user was created was and false if user already existed in the db
+	 * @return true if the account was persisted and false otherwise
 	 */
 	public boolean saveAccount(Account account);
 	
