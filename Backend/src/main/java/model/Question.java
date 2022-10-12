@@ -26,7 +26,7 @@ public class Question {
 	@JoinColumn(name = "poll")
 	private Poll poll;
 	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Vote> votes;
 	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, orphanRemoval = true)
