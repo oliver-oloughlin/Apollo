@@ -2,6 +2,12 @@ package api;
 
 import static spark.Spark.*;
 
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.text.IniRealm;
+
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -54,6 +60,12 @@ public class Api {
 	
 	public static void main(String[] args) {
 
+	    IniRealm iniRealm = new IniRealm("classpath:shiro.ini");
+	    SecurityManager securityManager = new DefaultSecurityManager(iniRealm);
+
+	    SecurityUtils.setSecurityManager(securityManager);
+	    Subject currentUser = SecurityUtils.getSubject();
+	    
 		if (args.length > 0) {
             port(Integer.parseInt(args[0]));
         } else {
