@@ -2,6 +2,7 @@ package dao;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 
 import model.Question;
@@ -49,6 +50,14 @@ public class VoteDAOImpl implements VoteDAO{
 	
 	@Override
 	public Vote getVote(long id) {
-	  return em.find(Vote.class, id);
+	  Vote vote = em.find(Vote.class, id);
+      try {
+        if(vote != null) {
+          em.refresh(vote); //Gets the updated object
+        }
+        return vote;
+      }catch(EntityNotFoundException e) {
+        return null;
+      }
 	}
 }

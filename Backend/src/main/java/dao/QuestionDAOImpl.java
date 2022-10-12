@@ -2,6 +2,7 @@ package dao;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 
 import model.Poll;
@@ -32,7 +33,15 @@ private EntityManager em;
     }	
 	@Override
     public Question getQuestion(long id) {
-	    return em.find(Question.class, id);
+	    Question question = em.find(Question.class, id);
+        try {
+          if(question != null) {
+            em.refresh(question); //Gets the updated object
+          }
+          return question;
+        }catch(EntityNotFoundException e) {
+          return null;
+        }
     }
 	
 	@Override

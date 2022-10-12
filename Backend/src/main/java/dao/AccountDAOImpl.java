@@ -2,6 +2,7 @@ package dao;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 
 import model.Account;
@@ -29,7 +30,15 @@ public class AccountDAOImpl implements AccountDAO{
 	
 	@Override
 	public Account getAccount(String email) {
-		return em.find(Account.class, email);
+		Account account = em.find(Account.class, email);
+        try {
+          if(account != null) {
+            em.refresh(account); //Gets the updated object
+          }
+          return account;
+        }catch(EntityNotFoundException e) {
+          return null;
+        }
 	}
 
 	@Override
@@ -42,7 +51,7 @@ public class AccountDAOImpl implements AccountDAO{
 
 	@Override
 	public boolean deleteAccount(Account account) {
-	    em.getTransaction().begin();	
+	    em.getTransaction().begin();
 	    try {
 			em.remove(em.merge(account));
 			return true;
