@@ -1,10 +1,10 @@
 
-import App from "../../components/App.tsx"
+import App from "../components/App.tsx"
 import { Style } from "fresh_utils"
 import { Head } from "$fresh/runtime.ts"
-import { Poll, Question } from "../../utils/models.ts"
+import { Poll, Question } from "../utils/models.ts"
 import { Handlers, PageProps } from "$fresh/server.ts"
-import { API_HOST } from "../../utils/api.ts"
+import { API_HOST } from "../utils/api.ts"
 
 interface Data {
   poll: Poll,
@@ -12,8 +12,8 @@ interface Data {
 }
 
 export const handler: Handlers<Data> = {
-  GET: async (_req, ctx) => {
-    const { code } = ctx.params
+  GET: async (req, ctx) => {
+    const code = new URL(req.url).searchParams.get("code")
     const res = await fetch(`${API_HOST}/poll/${code}`)
     const poll = await res.json() as Poll
     if (!poll) return ctx.renderNotFound()
@@ -27,7 +27,7 @@ export const handler: Handlers<Data> = {
 }
 
 export default function VotePage({ data: { poll, questions } }: PageProps<Data>) {
-  const { text } = questions[0]
+  const [ question ] = questions
   return (
     <App>
       <Head>
@@ -36,7 +36,7 @@ export default function VotePage({ data: { poll, questions } }: PageProps<Data>)
       <main class="page box-bg">
         <div class="poll-container">
           <div class="question-container centered-text">
-            <p>{text}</p>
+            <p>{question?.text}</p>
           </div>
           <div class="switch">
             <button class="btn-red switch-btn" />

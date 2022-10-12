@@ -1,1 +1,5 @@
 Backend/derby.log
+Backend/db
+Backend/target
+Backend/.*
+Frontend/.env

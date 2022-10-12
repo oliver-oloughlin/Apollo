@@ -27,3 +27,17 @@ export interface Vote {
   green: number,
   red: number
 }
+
+type AccountType = "Normal" | "Facebook" | "Google"
+
+export interface SignUpData {
+  email?: string,
+  password?: string,
+  accountType: AccountType
+}
+
+export interface SignInData {
+  email?: string,
+  password?: string,
+  accountType: AccountType
+}

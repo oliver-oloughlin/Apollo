@@ -10,6 +10,14 @@
   box-shadow: 0 0 .5rem var(--shadow);
 }
 
+.validation-form input:invalid {
+  border-color: var(--error);
+}
+
+.validation-form input:valid {
+  border-color: var(--success);
+}
+
 .btn-fb {
   background: hsl(220 50% 40%);
 }

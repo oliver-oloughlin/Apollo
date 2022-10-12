@@ -16,6 +16,10 @@
   text-align: left;
 }
 
+.poll-row {
+  cursor: pointer;
+}
+
 .poll-table tr {
   border: var(--border-w) solid currentColor;
 }
