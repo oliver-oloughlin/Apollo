@@ -36,17 +36,11 @@ public class QuestionService {
 	    return managedQuestion;
 	}
 	
-	public Question deleteQuestion(String idString) {
-		try {
-			long id = Long.parseLong(idString);
-			Question question = dao.getQuestion(id);
-			if(question == null) {
-			  return null;
-			}
-			boolean success = dao.deleteQuestion(question);
-			return success ? question : null;
-		} catch(NumberFormatException e) {
-			return null;
-		}
+	public Question deleteQuestion(Question question) {
+	  if(question == null) {
+	    return null;
+	  }
+	  boolean success = dao.deleteQuestion(question);
+	  return success ? question : null;
 	}
 }

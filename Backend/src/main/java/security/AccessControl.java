@@ -7,7 +7,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
-import model.Account;
+import model.*;
 
 public class AccessControl {
 
@@ -41,11 +41,40 @@ public class AccessControl {
     return "Not logged in";
   }
   
+  private boolean currentUserOwnsAccount(Account account) {
+    return account.getEmail().equals(currentUser.getPrincipal());
+  }
+  
   public boolean accessToAccount(Account account) {
     if(account == null) {
       return false;
     }
-    return currentUser.isAuthenticated() && 
-        (currentUser.hasRole("admin") || account.getEmail().equals(currentUser.getPrincipal()));
+    return currentUser.isAuthenticated() && (currentUser.hasRole("admin") || currentUserOwnsAccount(account));
+  }
+  
+  public boolean accessToPoll(Poll poll) {
+    if(poll == null) {
+      return false;
+    }
+    Account owner = poll.getOwner();
+    return accessToAccount(owner);
+  }
+  
+  public boolean accessToQuestion(Question question) {
+    if(question == null) {
+      return false;
+    }
+    
+    Poll poll = question.getPoll();
+    return accessToPoll(poll);
+  }
+  
+  public boolean accessToDevice(IoTDevice device) {
+    if(device == null) {
+      return false;
+    }
+    
+    Question question = device.getQuestion();
+    return accessToQuestion(question);
   }
 }

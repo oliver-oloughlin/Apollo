@@ -2,7 +2,6 @@ package api;
 
 import static spark.Spark.*;
 
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -97,7 +96,7 @@ public class Api {
 			if(accessControl.accessToAccount(account)) {
 			    return  gson.toJson(accountMapper.mapAccountToWebAccount(account));
 			}
-			return "Dont have access to given resource";
+			return "Dont have access to given account";
 		});
 		
 		put("/account", (req, res) -> {
@@ -106,7 +105,7 @@ public class Api {
 			if(accessControl.accessToAccount(account)) {
 			  return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.updateAccount(account)));
             }
-			return "Dont have access to given resource";
+			return "Dont have access to given account";
 		});
 		
 		delete("/account/:email", (req, res) -> {
@@ -115,42 +114,23 @@ public class Api {
             if(accessControl.accessToAccount(account)) {
               return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.deleteAccount(account)));
             }
-            return "Dont have access to given resource";
-		});
-		
-		//IoTDevice
-		post("/device", (req, res) -> {
-			WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
-			IoTDevice device = deviceMapper.mapWebDeviceToDevice(webDevice);
-        	return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.addNewDevice(device)));
-        });
-		
-		get("/device/:token", (req, res) -> {
-			String token = req.params("token");
-			return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.getDeviceFromString(token)));
-		});
-		
-		put("/device", (req, res) -> {
-		    WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
-            IoTDevice device = deviceMapper.mapWebDeviceToDevice(webDevice);
-			return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.updateDevice(device)));
-		});
-		
-		delete("/device/:token", (req, res) -> {
-			String token = req.params("token");
-			return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.deleteDevice(token)));
+            return "Dont have access to given account";
 		});
 		
 		//Poll
 		post("/poll", (req, res) -> {
         	WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
         	Poll poll = pollMapper.mapWebPollToPoll(webPoll);
-        	return gson.toJson(pollMapper.mapPollToWebPoll(pollService.addNewPoll(poll)));
+        	if(accessControl.accessToPoll(poll)) {
+        	  return gson.toJson(pollMapper.mapPollToWebPoll(pollService.addNewPoll(poll)));
+        	}
+        	return "Dont have access to owning account";
         });
 		
 		get("/poll/:code", (req, res) -> {
 			String code = req.params("code");
-			return gson.toJson(pollMapper.mapPollToWebPoll(pollService.getPollFromString(code)));
+			Poll poll = pollService.getPollFromString(code);
+			return gson.toJson(pollMapper.mapPollToWebPoll(poll));
 		});
 		
 		get("/poll", (req, res) -> {
@@ -162,19 +142,29 @@ public class Api {
 		put("/poll", (req, res) -> {
 		    WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
 		    Poll poll = pollMapper.mapWebPollToPoll(webPoll);
-			return gson.toJson(pollMapper.mapPollToWebPoll(pollService.updatePoll(poll)));
+		    if(accessControl.accessToPoll(poll)) {
+		      return gson.toJson(pollMapper.mapPollToWebPoll(pollService.updatePoll(poll)));
+		    }
+		    return "Dont have access to given poll";
 		});
 		
 		delete("/poll/:code", (req, res) -> {
 			String code = req.params("code");
-			return gson.toJson(pollMapper.mapPollToWebPoll(pollService.deletePoll(code)));
+			Poll poll = pollService.getPollFromString(code);
+			if(accessControl.accessToPoll(poll)) {
+			  return gson.toJson(pollMapper.mapPollToWebPoll(pollService.deletePoll(poll)));
+			}
+			return "Dont have access to given poll";
 		});
 		
 		//Question
 		post("/question", (req, res) -> {
         	WebQuestion webQuestion = gson.fromJson(req.body(), WebQuestion.class);
         	Question question = questionMapper.mapWebQuestionToQuestion(webQuestion);
-        	return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.addNewQuestion(question)));
+        	if(accessControl.accessToQuestion(question)) {
+        	  return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.addNewQuestion(question)));
+        	}
+        	return "Dont have access to corresponding poll";
         });
 		
 		get("/question/:id", (req, res) -> {
@@ -184,15 +174,56 @@ public class Api {
 		
 		put("/question", (req, res) -> {
 		    WebQuestion webQuestion = gson.fromJson(req.body(), WebQuestion.class);
-		    long id = webQuestion.getId();
 		    Question question = questionMapper.mapWebQuestionToQuestion(webQuestion);
-		    return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.updateQuestion(question, id)));
+		    if(accessControl.accessToQuestion(question)) {
+		      long id = webQuestion.getId(); //??
+		      return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.updateQuestion(question, id)));
+		    }
+		    return "Dont have access to given question";
 		});
 		
 		delete("/question/:id", (req, res) -> {
 			String id = req.params("id");
-			return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.deleteQuestion(id)));
+			Question question = questionService.getQuestionFromString(id);
+			if(accessControl.accessToQuestion(question)) {
+			  return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.deleteQuestion(question)));
+			}
+			return "Dont have access to given question";
 		});
+		
+		//IoTDevice
+        post("/device", (req, res) -> {
+            WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
+            IoTDevice device = deviceMapper.mapWebDeviceToDevice(webDevice);
+            return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.addNewDevice(device)));
+        });
+        
+        get("/device/:token", (req, res) -> {
+            String token = req.params("token");
+            IoTDevice device = deviceService.getDeviceFromString(token);
+            if(accessControl.accessToDevice(device)) {
+              return gson.toJson(deviceMapper.mapDeviceToWebDevice(device));
+            }
+            return "Dont have access to given device";
+        });
+        
+        put("/device", (req, res) -> {
+            WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
+            IoTDevice device = deviceMapper.mapWebDeviceToDevice(webDevice);
+            if(accessControl.accessToDevice(device)) {
+              return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.updateDevice(device)));
+            }
+            return "Dont have access to given device";
+        });
+        
+        delete("/device/:token", (req, res) -> {
+            String token = req.params("token");
+            IoTDevice device = deviceService.getDeviceFromString(token);
+            if(accessControl.accessToDevice(device)) {
+              return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.deleteDevice(device)));
+            }
+            return "Dont have access to given device";
+        });
 		
 		//Vote
 		post("/vote", (req, res) -> {
