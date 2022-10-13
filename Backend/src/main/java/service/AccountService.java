@@ -24,8 +24,7 @@ public class AccountService {
 		return dao.updateAccount(account);
 	}
 	
-	public Account deleteAccount(String email) {
-		Account account = getAccount(email);
+	public Account deleteAccount(Account account) {
 		boolean success = dao.deleteAccount(account);
 		return success ? account : null;
 	}

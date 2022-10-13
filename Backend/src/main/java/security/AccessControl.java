@@ -7,11 +7,13 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
-public class Security {
+import model.Account;
+
+public class AccessControl {
 
   Subject currentUser;
   
-  public Security(Subject currentUser) {
+  public AccessControl(Subject currentUser) {
     this.currentUser = currentUser;
   }
   
@@ -37,5 +39,13 @@ public class Security {
       return "OK";
     }
     return "Not logged in";
+  }
+  
+  public boolean accessToAccount(Account account) {
+    if(account == null) {
+      return false;
+    }
+    return currentUser.isAuthenticated() && 
+        (currentUser.hasRole("admin") || account.getEmail().equals(currentUser.getPrincipal()));
   }
 }

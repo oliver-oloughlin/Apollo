@@ -32,7 +32,7 @@ import modelweb.WebDevice;
 import modelweb.WebPoll;
 import modelweb.WebQuestion;
 import modelweb.WebVote;
-import security.Security;
+import security.AccessControl;
 import security.WebLoginCredentials;
 import service.AccountService;
 import service.IoTService;
@@ -66,7 +66,7 @@ public class Api {
 	    SecurityManager securityManager = new DefaultSecurityManager(iniRealm);
 
 	    SecurityUtils.setSecurityManager(securityManager);
-	    Security security = new Security(SecurityUtils.getSubject());
+	    AccessControl accessControl = new AccessControl(SecurityUtils.getSubject());
 	    
 		if (args.length > 0) {
             port(Integer.parseInt(args[0]));
@@ -79,10 +79,10 @@ public class Api {
 		//Authentication
 		post("/login", (req, res) -> {
 		    WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
-		    return security.login(credentials.getEmail(), credentials.getPassword());
+		    return accessControl.login(credentials.getEmail(), credentials.getPassword());
 		});
 		
-		post("/logout", (req, res) -> security.logout());
+		post("/logout", (req, res) -> accessControl.logout());
 		
 		//Account
 		post("/account", (req, res) -> {
@@ -93,18 +93,29 @@ public class Api {
 		
 		get("/account/:email", (req, res) -> {
 			String email = req.params("email");
-			return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.getAccount(email)));
+			Account account = accountService.getAccount(email);
+			if(accessControl.accessToAccount(account)) {
+			    return  gson.toJson(accountMapper.mapAccountToWebAccount(account));
+			}
+			return "Dont have access to given resource";
 		});
 		
 		put("/account", (req, res) -> {
 			WebAccount webAccount = gson.fromJson(req.body(), WebAccount.class);
 			Account account = accountMapper.mapWebAccountToAccount(webAccount);
-			return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.updateAccount(account)));
+			if(accessControl.accessToAccount(account)) {
+			  return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.updateAccount(account)));
+            }
+			return "Dont have access to given resource";
 		});
 		
 		delete("/account/:email", (req, res) -> {
 			String email = req.params("email");
-			return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.deleteAccount(email)));
+			Account account = accountService.getAccount(email);
+            if(accessControl.accessToAccount(account)) {
+              return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.deleteAccount(account)));
+            }
+            return "Dont have access to given resource";
 		});
 		
 		//IoTDevice
