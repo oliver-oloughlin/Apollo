@@ -4,6 +4,7 @@ import static spark.Spark.*;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.text.IniRealm;
@@ -29,6 +30,7 @@ import model.Question;
 import model.Vote;
 import modelweb.WebAccount;
 import modelweb.WebDevice;
+import modelweb.WebLoginCredentials;
 import modelweb.WebPoll;
 import modelweb.WebQuestion;
 import modelweb.WebVote;
@@ -37,6 +39,7 @@ import service.IoTService;
 import service.PollService;
 import service.QuestionService;
 import service.VoteService;
+import utils.Security;
 
 public class Api {
 
@@ -49,6 +52,7 @@ public class Api {
 	
 	//Utilities
 	static Gson gson = new Gson();
+	static Security security = new Security();
 	
 	//Mappers
 	static VoteMapper voteMapper = new VoteMapper(accountService, questionService, deviceService);
@@ -74,6 +78,11 @@ public class Api {
 		
 		after((req, res) -> res.type("application/json"));
 		
+		post("/login", (req, res) -> {
+		    WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
+		    return security.login(credentials.getEmail(), credentials.getPassword(), currentUser);
+		});
+		
 		//Account
 		post("/account", (req, res) -> {
         	WebAccount webAccount = gson.fromJson(req.body(), WebAccount.class);
@@ -81,10 +90,9 @@ public class Api {
         	return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.addNewAccount(account)));
         });
 		
-		get("/account/:email/:pass", (req, res) -> {
+		get("/account/:email", (req, res) -> {
 			String email = req.params("email");
-			String pass = req.params("pass");
-			return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.getAccountWithPassword(email, pass)));
+			return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.getAccount(email)));
 		});
 		
 		put("/account", (req, res) -> {
