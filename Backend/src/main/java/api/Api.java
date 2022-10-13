@@ -96,6 +96,7 @@ public class Api {
 			if(accessControl.accessToAccount(account)) {
 			    return  gson.toJson(accountMapper.mapAccountToWebAccount(account));
 			}
+			res.status(401);
 			return "Dont have access to given account";
 		});
 		
@@ -105,6 +106,7 @@ public class Api {
 			if(accessControl.accessToAccount(account)) {
 			  return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.updateAccount(account)));
             }
+			res.status(401);
 			return "Dont have access to given account";
 		});
 		
@@ -114,6 +116,7 @@ public class Api {
             if(accessControl.accessToAccount(account)) {
               return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.deleteAccount(account)));
             }
+            res.status(401);
             return "Dont have access to given account";
 		});
 		
@@ -124,6 +127,7 @@ public class Api {
         	if(accessControl.accessToPoll(poll)) {
         	  return gson.toJson(pollMapper.mapPollToWebPoll(pollService.addNewPoll(poll)));
         	}
+        	res.status(401);
         	return "Dont have access to owning account";
         });
 		
@@ -145,6 +149,7 @@ public class Api {
 		    if(accessControl.accessToPoll(poll)) {
 		      return gson.toJson(pollMapper.mapPollToWebPoll(pollService.updatePoll(poll)));
 		    }
+		    res.status(401);
 		    return "Dont have access to given poll";
 		});
 		
@@ -154,6 +159,7 @@ public class Api {
 			if(accessControl.accessToPoll(poll)) {
 			  return gson.toJson(pollMapper.mapPollToWebPoll(pollService.deletePoll(poll)));
 			}
+			res.status(401);
 			return "Dont have access to given poll";
 		});
 		
@@ -164,6 +170,7 @@ public class Api {
         	if(accessControl.accessToQuestion(question)) {
         	  return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.addNewQuestion(question)));
         	}
+        	res.status(401);
         	return "Dont have access to corresponding poll";
         });
 		
@@ -179,6 +186,7 @@ public class Api {
 		      long id = webQuestion.getId(); //??
 		      return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.updateQuestion(question, id)));
 		    }
+		    res.status(401);
 		    return "Dont have access to given question";
 		});
 		
@@ -188,6 +196,7 @@ public class Api {
 			if(accessControl.accessToQuestion(question)) {
 			  return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.deleteQuestion(question)));
 			}
+			res.status(401);
 			return "Dont have access to given question";
 		});
 		
@@ -204,6 +213,7 @@ public class Api {
             if(accessControl.accessToDevice(device)) {
               return gson.toJson(deviceMapper.mapDeviceToWebDevice(device));
             }
+            res.status(401);
             return "Dont have access to given device";
         });
         
@@ -213,6 +223,7 @@ public class Api {
             if(accessControl.accessToDevice(device)) {
               return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.updateDevice(device)));
             }
+            res.status(401);
             return "Dont have access to given device";
         });
         
@@ -222,6 +233,7 @@ public class Api {
             if(accessControl.accessToDevice(device)) {
               return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.deleteDevice(device)));
             }
+            res.status(401);
             return "Dont have access to given device";
         });
 		
