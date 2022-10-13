@@ -1,4 +1,4 @@
-package modelweb;
+package security;
 
 public class WebLoginCredentials {
 

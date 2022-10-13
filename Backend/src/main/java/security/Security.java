@@ -1,4 +1,4 @@
-package utils;
+package security;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -9,9 +9,13 @@ import org.apache.shiro.subject.Subject;
 
 public class Security {
 
-  public Security() {}
+  Subject currentUser;
   
-  public String login(String email, String password, Subject currentUser) {
+  public Security(Subject currentUser) {
+    this.currentUser = currentUser;
+  }
+  
+  public String login(String email, String password) {
     UsernamePasswordToken token = new UsernamePasswordToken(email, password);
     try {
       currentUser.login(token);
@@ -25,5 +29,13 @@ public class Security {
     } catch ( AuthenticationException ae ) {
        return "Error";
     }
+  }
+  
+  public String logout() {
+    if(currentUser.isAuthenticated()) {
+      currentUser.logout();
+      return "OK";
+    }
+    return "Not logged in";
   }
 }

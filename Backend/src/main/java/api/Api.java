@@ -4,7 +4,6 @@ import static spark.Spark.*;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.text.IniRealm;
@@ -30,16 +29,16 @@ import model.Question;
 import model.Vote;
 import modelweb.WebAccount;
 import modelweb.WebDevice;
-import modelweb.WebLoginCredentials;
 import modelweb.WebPoll;
 import modelweb.WebQuestion;
 import modelweb.WebVote;
+import security.Security;
+import security.WebLoginCredentials;
 import service.AccountService;
 import service.IoTService;
 import service.PollService;
 import service.QuestionService;
 import service.VoteService;
-import utils.Security;
 
 public class Api {
 
@@ -52,7 +51,6 @@ public class Api {
 	
 	//Utilities
 	static Gson gson = new Gson();
-	static Security security = new Security();
 	
 	//Mappers
 	static VoteMapper voteMapper = new VoteMapper(accountService, questionService, deviceService);
@@ -68,7 +66,7 @@ public class Api {
 	    SecurityManager securityManager = new DefaultSecurityManager(iniRealm);
 
 	    SecurityUtils.setSecurityManager(securityManager);
-	    Subject currentUser = SecurityUtils.getSubject();
+	    Security security = new Security(SecurityUtils.getSubject());
 	    
 		if (args.length > 0) {
             port(Integer.parseInt(args[0]));
@@ -78,10 +76,13 @@ public class Api {
 		
 		after((req, res) -> res.type("application/json"));
 		
+		//Authentication
 		post("/login", (req, res) -> {
 		    WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
-		    return security.login(credentials.getEmail(), credentials.getPassword(), currentUser);
+		    return security.login(credentials.getEmail(), credentials.getPassword());
 		});
+		
+		post("/logout", (req, res) -> security.logout());
 		
 		//Account
 		post("/account", (req, res) -> {
