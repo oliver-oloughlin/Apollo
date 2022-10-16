@@ -93,6 +93,11 @@ public class Api {
 		get("/account/:email", (req, res) -> {
 			String email = req.params("email");
 			Account account = accountService.getAccount(email);
+			if(account == null) {
+			  res.status(404);
+			  return "Account does not exist";
+			}
+			
 			if(accessControl.accessToAccount(account)) {
 			    return  gson.toJson(accountMapper.mapAccountToWebAccount(account));
 			}
@@ -134,6 +139,10 @@ public class Api {
 		get("/poll/:code", (req, res) -> {
 			String code = req.params("code");
 			Poll poll = pollService.getPollFromString(code);
+			if(poll == null) {
+              res.status(404);
+              return "Poll does not exist";
+            }
 			return gson.toJson(pollMapper.mapPollToWebPoll(poll));
 		});
 		
@@ -176,7 +185,12 @@ public class Api {
 		
 		get("/question/:id", (req, res) -> {
 		    String idString = req.params("id");
-		    return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.getQuestionFromString(idString)));
+		    Question question = questionService.getQuestionFromString(idString);
+		    if(question == null) {
+              res.status(404);
+              return "Question does not exist";
+            }
+		    return gson.toJson(questionMapper.mapQuestionToWebQuestion(question));
 		});
 		
 		put("/question", (req, res) -> {
@@ -210,6 +224,10 @@ public class Api {
         get("/device/:token", (req, res) -> {
             String token = req.params("token");
             IoTDevice device = deviceService.getDeviceFromString(token);
+            if(device == null) {
+              res.status(404);
+              return "Device does not exist";
+            }
             if(accessControl.accessToDevice(device)) {
               return gson.toJson(deviceMapper.mapDeviceToWebDevice(device));
             }
