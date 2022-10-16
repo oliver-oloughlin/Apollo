@@ -33,8 +33,7 @@ public class IoTService {
 		return dao.updateDevice(device);
 	}
 	
-	public IoTDevice deleteDevice(String token) {
-		IoTDevice device = getDeviceFromString(token);
+	public IoTDevice deleteDevice(IoTDevice device) {
 		boolean success = dao.deleteDevice(device);
 		return success ? device : null;
 	}

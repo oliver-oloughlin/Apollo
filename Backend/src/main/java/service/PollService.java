@@ -39,15 +39,8 @@ public class PollService {
 		return dao.updatePoll(poll);
 	}
 	
-	public Poll deletePoll(String codeString) {
-		try {
-			long code = Long.parseLong(codeString);
-			Poll poll = dao.getPoll(code);
-			boolean success = dao.deletePoll(poll);
-			return success ? poll : null;
-		} catch(NumberFormatException e) {
-			return null;
-		}
+	public Poll deletePoll(Poll poll) {
+	    boolean success = dao.deletePoll(poll);
+	    return success ? poll : null;
 	}
-	
 }
