@@ -29,7 +29,7 @@ public class Question {
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Vote> votes;
 	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<IoTDevice> devices;
 
 	public Question () {}

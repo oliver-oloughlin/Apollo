@@ -3,9 +3,12 @@ package api;
 import static spark.Spark.*;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.realm.text.IniRealm;
 
 import java.util.List;
 
@@ -32,8 +35,10 @@ import modelweb.WebPoll;
 import modelweb.WebQuestion;
 import modelweb.WebVote;
 import security.AccessControl;
+import security.ApolloRealm;
 import security.WebLoginCredentials;
 import service.AccountService;
+import service.AuthenticationService;
 import service.IoTService;
 import service.PollService;
 import service.QuestionService;
@@ -47,6 +52,7 @@ public class Api {
 	static PollService pollService = new PollService(new PollDAOImpl());
 	static QuestionService questionService = new QuestionService(new QuestionDAOImpl());
 	static VoteService voteService = new VoteService(new VoteDAOImpl());
+	static AuthenticationService authenticationService = new AuthenticationService(accountService);
 	
 	//Utilities
 	static Gson gson = new Gson();
@@ -60,10 +66,10 @@ public class Api {
 	
 	
 	public static void main(String[] args) {
-
-	    IniRealm iniRealm = new IniRealm("classpath:shiro.ini");
-	    SecurityManager securityManager = new DefaultSecurityManager(iniRealm);
-
+	    
+	    ApolloRealm apolloRealm = new ApolloRealm(accountService);
+    	SecurityManager securityManager = new DefaultSecurityManager(apolloRealm);
+    	
 	    SecurityUtils.setSecurityManager(securityManager);
 	    AccessControl accessControl = new AccessControl(SecurityUtils.getSubject());
 	    
@@ -78,10 +84,24 @@ public class Api {
 		//Authentication
 		post("/login", (req, res) -> {
 		    WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
-		    return accessControl.login(credentials.getEmail(), credentials.getPassword());
+		    try {
+		      authenticationService.login(credentials, accessControl);
+		      return "Success";
+		    } catch ( UnknownAccountException uae ) {
+		       return "Unknown account";
+		    } catch ( IncorrectCredentialsException ice ) {
+		       return "Incorrect Password";
+		    } catch ( LockedAccountException lae ) {
+		       return "Locked account";
+		    } catch ( AuthenticationException ae ) {
+		       return "Error";
+		    }
 		});
 		
-		post("/logout", (req, res) -> accessControl.logout());
+		post("/logout", (req, res) -> {
+  		    authenticationService.logout(accessControl);
+  		    return "Success";
+		});
 		
 		//Account
 		post("/account", (req, res) -> {
@@ -263,4 +283,3 @@ public class Api {
         });
 	}
 }
-
