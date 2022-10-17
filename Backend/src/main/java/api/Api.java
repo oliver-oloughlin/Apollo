@@ -99,8 +99,8 @@ public class Api {
 		});
 		
 		post("/logout", (req, res) -> {
-		  authenticationService.logout(accessControl);
-		  return "Success";
+  		    authenticationService.logout(accessControl);
+  		    return "Success";
 		});
 		
 		//Account

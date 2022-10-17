@@ -23,11 +23,18 @@ public class AuthenticationService {
     public void login(WebLoginCredentials credentials, AccessControl accessControl) 
         throws UnknownAccountException, IncorrectCredentialsException, LockedAccountException, AuthenticationException {
       
-        Account account = accountService.getAccount(credentials.getEmail());
-        if(account != null) {
-            String hashedPassword = hasher.hashPassword(account.getSalt(), credentials.getPassword());
-            accessControl.login(credentials.getEmail(), hashedPassword);
+        if(credentials == null) {
+            throw new AuthenticationException();
         }
+    
+        Account account = accountService.getAccount(credentials.getEmail());
+        
+        if(account == null) {
+            throw new UnknownAccountException();
+        }
+        
+        String hashedPassword = hasher.hashPassword(account.getSalt(), credentials.getPassword());
+        accessControl.login(credentials.getEmail(), hashedPassword);
     }
     
     public void logout(AccessControl accessControl) {
