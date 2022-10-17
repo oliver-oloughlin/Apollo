@@ -17,6 +17,7 @@ public class Account {
 	@Id
 	private String email;
 	private String password;
+	private String salt;
 	private boolean isAdmin;
 	
 	@Enumerated(EnumType.STRING)
@@ -30,7 +31,7 @@ public class Account {
 	
 	public Account () {}
 	
-	public Account(String email, String password, boolean isAdmin, AccountType accountType, Set<Poll> polls, Set<Vote> votes) {
+	public Account(String email, String password, boolean isAdmin,AccountType accountType, Set<Poll> polls, Set<Vote> votes) {
 		this.email = email;
 		this.password = password;
 		this.isAdmin = isAdmin;
@@ -61,6 +62,14 @@ public class Account {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getSalt() {
+	    return salt;
+	}
+	
+	public void setSalt(String salt) {
+	    this.salt = salt;
 	}
 
 	public boolean isAdmin() {

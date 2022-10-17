@@ -23,9 +23,9 @@ public class AccessControl {
       currentUser.login(token);
       return "OK";
     } catch ( UnknownAccountException uae ) {
-       return "No matching user";
+       return "Incorrect credentials";
     } catch ( IncorrectCredentialsException ice ) {
-       return "Wrong password";
+       return "Incorrect credentials";
     } catch ( LockedAccountException lae ) {
        return "Can not log in to this account";
     } catch ( AuthenticationException ae ) {
