@@ -17,28 +17,16 @@ public class AccessControl {
     this.currentUser = currentUser;
   }
   
-  public String login(String email, String password) {
+  public void login(String email, String password)
+      throws UnknownAccountException, IncorrectCredentialsException, LockedAccountException, AuthenticationException {
     UsernamePasswordToken token = new UsernamePasswordToken(email, password);
-    try {
-      currentUser.login(token);
-      return "OK";
-    } catch ( UnknownAccountException uae ) {
-       return "Incorrect credentials";
-    } catch ( IncorrectCredentialsException ice ) {
-       return "Incorrect credentials";
-    } catch ( LockedAccountException lae ) {
-       return "Can not log in to this account";
-    } catch ( AuthenticationException ae ) {
-       return "Error";
-    }
+    currentUser.login(token);
   }
   
-  public String logout() {
+  public void logout() {
     if(currentUser.isAuthenticated()) {
       currentUser.logout();
-      return "OK";
     }
-    return "Not logged in";
   }
   
   private boolean currentUserOwnsAccount(Account account) {

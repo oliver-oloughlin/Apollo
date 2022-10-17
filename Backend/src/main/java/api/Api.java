@@ -3,6 +3,10 @@ package api;
 import static spark.Spark.*;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 
@@ -34,11 +38,11 @@ import security.AccessControl;
 import security.ApolloRealm;
 import security.WebLoginCredentials;
 import service.AccountService;
+import service.AuthenticationService;
 import service.IoTService;
 import service.PollService;
 import service.QuestionService;
 import service.VoteService;
-import utils.PasswordHasher;
 
 public class Api {
 
@@ -48,10 +52,10 @@ public class Api {
 	static PollService pollService = new PollService(new PollDAOImpl());
 	static QuestionService questionService = new QuestionService(new QuestionDAOImpl());
 	static VoteService voteService = new VoteService(new VoteDAOImpl());
+	static AuthenticationService authenticationService = new AuthenticationService(accountService);
 	
 	//Utilities
 	static Gson gson = new Gson();
-	static PasswordHasher hasher = new PasswordHasher();
 	
 	//Mappers
 	static VoteMapper voteMapper = new VoteMapper(accountService, questionService, deviceService);
@@ -80,15 +84,24 @@ public class Api {
 		//Authentication
 		post("/login", (req, res) -> {
 		    WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
-		    Account account = accountService.getAccount(credentials.getEmail());
-		    if(account != null) {
-		        String hashedPassword = hasher.hashPassword(account.getSalt(), credentials.getPassword());
-	            return accessControl.login(credentials.getEmail(), hashedPassword);
+		    try {
+		      authenticationService.login(credentials, accessControl);
+		      return "Success";
+		    } catch ( UnknownAccountException uae ) {
+		       return "Uknown account";
+		    } catch ( IncorrectCredentialsException ice ) {
+		       return "Incorrect Password";
+		    } catch ( LockedAccountException lae ) {
+		       return "Locked account";
+		    } catch ( AuthenticationException ae ) {
+		       return "Error";
 		    }
-            return "Incorrect credentials";
 		});
 		
-		post("/logout", (req, res) -> accessControl.logout());
+		post("/logout", (req, res) -> {
+		  authenticationService.logout(accessControl);
+		  return "Success";
+		});
 		
 		//Account
 		post("/account", (req, res) -> {
