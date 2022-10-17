@@ -88,7 +88,7 @@ public class Api {
 		      authenticationService.login(credentials, accessControl);
 		      return "Success";
 		    } catch ( UnknownAccountException uae ) {
-		       return "Uknown account";
+		       return "Unknown account";
 		    } catch ( IncorrectCredentialsException ice ) {
 		       return "Incorrect Password";
 		    } catch ( LockedAccountException lae ) {
