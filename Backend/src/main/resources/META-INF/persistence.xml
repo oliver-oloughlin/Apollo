@@ -5,9 +5,8 @@
     <persistence-unit name="ApolloPU" transaction-type="RESOURCE_LOCAL">
 
         <class>model.Account</class>
-        <class>model.IoTDevice</class>
-        <class>model.Question</class>
         <class>model.Poll</class>
+        <class>model.Question</class>
         <class>model.Vote</class>
         
         <properties>

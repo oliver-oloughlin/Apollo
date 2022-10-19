@@ -57,15 +57,6 @@ public class AccessControl {
     return accessToPoll(poll);
   }
   
-  public boolean accessToDevice(IoTDevice device) {
-    if(device == null) {
-      return false;
-    }
-    
-    Question question = device.getQuestion();
-    return accessToQuestion(question);
-  }
-  
   public boolean accessToVote(Vote vote) {
     if(vote == null) {
       return false;

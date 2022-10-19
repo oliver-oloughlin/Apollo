@@ -19,22 +19,18 @@ import javax.persistence.EntityExistsException;
 import com.google.gson.Gson;
 
 import dao.AccountDAOImpl;
-import dao.IoTDeviceDAOImpl;
 import dao.PollDAOImpl;
 import dao.QuestionDAOImpl;
 import dao.VoteDAOImpl;
 import mapper.AccountMapper;
-import mapper.DeviceMapper;
 import mapper.PollMapper;
 import mapper.QuestionMapper;
 import mapper.VoteMapper;
 import model.Account;
-import model.IoTDevice;
 import model.Poll;
 import model.Question;
 import model.Vote;
 import modelweb.WebAccount;
-import modelweb.WebDevice;
 import modelweb.WebPoll;
 import modelweb.WebQuestion;
 import modelweb.WebVote;
@@ -43,7 +39,6 @@ import security.ApolloRealm;
 import security.WebLoginCredentials;
 import service.AccountService;
 import service.AuthenticationService;
-import service.IoTService;
 import service.PollService;
 import service.QuestionService;
 import service.VoteService;
@@ -54,7 +49,6 @@ public class Api {
 	static AccountService accountService = new AccountService(new AccountDAOImpl());
 	static PollService pollService = new PollService(new PollDAOImpl());
 	static QuestionService questionService = new QuestionService(new QuestionDAOImpl());
-	static IoTService deviceService = new IoTService(new IoTDeviceDAOImpl());
 	static VoteService voteService = new VoteService(new VoteDAOImpl());
 	static AuthenticationService authenticationService = new AuthenticationService(accountService);
 	
@@ -64,9 +58,8 @@ public class Api {
 	//Mappers
 	static AccountMapper accountMapper = new AccountMapper(pollService, voteService);
 	static PollMapper pollMapper = new PollMapper(accountService, questionService);
-	static QuestionMapper questionMapper = new QuestionMapper(deviceService, voteService, pollService);
-	static DeviceMapper deviceMapper = new DeviceMapper(voteService, questionService);
-	static VoteMapper voteMapper = new VoteMapper(accountService, questionService, deviceService);
+	static QuestionMapper questionMapper = new QuestionMapper(voteService, pollService);
+	static VoteMapper voteMapper = new VoteMapper(accountService, questionService);
 	
 	
 	public static void main(String[] args) {
@@ -271,63 +264,6 @@ public class Api {
 			res.status(401);
 			return "Dont have access to given question";
 		});
-		
-		//IoTDevice
-        post("/device", (req, res) -> {
-            WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
-            IoTDevice device = deviceMapper.mapWebDeviceToDevice(webDevice);
-            try {
-                boolean success = deviceService.addNewDevice(device, accessControl);
-                if(success) {
-                  res.status(200);
-                  return "Success";
-                }
-                else {
-                  res.status(500);
-                  return "Error";
-                }
-            } catch (EntityExistsException ee) {
-                res.status(400);
-                return "Device already exists";
-            } catch (AuthorizationException ae) {
-                res.status(401);
-                return "Unauthorized";
-            }
-        });
-        
-        get("/device/:token", (req, res) -> {
-            String token = req.params("token");
-            IoTDevice device = deviceService.getDeviceFromString(token);
-            if(device == null) {
-              res.status(404);
-              return "Device does not exist";
-            }
-            if(accessControl.accessToDevice(device)) {
-              return gson.toJson(deviceMapper.mapDeviceToWebDevice(device));
-            }
-            res.status(401);
-            return "Dont have access to given device";
-        });
-        
-        put("/device", (req, res) -> {
-            WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
-            IoTDevice device = deviceService.getDevice(webDevice.getToken());
-            if(accessControl.accessToDevice(device)) {
-              return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.updateDevice(device)));
-            }
-            res.status(401);
-            return "Dont have access to given device";
-        });
-        
-        delete("/device/:token", (req, res) -> {
-            String token = req.params("token");
-            IoTDevice device = deviceService.getDeviceFromString(token);
-            if(accessControl.accessToDevice(device)) {
-              return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.deleteDevice(device)));
-            }
-            res.status(401);
-            return "Dont have access to given device";
-        });
 		
 		//Vote
 		post("/vote", (req, res) -> {
