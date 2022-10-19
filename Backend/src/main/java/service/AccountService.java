@@ -1,5 +1,7 @@
 package service;
 
+import javax.persistence.EntityExistsException;
+
 import dao.AccountDAO;
 import model.Account;
 import utils.PasswordHasher;
@@ -14,13 +16,19 @@ public class AccountService {
 		this.hasher = new PasswordHasher();
 	}
 	
-	public Account addNewAccount(Account account) {
+	public boolean addNewAccount(Account account) throws EntityExistsException {
+	  
+	    if(dao.getAccount(account.getEmail()) != null) {
+	      throw new EntityExistsException();
+	    }
+	    
 	    String salt = hasher.getRandomSalt();
 	    String hashedPasswordBase64 = hasher.hashPassword(salt, account.getPassword());
+	    
 	    account.setPassword(hashedPasswordBase64);
 	    account.setSalt(salt);
-		boolean success = dao.saveAccount(account);
-		return success ? dao.getAccount(account.getEmail()) : null;
+	    
+		return dao.saveAccount(account);
 	}
 	
 	public Account getAccount(String email) {

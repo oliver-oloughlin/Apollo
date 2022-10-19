@@ -2,8 +2,13 @@ package service;
 
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
+
+import org.apache.shiro.authz.AuthorizationException;
+
 import dao.PollDAO;
 import model.Poll;
+import security.AccessControl;
 
 public class PollService {
 
@@ -13,9 +18,17 @@ public class PollService {
 		this.dao = dao;
 	}
 	
-	public Poll addNewPoll(Poll poll) {
-		boolean success = dao.savePoll(poll);
-		return success ? dao.getPoll(poll.getCode()) : null;
+	public boolean addNewPoll(Poll poll, AccessControl accessControl)
+	    throws EntityExistsException, AuthorizationException {
+	  
+  	    if(dao.getPoll(poll.getCode()) != null) {
+          throw new EntityExistsException();
+        }
+	  
+	    if(accessControl.accessToPoll(poll)) {
+	      return dao.savePoll(poll);
+	    }
+	    throw new AuthorizationException();
 	}
 	
 	public Poll getPollFromString(String codeString) {

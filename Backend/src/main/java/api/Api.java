@@ -7,10 +7,14 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityExistsException;
 
 import com.google.gson.Gson;
 
@@ -48,9 +52,9 @@ public class Api {
 
     //Services
 	static AccountService accountService = new AccountService(new AccountDAOImpl());
-	static IoTService deviceService = new IoTService(new IoTDeviceDAOImpl());
 	static PollService pollService = new PollService(new PollDAOImpl());
 	static QuestionService questionService = new QuestionService(new QuestionDAOImpl());
+	static IoTService deviceService = new IoTService(new IoTDeviceDAOImpl());
 	static VoteService voteService = new VoteService(new VoteDAOImpl());
 	static AuthenticationService authenticationService = new AuthenticationService(accountService);
 	
@@ -58,11 +62,11 @@ public class Api {
 	static Gson gson = new Gson();
 	
 	//Mappers
-	static VoteMapper voteMapper = new VoteMapper(accountService, questionService, deviceService);
+	static AccountMapper accountMapper = new AccountMapper(pollService, voteService);
 	static PollMapper pollMapper = new PollMapper(accountService, questionService);
 	static QuestionMapper questionMapper = new QuestionMapper(deviceService, voteService, pollService);
-	static AccountMapper accountMapper = new AccountMapper(pollService, voteService);
 	static DeviceMapper deviceMapper = new DeviceMapper(voteService, questionService);
+	static VoteMapper voteMapper = new VoteMapper(accountService, questionService, deviceService);
 	
 	
 	public static void main(String[] args) {
@@ -107,7 +111,20 @@ public class Api {
 		post("/account", (req, res) -> {
         	WebAccount webAccount = gson.fromJson(req.body(), WebAccount.class);
         	Account account = accountMapper.mapWebAccountToAccount(webAccount);
-        	return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.addNewAccount(account)));
+        	try {
+        	    boolean success = accountService.addNewAccount(account);
+        	    if(success) {
+        	      res.status(200);
+        	      return "Success";
+        	    }
+        	    else {
+        	      res.status(500);
+        	      return "Error";
+        	    }
+        	} catch (EntityExistsException e) {
+        	    res.status(400);
+        	    return "Account already exists";
+        	}
         });
 		
 		get("/account/:email", (req, res) -> {
@@ -127,7 +144,7 @@ public class Api {
 		
 		put("/account", (req, res) -> {
 			WebAccount webAccount = gson.fromJson(req.body(), WebAccount.class);
-			Account account = accountMapper.mapWebAccountToAccount(webAccount);
+			Account account = accountService.getAccount(webAccount.getEmail());
 			if(accessControl.accessToAccount(account)) {
 			  return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.updateAccount(account)));
             }
@@ -149,11 +166,23 @@ public class Api {
 		post("/poll", (req, res) -> {
         	WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
         	Poll poll = pollMapper.mapWebPollToPoll(webPoll);
-        	if(accessControl.accessToPoll(poll)) {
-        	  return gson.toJson(pollMapper.mapPollToWebPoll(pollService.addNewPoll(poll)));
-        	}
-        	res.status(401);
-        	return "Dont have access to owning account";
+        	try {
+        	  boolean success = pollService.addNewPoll(poll, accessControl);
+        	  if(success) {
+                res.status(200);
+                return "Success";
+              }
+              else {
+                res.status(500);
+                return "Error";
+              }
+        	} catch (EntityExistsException ee) {
+        	  res.status(400);
+              return "Poll already exists";
+            } catch (AuthorizationException ae) {
+              res.status(401);
+              return "Unauthorized";
+            }
         });
 		
 		get("/poll/:code", (req, res) -> {
@@ -168,13 +197,13 @@ public class Api {
 		
 		get("/poll", (req, res) -> {
 		    List<Poll> polls = pollService.getAllPolls();
-		    List<WebPoll> webPolls = polls.stream().map(poll -> pollMapper.mapPollToWebPoll(poll)).toList();
+		    List<WebPoll> webPolls = polls.stream().map(poll -> pollMapper.mapPollToWebPoll(poll)).collect(Collectors.toList());
 			return gson.toJson(webPolls);
 		});
 		
 		put("/poll", (req, res) -> {
 		    WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
-		    Poll poll = pollMapper.mapWebPollToPoll(webPoll);
+		    Poll poll = pollService.getPoll(webPoll.getCode());
 		    if(accessControl.accessToPoll(poll)) {
 		      return gson.toJson(pollMapper.mapPollToWebPoll(pollService.updatePoll(poll)));
 		    }
@@ -196,11 +225,20 @@ public class Api {
 		post("/question", (req, res) -> {
         	WebQuestion webQuestion = gson.fromJson(req.body(), WebQuestion.class);
         	Question question = questionMapper.mapWebQuestionToQuestion(webQuestion);
-        	if(accessControl.accessToQuestion(question)) {
-        	  return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.addNewQuestion(question)));
-        	}
-        	res.status(401);
-        	return "Dont have access to corresponding poll";
+        	try {
+              boolean success = questionService.addNewQuestion(question, accessControl);
+              if(success) {
+                res.status(200);
+                return "Success";
+              }
+              else {
+                res.status(500);
+                return "Error";
+              }
+            } catch (AuthorizationException ae) {
+              res.status(401);
+              return "Unauthorized";
+            }
         });
 		
 		get("/question/:id", (req, res) -> {
@@ -215,7 +253,7 @@ public class Api {
 		
 		put("/question", (req, res) -> {
 		    WebQuestion webQuestion = gson.fromJson(req.body(), WebQuestion.class);
-		    Question question = questionMapper.mapWebQuestionToQuestion(webQuestion);
+		    Question question = questionService.getQuestion(webQuestion.getId());
 		    if(accessControl.accessToQuestion(question)) {
 		      long id = webQuestion.getId(); //??
 		      return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.updateQuestion(question, id)));
@@ -238,7 +276,23 @@ public class Api {
         post("/device", (req, res) -> {
             WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
             IoTDevice device = deviceMapper.mapWebDeviceToDevice(webDevice);
-            return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.addNewDevice(device)));
+            try {
+                boolean success = deviceService.addNewDevice(device, accessControl);
+                if(success) {
+                  res.status(200);
+                  return "Success";
+                }
+                else {
+                  res.status(500);
+                  return "Error";
+                }
+            } catch (EntityExistsException ee) {
+                res.status(400);
+                return "Device already exists";
+            } catch (AuthorizationException ae) {
+                res.status(401);
+                return "Unauthorized";
+            }
         });
         
         get("/device/:token", (req, res) -> {
@@ -257,7 +311,7 @@ public class Api {
         
         put("/device", (req, res) -> {
             WebDevice webDevice = gson.fromJson(req.body(), WebDevice.class);
-            IoTDevice device = deviceMapper.mapWebDeviceToDevice(webDevice);
+            IoTDevice device = deviceService.getDevice(webDevice.getToken());
             if(accessControl.accessToDevice(device)) {
               return gson.toJson(deviceMapper.mapDeviceToWebDevice(deviceService.updateDevice(device)));
             }
@@ -279,7 +333,29 @@ public class Api {
 		post("/vote", (req, res) -> {
         	WebVote webVote = gson.fromJson(req.body(), WebVote.class);
         	Vote vote = voteMapper.mapWebVoteToVote(webVote);
-        	return gson.toJson(voteMapper.mapVoteToWebVote(voteService.addNewVote(vote)));
+            boolean success = voteService.addNewVote(vote);
+            if(success) {
+              res.status(200);
+              return "Success";
+            }
+            else {
+              res.status(500);
+              return "Error";
+            }
         });
+		
+		get("/vote/:id", (req, res) -> {
+		  String id = req.params("id");
+		  Vote vote = voteService.getVoteFromString(id);
+		  if(vote == null) {
+            res.status(404);
+            return "Vote does not exist";
+          }
+		  if(accessControl.accessToVote(vote)) {
+            return gson.toJson(voteMapper.mapVoteToWebVote(vote));
+          }
+		  res.status(401);
+          return "Dont have access to given vote";
+		});
 	}
 }

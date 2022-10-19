@@ -1,9 +1,10 @@
 package dao;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.RollbackException;
 
 import model.Account;
 
@@ -17,14 +18,19 @@ public class AccountDAOImpl implements AccountDAO{
 	
 	@Override
 	public boolean saveAccount(Account account) {
-  	    em.getTransaction().begin();
+  	    
+	    EntityTransaction tx = em.getTransaction();
+	    tx.begin();
   	    try {
 			em.persist(account);
+			tx.commit();
 			return true;
-		} catch (EntityExistsException e) {
+		} catch (RollbackException e) {
 			return false;
 		} finally {
-		  em.getTransaction().commit();
+  		    if(tx.isActive()) {
+  		      tx.commit();
+  		    }
 		}
 	}
 	

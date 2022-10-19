@@ -2,7 +2,7 @@ package modelweb;
 
 import java.util.Set;
 
-import model.AccountType;
+import enums.AccountType;
 
 public class WebAccount {
 

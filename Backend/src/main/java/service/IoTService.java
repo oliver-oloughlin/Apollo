@@ -1,7 +1,12 @@
 package service;
 
+import javax.persistence.EntityExistsException;
+
+import org.apache.shiro.authz.AuthorizationException;
+
 import dao.IoTDeviceDAO;
 import model.IoTDevice;
+import security.AccessControl;
 
 public class IoTService {
 
@@ -11,9 +16,17 @@ public class IoTService {
 		this.dao = dao;
 	}
 	
-	public IoTDevice addNewDevice(IoTDevice device) {
-		boolean success = dao.saveDevice(device);
-		return success ? dao.getDevice(device.getToken()) : null;
+	public boolean addNewDevice(IoTDevice device, AccessControl accessControl)
+	    throws EntityExistsException, AuthorizationException {
+	    
+  	    if(dao.getDevice(device.getToken()) != null) {
+          throw new EntityExistsException();
+        }
+      
+        if(accessControl.accessToDevice(device)) {
+          return dao.saveDevice(device);
+        }
+        throw new AuthorizationException();
 	}
 	
 	public IoTDevice getDeviceFromString(String tokenString) {

@@ -1,9 +1,10 @@
 package dao;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.RollbackException;
 
 import model.Question;
 import model.Vote;
@@ -24,11 +25,11 @@ public class VoteDAOImpl implements VoteDAO{
 		Account voter = vote.getVoter();
 		IoTDevice device = vote.getDevice();
 		Question question = vote.getQuestion();
-		
-		question.addVote(vote);
-		
-		em.getTransaction().begin();
+
+		EntityTransaction tx = em.getTransaction();
+        tx.begin();
 		try {
+		    question.addVote(vote);
 			em.persist(vote);
 			em.merge(question);
 			
@@ -40,11 +41,14 @@ public class VoteDAOImpl implements VoteDAO{
 				device.addVote(vote);
 				em.merge(device);
 			}
+			tx.commit();
 			return true;
-		} catch(EntityExistsException | IllegalArgumentException e) {
+		} catch(RollbackException e) {
 			return false;
 		} finally {
-		  em.getTransaction().commit();
+		    if(tx.isActive()) {
+		        tx.commit();
+		    }
 		}
 	}
 	

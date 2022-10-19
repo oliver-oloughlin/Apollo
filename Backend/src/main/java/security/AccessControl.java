@@ -65,4 +65,13 @@ public class AccessControl {
     Question question = device.getQuestion();
     return accessToQuestion(question);
   }
+  
+  public boolean accessToVote(Vote vote) {
+    if(vote == null) {
+      return false;
+    }
+    
+    Question question = vote.getQuestion();
+    return accessToQuestion(question);
+  }
 }
