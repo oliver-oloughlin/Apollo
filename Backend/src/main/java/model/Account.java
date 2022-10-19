@@ -33,7 +33,7 @@ public class Account {
 	
 	public Account () {}
 	
-	public Account(String email, String password, boolean isAdmin,AccountType accountType, Set<Poll> polls, Set<Vote> votes) {
+	public Account(String email, String password, boolean isAdmin, AccountType accountType, Set<Poll> polls, Set<Vote> votes) {
 		this.email = email;
 		this.password = password;
 		this.isAdmin = isAdmin;

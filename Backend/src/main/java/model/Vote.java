@@ -26,10 +26,6 @@ public class Vote {
 	@JoinColumn(name = "accountId")
 	private Account voter;
 	
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "deviceId")
-	private IoTDevice device;
-	
 	
 	public Vote() {}
 	
@@ -44,13 +40,6 @@ public class Vote {
 		this.red = red;
 		this.question = question;
 		this.voter = voter;
-	}
-	
-	public Vote (int green, int red, Question question, IoTDevice device) {
-		this.green = green;
-		this.red = red;
-		this.question = question;
-		this.device = device;
 	}
 	
 	public long getId() {
@@ -80,9 +69,4 @@ public class Vote {
 	public Account getVoter() {
 		return voter;
 	}
-
-	public IoTDevice getDevice() {
-		return device;
-	}
-	
 }

@@ -28,17 +28,13 @@ public class Question {
 	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Vote> votes;
-	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<IoTDevice> devices;
 
 	public Question () {}
 	
-	public Question(String text, Poll poll, Set<Vote> votes, Set<IoTDevice> devices) {
+	public Question(String text, Poll poll, Set<Vote> votes) {
 		this.text = text;
 		this.poll = poll;
 		this.votes = votes;
-		this.devices = devices;
 	}
 
 	public Long getId() {
@@ -60,11 +56,7 @@ public class Question {
 	public Set<Vote> getVotes() {
 		return votes;
 	}
-	
-	public Set<IoTDevice> getDevices() {
-	  return devices;
-	}
-	
+
 	public void addVote(Vote vote) {
 		votes.add(vote);
 	}
@@ -72,12 +64,4 @@ public class Question {
 	public void removeVote(Vote vote) {
       votes.remove(vote);
     }
-	
-	public void addDevice(IoTDevice device) {
-      devices.add(device);
-    }
-	
-	public void removeDevice(IoTDevice device) {
-	  devices.remove(device);
-	}
 }

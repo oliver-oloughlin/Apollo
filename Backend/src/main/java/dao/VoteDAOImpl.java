@@ -9,7 +9,6 @@ import javax.persistence.RollbackException;
 import model.Question;
 import model.Vote;
 import model.Account;
-import model.IoTDevice;
 
 public class VoteDAOImpl implements VoteDAO{
 
@@ -23,7 +22,6 @@ public class VoteDAOImpl implements VoteDAO{
 	public boolean saveVote(Vote vote) {
 
 		Account voter = vote.getVoter();
-		IoTDevice device = vote.getDevice();
 		Question question = vote.getQuestion();
 
 		EntityTransaction tx = em.getTransaction();
@@ -36,10 +34,6 @@ public class VoteDAOImpl implements VoteDAO{
 			if(voter != null) {
 				voter.addVote(vote);
 				em.merge(voter);
-			}
-			else if(device != null) {
-				device.addVote(vote);
-				em.merge(device);
 			}
 			tx.commit();
 			return true;
