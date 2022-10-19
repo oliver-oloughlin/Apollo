@@ -12,8 +12,9 @@ public class WebAccount {
   private AccountType accountType;
   private Set<Long> pollCodes;
   private Set<Long> voteIds;
-  
-  public WebAccount(String email, String password, boolean isAdmin, AccountType accountType, Set<Long> pollCodes, Set<Long> voteIds) {
+
+  public WebAccount(String email, String password, boolean isAdmin, AccountType accountType, Set<Long> pollCodes,
+      Set<Long> voteIds) {
     this.email = email;
     this.password = password;
     this.isAdmin = isAdmin;
