@@ -1,7 +1,12 @@
 package service;
 
+import javax.persistence.EntityExistsException;
+
+import org.apache.shiro.authz.AuthorizationException;
+
 import dao.QuestionDAO;
 import model.Question;
+import security.AccessControl;
 
 public class QuestionService {
 
@@ -11,9 +16,13 @@ public class QuestionService {
 		this.dao = dao;
 	}
 	
-	public Question addNewQuestion(Question question) {
-		boolean success = dao.saveQuestion(question);
-		return success ? question : null;
+	public boolean addNewQuestion(Question question, AccessControl accessControl)
+	    throws EntityExistsException, AuthorizationException {
+      
+        if(accessControl.accessToQuestion(question)) {
+          return dao.saveQuestion(question);
+        }
+        throw new AuthorizationException();
 	}
 
 	public Question getQuestion(long id) {

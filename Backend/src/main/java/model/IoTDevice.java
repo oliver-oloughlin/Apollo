@@ -2,6 +2,7 @@ package model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,7 +17,7 @@ public class IoTDevice {
 	@Id
 	private Long token;
 	
-	@OneToMany(mappedBy = "device")
+	@OneToMany(mappedBy = "device", cascade = CascadeType.REMOVE)
 	private Set<Vote> votes;
 	
 	@ManyToOne
@@ -46,4 +47,8 @@ public class IoTDevice {
 	public void addVote(Vote vote) {
 		votes.add(vote);
 	}
+	
+	public void removeVote(Vote vote) {
+      votes.remove(vote);
+    }
 }

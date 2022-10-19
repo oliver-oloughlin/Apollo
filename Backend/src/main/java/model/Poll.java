@@ -79,6 +79,10 @@ public class Poll {
 	public void addQuestion(Question question) {
 		questions.add(question);
 	}
+	
+	public void removeQuestion(Question question) {
+      questions.remove(question);
+    }
 
 	public boolean isClosed() {
 		return closed;

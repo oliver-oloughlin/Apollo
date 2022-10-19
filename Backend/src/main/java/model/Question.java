@@ -69,7 +69,15 @@ public class Question {
 		votes.add(vote);
 	}
 	
+	public void removeVote(Vote vote) {
+      votes.remove(vote);
+    }
+	
 	public void addDevice(IoTDevice device) {
       devices.add(device);
-  }
+    }
+	
+	public void removeDevice(IoTDevice device) {
+	  devices.remove(device);
+	}
 }

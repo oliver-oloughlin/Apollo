@@ -1,4 +1,4 @@
-package model;
+package enums;
 
 import com.google.gson.annotations.SerializedName;
 

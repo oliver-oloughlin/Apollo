@@ -13,7 +13,7 @@ import service.PollService;
 import service.VoteService;
 
 public class QuestionMapper {
-
+  
   IoTService deviceService;
   VoteService voteService;
   PollService pollService;

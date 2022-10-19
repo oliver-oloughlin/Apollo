@@ -8,6 +8,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import enums.AccountType;
+
 import java.util.Set;
 
 @Entity
@@ -80,20 +82,27 @@ public class Account {
 		this.isAdmin = isAdmin;
 	}
 	
-	public Set<Poll> getPolls(){
+	public Set<Poll> getPolls() {
 		return polls;
 	}
 	
-	public Set<Vote> getVotes(){
+	public Set<Vote> getVotes() {
 		return votes;
 	}
 	
 	public void addPoll(Poll poll) {
 		polls.add(poll);
 	}
-
-	public void addVote(Vote vote){
-		votes.add(vote);
+	
+	public void removePoll(Poll poll) {
+	    polls.remove(poll);
 	}
 
+	public void addVote(Vote vote) {
+		votes.add(vote);
+	}
+	
+	public void removeVote(Vote vote) {
+	  votes.remove(vote);
+	}
 }

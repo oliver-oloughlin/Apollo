@@ -1,9 +1,10 @@
 package dao;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.RollbackException;
 
 import model.Poll;
 import model.Question;
@@ -17,18 +18,22 @@ private EntityManager em;
 	}
 	@Override
     public boolean saveQuestion(Question question) {
-        em.getTransaction().begin();
-        Poll poll = question.getPoll();
-        poll.addQuestion(question);
+	  
+  	    EntityTransaction tx = em.getTransaction();
+        tx.begin();
         try {
+            Poll poll = question.getPoll();
+            poll.addQuestion(question);
             em.persist(question);
             em.merge(poll);
+            tx.commit();
             return true;
-        } catch (EntityExistsException e) {
-            e.printStackTrace();
+        } catch (RollbackException e) {
             return false;
         } finally {
-          em.getTransaction().commit();
+            if(tx.isActive()) {
+                tx.commit();
+            }
         }
     }	
 	@Override
@@ -48,6 +53,9 @@ private EntityManager em;
     public boolean deleteQuestion(Question question) {
         em.getTransaction().begin();
         try {
+            Poll poll = question.getPoll();
+            poll.removeQuestion(question);
+            em.merge(poll);
             em.remove(em.merge(question));
             return true;
         } catch(IllegalArgumentException e) {

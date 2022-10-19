@@ -16,17 +16,22 @@ public class PollDAOImpl implements PollDAO {
     
     @Override
     public boolean savePoll(Poll poll) {
-        em.getTransaction().begin();
-        Account account = poll.getOwner();
-        account.addPoll(poll);
+      
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
         try {
+            Account account = poll.getOwner();
+            account.addPoll(poll);
             em.persist(poll);
             em.merge(account);
+            tx.commit();
             return true;
-        } catch (EntityExistsException e) {
+        } catch (RollbackException e) {
             return false;
         } finally {
-          em.getTransaction().commit();
+            if(tx.isActive()) {
+                tx.commit();
+            }
         }
     }
     
@@ -55,6 +60,9 @@ public class PollDAOImpl implements PollDAO {
 	public boolean deletePoll(Poll poll) {
         em.getTransaction().begin();
         try {
+            Account account = poll.getOwner();
+            account.removePoll(poll);
+            em.merge(account);
             em.remove(em.merge(poll));
             return true;
         } catch(IllegalArgumentException e) {

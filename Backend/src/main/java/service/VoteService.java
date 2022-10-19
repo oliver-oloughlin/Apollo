@@ -12,11 +12,20 @@ public class VoteService {
 	}
 	
 	public Vote getVote(long id) {
-	  return dao.getVote(id);
+	    return dao.getVote(id);
 	}
 	
-	public Vote addNewVote(Vote vote) {
-		boolean success = dao.saveVote(vote);
-		return success ? dao.getVote(vote.getId()) : null;
+	public Vote getVoteFromString(String idString) {
+	  try {
+        long id = Long.parseLong(idString);
+        return dao.getVote(id);
+      } catch(NumberFormatException e) {
+          return null;
+      }
+  }
+	
+	public boolean addNewVote(Vote vote) {
+	    
+		return dao.saveVote(vote);
 	}
 }
