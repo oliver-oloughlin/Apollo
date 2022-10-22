@@ -4,13 +4,9 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import enums.AccountType;
 
 @Entity
 @Table(name = "ACCOUNT")
@@ -22,9 +18,6 @@ public class Account {
   private String salt;
   private boolean isAdmin;
 
-  @Enumerated(EnumType.STRING)
-  private AccountType accountType;
-
   @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Poll> polls;
 
@@ -34,22 +27,13 @@ public class Account {
   public Account() {
   }
 
-  public Account(String email, String password, boolean isAdmin, AccountType accountType, Set<Poll> polls,
+  public Account(String email, String password, boolean isAdmin, Set<Poll> polls,
       Set<Vote> votes) {
     this.email = email;
     this.password = password;
     this.isAdmin = isAdmin;
-    this.accountType = accountType;
     this.polls = polls;
     this.votes = votes;
-  }
-
-  public AccountType getAccountType() {
-    return accountType;
-  }
-
-  public void setAccountType(AccountType accountType) {
-    this.accountType = accountType;
   }
 
   public String getEmail() {

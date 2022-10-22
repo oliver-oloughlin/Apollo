@@ -27,9 +27,13 @@ public class VoteDAOImpl implements VoteDAO {
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     try {
-      question.addVote(vote);
+
       em.persist(vote);
-      em.merge(question);
+
+      if (question != null) {
+        question.addVote(vote);
+        em.merge(question);
+      }
 
       if (voter != null) {
         voter.addVote(vote);

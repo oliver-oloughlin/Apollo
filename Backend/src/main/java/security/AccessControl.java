@@ -20,6 +20,14 @@ public class AccessControl {
     this.currentUser = currentUser;
   }
 
+  public boolean userIsAuthenticated() {
+    return currentUser.isAuthenticated();
+  }
+
+  public String getCurrentUserEmail() {
+    return (String) currentUser.getPrincipals().getPrimaryPrincipal();
+  }
+
   public void login(String email, String password)
       throws UnknownAccountException, IncorrectCredentialsException, LockedAccountException, AuthenticationException {
     UsernamePasswordToken token = new UsernamePasswordToken(email, password);
