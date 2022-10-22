@@ -17,51 +17,52 @@ import javax.persistence.Table;
 @Table(name = "QUESTION")
 public class Question {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-	private String text;
-	
-	@ManyToOne
-	@JoinColumn(name = "poll")
-	private Poll poll;
-	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private Set<Vote> votes;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String text;
 
-	public Question () {}
-	
-	public Question(String text, Poll poll, Set<Vote> votes) {
-		this.text = text;
-		this.poll = poll;
-		this.votes = votes;
-	}
+  @ManyToOne
+  @JoinColumn(name = "poll")
+  private Poll poll;
 
-	public Long getId() {
-	  return id;
-	}
-	
-	public String getText() {
-		return text;
-	}
+  @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+  private Set<Vote> votes;
 
-	public void setText(String text) {
-		this.text = text;
-	}
-	
-	public Poll getPoll() {
-	  return poll;
-	}
-	
-	public Set<Vote> getVotes() {
-		return votes;
-	}
+  public Question() {
+  }
 
-	public void addVote(Vote vote) {
-		votes.add(vote);
-	}
-	
-	public void removeVote(Vote vote) {
-      votes.remove(vote);
-    }
+  public Question(String text, Poll poll, Set<Vote> votes) {
+    this.text = text;
+    this.poll = poll;
+    this.votes = votes;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  public Poll getPoll() {
+    return poll;
+  }
+
+  public Set<Vote> getVotes() {
+    return votes;
+  }
+
+  public void addVote(Vote vote) {
+    votes.add(vote);
+  }
+
+  public void removeVote(Vote vote) {
+    votes.remove(vote);
+  }
 }
