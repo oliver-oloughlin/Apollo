@@ -2,12 +2,30 @@
 import { Fragment } from "preact"
 import { Style } from "fresh_utils"
 import { Head } from "$fresh/runtime.ts"
-import { useMemo, useState, useRef } from "preact/hooks"
+import { useMemo, useState, useRef, useEffect } from "preact/hooks"
 import { Poll } from "../utils/models.ts"
+import { API_HOST } from "../utils/api.ts"
 
-export default function PollsView({ polls }: { polls: Poll[] }) {
+export default function PollsView() {
   const searchRef = useRef<HTMLInputElement>(null)
   const [search, setSearch] = useState<string>("")
+  const [polls, setPolls] = useState<Poll[]>([])
+
+  async function fetchPolls() {
+    try {
+      const res = await fetch(`${API_HOST}/poll`)
+      if (!res.ok) throw Error(res.statusText)
+      const _polls = await res.json() as Poll[]
+      setPolls(_polls)
+    }
+    catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    fetchPolls()
+  }, [])
 
   const PollRows = useMemo(() => {
     return polls.filter(p => p.title.toLowerCase().includes(search.toLowerCase()) && !p.closed).map((poll, index) => {

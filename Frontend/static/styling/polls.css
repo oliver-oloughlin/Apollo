@@ -5,7 +5,7 @@
   background-color: var(--bg-secondary);
   padding: 1rem;
   border-radius: var(--border-r);
-  box-shadow: 0 0 .2rem var(--shadow);
+  box-shadow: 0 .5rem 1.25rem var(--shadow);
 }
 
 .poll-table {

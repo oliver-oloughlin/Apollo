@@ -7,7 +7,7 @@
 
   background-color: var(--bg-secondary);
   border-radius: var(--border-r);
-  box-shadow: 0 0 .5rem var(--shadow);
+  box-shadow: 0 .25rem .75rem var(--shadow);
 }
 
 .validation-form input:invalid {
