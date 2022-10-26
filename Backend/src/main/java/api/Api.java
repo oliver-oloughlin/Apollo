@@ -12,6 +12,7 @@ import controller.AuthenticationController;
 import controller.PollController;
 import controller.QuestionController;
 import controller.VoteController;
+import daemon.PollDaemon;
 import dao.AccountDAOImpl;
 import dao.PollDAOImpl;
 import dao.QuestionDAOImpl;
@@ -27,7 +28,6 @@ import service.AuthenticationService;
 import service.PollService;
 import service.QuestionService;
 import service.VoteService;
-import utils.PollDaemon;
 
 public class Api {
 
