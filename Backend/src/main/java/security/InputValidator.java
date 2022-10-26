@@ -1,7 +1,9 @@
 package security;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -24,10 +26,18 @@ public class InputValidator {
     SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     try {
       format.parse(webPoll.getTimeToStop());
-      return true;
+      validTimeStamp = true;
     } catch (ParseException pe) {
     }
 
+    if (validTimeStamp) {
+      Timestamp instant = Timestamp.from(Instant.now());
+      Timestamp pollTimeToStop = Timestamp.valueOf(webPoll.getTimeToStop());
+
+      if (instant.compareTo(pollTimeToStop) >= 0) {
+        validTimeStamp = false;
+      }
+    }
     return webPoll.getTitle().length() < 50
         && validTimeStamp;
   }
