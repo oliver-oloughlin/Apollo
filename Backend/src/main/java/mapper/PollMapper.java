@@ -26,7 +26,7 @@ public class PollMapper {
         .stream().map(id -> questionService.getQuestion(id))
         .collect(Collectors.toSet());
     return new Poll(webPoll.getCode(), webPoll.getTitle(), webPoll.getTimeToStop(),
-        webPoll.isPrivatePoll(), owner, questions);
+        webPoll.isPrivatePoll(), webPoll.isClosed(), owner, questions);
   }
 
   public WebPoll mapPollToWebPoll(Poll poll) {

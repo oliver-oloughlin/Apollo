@@ -35,7 +35,7 @@ public class Api {
   static AccountService accountService = new AccountService(new AccountDAOImpl());
   static PollService pollService = new PollService(new PollDAOImpl());
   static QuestionService questionService = new QuestionService(new QuestionDAOImpl());
-  static VoteService voteService = new VoteService(new VoteDAOImpl());
+  static VoteService voteService = new VoteService(new VoteDAOImpl(), pollService);
   static AuthenticationService authenticationService = new AuthenticationService(accountService);
 
   // Creating all of the mappers

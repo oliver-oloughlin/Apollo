@@ -2,17 +2,21 @@ package service;
 
 import dao.VoteDAO;
 import exception.PrivatePollNotAuthenticatedException;
+import exception.VoteOnClosedPollException;
 import exception.VoteOnOtherAccountException;
 import model.Poll;
+import model.Question;
 import model.Vote;
 import security.AccessControl;
 
 public class VoteService {
 
   VoteDAO dao;
+  PollService pollService;
 
-  public VoteService(VoteDAO dao) {
+  public VoteService(VoteDAO dao, PollService pollService) {
     this.dao = dao;
+    this.pollService = pollService;
   }
 
   public Vote getVote(long id) {
@@ -29,9 +33,17 @@ public class VoteService {
   }
 
   public boolean addNewVote(Vote vote, AccessControl accessControl)
-      throws PrivatePollNotAuthenticatedException, VoteOnOtherAccountException {
+      throws PrivatePollNotAuthenticatedException, VoteOnOtherAccountException, VoteOnClosedPollException {
 
-    Poll poll = vote.getQuestion().getPoll();
+    Question question = vote.getQuestion();
+    if (question == null) {
+      return false;
+    }
+    Poll poll = pollService.getPoll(question.getPoll().getCode());
+
+    if (poll.isClosed()) {
+      throw new VoteOnClosedPollException("Can not vote on a closed poll");
+    }
 
     if (poll.isPrivatePoll() && !accessControl.userIsAuthenticated()) {
       throw new PrivatePollNotAuthenticatedException("Unauthorized to vote on private poll");

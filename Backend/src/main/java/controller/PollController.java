@@ -29,7 +29,7 @@ public class PollController {
     post("/poll", (req, res) -> {
       WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
 
-      if (!inputValidator.isValidWebPoll(webPoll)) {
+      if (!inputValidator.isValidWebPoll(webPoll, true)) {
         res.status(400);
         return "Bad request";
       }
@@ -86,7 +86,7 @@ public class PollController {
     put("/poll", (req, res) -> {
       WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
 
-      if (!inputValidator.isValidWebPoll(webPoll)) {
+      if (!inputValidator.isValidWebPoll(webPoll, false)) {
         res.status(400);
         return "Bad request";
       }

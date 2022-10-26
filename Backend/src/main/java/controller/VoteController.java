@@ -6,6 +6,7 @@ import static spark.Spark.post;
 import com.google.gson.Gson;
 
 import exception.PrivatePollNotAuthenticatedException;
+import exception.VoteOnClosedPollException;
 import exception.VoteOnOtherAccountException;
 import mapper.VoteMapper;
 import model.Vote;
@@ -48,6 +49,9 @@ public class VoteController {
           res.status(500);
           return "Error";
         }
+      } catch (VoteOnClosedPollException vcpe) {
+        res.status(400);
+        return "Cant vote on closed poll";
       } catch (PrivatePollNotAuthenticatedException pnae) {
         res.status(401);
         return "Unauthorized to vote on private poll";

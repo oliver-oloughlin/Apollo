@@ -20,7 +20,7 @@ public class InputValidator {
     return EmailValidator.getInstance().isValid(webAccount.getEmail());
   }
 
-  public boolean isValidWebPoll(WebPoll webPoll) {
+  public boolean isValidWebPoll(WebPoll webPoll, boolean fromPost) {
 
     boolean validTimeStamp = false;
     SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -30,7 +30,7 @@ public class InputValidator {
     } catch (ParseException pe) {
     }
 
-    if (validTimeStamp) {
+    if (fromPost && validTimeStamp) {
       Timestamp instant = Timestamp.from(Instant.now());
       Timestamp pollTimeToStop = Timestamp.valueOf(webPoll.getTimeToStop());
 
