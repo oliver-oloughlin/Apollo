@@ -27,6 +27,7 @@ import service.AuthenticationService;
 import service.PollService;
 import service.QuestionService;
 import service.VoteService;
+import utils.PollDaemon;
 
 public class Api {
 
@@ -50,6 +51,9 @@ public class Api {
     SecurityManager securityManager = new DefaultSecurityManager(apolloRealm);
     SecurityUtils.setSecurityManager(securityManager);
     AccessControl accessControl = new AccessControl(SecurityUtils.getSubject());
+
+    // Starting daemon
+    new PollDaemon(pollService);
 
     if (args.length > 0) {
       port(Integer.parseInt(args[0]));

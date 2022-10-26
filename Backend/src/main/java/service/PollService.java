@@ -6,7 +6,6 @@ import javax.persistence.EntityExistsException;
 
 import dao.PollDAO;
 import model.Poll;
-import security.AccessControl;
 
 public class PollService {
 
@@ -38,7 +37,7 @@ public class PollService {
     return dao.getPoll(code);
   }
 
-  public List<Poll> getAllPolls(AccessControl accessControl) {
+  public List<Poll> getAllPolls() {
     return dao.getAllPolls();
   }
 
@@ -49,5 +48,11 @@ public class PollService {
   public Poll deletePoll(Poll poll) {
     boolean success = dao.deletePoll(poll);
     return success ? poll : null;
+  }
+
+  public Poll closePoll(Poll poll) {
+    poll.setClosed(true);
+    System.out.println("Closed poll: " + poll.getTitle());
+    return dao.updatePoll(poll);
   }
 }

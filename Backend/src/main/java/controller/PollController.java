@@ -77,7 +77,7 @@ public class PollController {
     });
 
     get("/poll", (req, res) -> {
-      List<Poll> polls = pollService.getAllPolls(accessControl);
+      List<Poll> polls = pollService.getAllPolls();
       List<WebPoll> webPolls = polls.stream().map(poll -> pollMapper.mapPollToWebPoll(poll))
           .collect(Collectors.toList());
       return gson.toJson(webPolls);
