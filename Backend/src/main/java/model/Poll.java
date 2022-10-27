@@ -26,19 +26,20 @@ public class Poll {
   @JoinColumn(name = "accountId")
   private Account owner;
 
-  @OneToMany(mappedBy = "poll", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
+  @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
   private Set<Question> questions;
 
   public Poll() {
   }
 
-  public Poll(Long code, String title, String timeToStop, boolean privatePoll, Account owner, Set<Question> questions) {
+  public Poll(Long code, String title, String timeToStop, boolean privatePoll, boolean closed, Account owner,
+      Set<Question> questions) {
     this.title = title;
     this.code = code;
     this.timeToStop = timeToStop;
     this.privatePoll = privatePoll;
     this.owner = owner;
-    this.closed = false;
+    this.closed = closed;
     this.questions = questions;
   }
 

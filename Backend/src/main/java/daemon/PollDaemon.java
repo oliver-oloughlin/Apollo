@@ -24,7 +24,7 @@ public class PollDaemon {
           for (Poll poll : polls) {
             Timestamp pollTimeToStop = Timestamp.valueOf(poll.getTimeToStop());
             if (!poll.isClosed() && now.compareTo(pollTimeToStop) >= 0) {
-              poll = pollService.closePoll(poll);
+              poll = pollService.closePoll(poll.getCode());
             }
           }
           try {

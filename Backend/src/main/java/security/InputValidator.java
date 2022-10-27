@@ -20,22 +20,22 @@ public class InputValidator {
     return EmailValidator.getInstance().isValid(webAccount.getEmail());
   }
 
-  public boolean isValidWebPoll(WebPoll webPoll) {
+  public boolean isValidWebPoll(WebPoll webPoll, boolean fromPost) {
 
     boolean validTimeStamp = false;
+
     SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     try {
       format.parse(webPoll.getTimeToStop());
       validTimeStamp = true;
     } catch (ParseException pe) {
     }
-
     if (validTimeStamp) {
-      Timestamp instant = Timestamp.from(Instant.now());
+      Timestamp now = Timestamp.from(Instant.now());
       Timestamp pollTimeToStop = Timestamp.valueOf(webPoll.getTimeToStop());
 
-      if (instant.compareTo(pollTimeToStop) >= 0) {
-        validTimeStamp = false;
+      if (validTimeStamp && fromPost) {
+        validTimeStamp = now.after(pollTimeToStop);
       }
     }
     return webPoll.getTitle().length() < 50
