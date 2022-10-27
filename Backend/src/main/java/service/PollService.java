@@ -5,14 +5,17 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 
 import dao.PollDAO;
+import messaging_system.MessageSender;
 import model.Poll;
 
 public class PollService {
 
   PollDAO dao;
+  MessageSender messageSender;
 
   public PollService(PollDAO dao) {
     this.dao = dao;
+    this.messageSender = new MessageSender();
   }
 
   public boolean addNewPoll(Poll poll) throws EntityExistsException {
@@ -50,7 +53,16 @@ public class PollService {
     return success ? poll : null;
   }
 
-  public Poll closePoll(Poll poll) {
+  public Poll closePoll(long code) {
+
+    Poll poll = dao.getPoll(code);
+
+    if (poll == null) {
+      return null;
+    }
+
+    messageSender.sendPoll(poll);
+
     poll.setClosed(true);
     System.out.println("Closed poll: " + poll.getTitle());
     return dao.updatePoll(poll);
