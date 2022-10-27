@@ -7,9 +7,9 @@ import java.util.Set;
 import model.Poll;
 import model.Question;
 
-public class QuestionResultFromPoll {
+public class Util {
 
-  public static List<QuestionResult> getQuestionResultsFromPoll(Poll poll) {
+  public List<QuestionResult> getQuestionResultsFromPoll(Poll poll) {
 
     Set<Question> questions = poll.getQuestions();
     List<QuestionResult> questionResults = new ArrayList<QuestionResult>();

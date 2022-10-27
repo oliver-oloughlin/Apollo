@@ -12,6 +12,6 @@ public class PollResult {
 
   public PollResult(Poll poll) {
     this.title = poll.getTitle();
-    this.answers = QuestionResultFromPoll.getQuestionResultsFromPoll(poll);
+    this.answers = new Util().getQuestionResultsFromPoll(poll);
   }
 }
