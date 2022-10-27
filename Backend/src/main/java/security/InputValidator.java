@@ -35,7 +35,7 @@ public class InputValidator {
       Timestamp pollTimeToStop = Timestamp.valueOf(webPoll.getTimeToStop());
 
       if (validTimeStamp && fromPost) {
-        validTimeStamp = now.after(pollTimeToStop);
+        validTimeStamp = now.before(pollTimeToStop);
       }
     }
     return webPoll.getTitle().length() < 50
