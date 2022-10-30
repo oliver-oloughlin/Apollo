@@ -41,6 +41,10 @@ public class AccessControl {
   }
 
   private boolean currentUserOwnsAccount(Account account) {
+
+    if (!currentUser.isAuthenticated()) {
+      return false;
+    }
     return account.getEmail().equals(currentUser.getPrincipal());
   }
 
