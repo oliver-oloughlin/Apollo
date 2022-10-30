@@ -5,7 +5,7 @@ import static spark.Spark.post;
 
 import com.google.gson.Gson;
 
-import exception.NotAuthorizedVoterException;
+import exception.BadVoterException;
 import exception.PrivatePollNotAuthenticatedException;
 import exception.VoteOnClosedPollException;
 import exception.VoteOnOtherAccountException;
@@ -59,9 +59,9 @@ public class VoteController {
       } catch (VoteOnOtherAccountException voae) {
         res.status(403);
         return "Can only vote with your own authorized account";
-      } catch (NotAuthorizedVoterException e) {
+      } catch (BadVoterException e) {
         res.status(400);
-        return "Invalid or unauthorized voter provided";
+        return "Invalid voter provided";
       }
     });
 

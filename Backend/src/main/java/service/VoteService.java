@@ -1,7 +1,7 @@
 package service;
 
 import dao.VoteDAO;
-import exception.NotAuthorizedVoterException;
+import exception.BadVoterException;
 import exception.PrivatePollNotAuthenticatedException;
 import exception.VoteOnClosedPollException;
 import exception.VoteOnOtherAccountException;
@@ -36,7 +36,7 @@ public class VoteService {
 
   public boolean addNewVote(Vote vote, AccessControl accessControl)
       throws PrivatePollNotAuthenticatedException, VoteOnOtherAccountException,
-      VoteOnClosedPollException, NotAuthorizedVoterException {
+      VoteOnClosedPollException, BadVoterException {
 
     Question question = vote.getQuestion();
     if (question == null) {
@@ -55,7 +55,7 @@ public class VoteService {
     }
 
     if (poll.isPrivatePoll() && (voter == null || !accessControl.accessToAccount(voter))) {
-      throw new NotAuthorizedVoterException("Invalid or unauthorized voter provided");
+      throw new BadVoterException("Invalid voter provided");
     }
 
     if (voter != null && !accessControl.accessToAccount(voter)) {
