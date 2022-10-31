@@ -38,6 +38,13 @@ public class Question {
     this.votes = votes;
   }
 
+  public Question(long id, String text, Poll poll, Set<Vote> votes) {
+    this.id = id;
+    this.text = text;
+    this.poll = poll;
+    this.votes = votes;
+  }
+
   public Long getId() {
     return id;
   }

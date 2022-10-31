@@ -29,10 +29,8 @@ public class QuestionService {
     }
   }
 
-  public Question updateQuestion(Question question, long id) {
-    Question managedQuestion = dao.getQuestion(id);
-    managedQuestion.setText(question.getText());
-    return managedQuestion;
+  public Question updateQuestion(Question question) {
+    return dao.updateQuestion(question);
   }
 
   public Question deleteQuestion(Question question) {

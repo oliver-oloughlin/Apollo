@@ -52,6 +52,14 @@ public class QuestionDAOImpl implements QuestionDAO {
   }
 
   @Override
+  public Question updateQuestion(Question question) {
+    em.getTransaction().begin();
+    Question managedQuestion = em.merge(question);
+    em.getTransaction().commit();
+    return managedQuestion;
+  }
+
+  @Override
   public boolean deleteQuestion(Question question) {
     em.getTransaction().begin();
     try {
