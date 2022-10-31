@@ -13,6 +13,7 @@ export default function PollsView() {
 
   async function fetchPolls() {
     try {
+      throw Error("API not ready")
       const res = await fetch(`${API_HOST}/poll`)
       if (!res.ok) throw Error(res.statusText)
       const _polls = await res.json() as Poll[]

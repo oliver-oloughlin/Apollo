@@ -37,7 +37,7 @@ export const MockPoll2: Poll = {
   closed: false,
   timeToStop: "22:22",
   ownerEmail: "andy@gmail.com",
-  questionIds: [2]
+  questionIds: [1, 2, 3]
 }
 
 export const MockPoll3: Poll = {

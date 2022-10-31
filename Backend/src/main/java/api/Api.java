@@ -61,7 +61,10 @@ public class Api {
       port(8080);
     }
 
-    after((req, res) -> res.type("application/json"));
+    after((req, res) -> {
+      res.type("application/json");
+      res.header("Access-Control-Allow-Origin", "*");
+    });
 
     new AuthenticationController(authenticationService, accessControl);
     new AccountController(accountService, accountMapper, accessControl);

@@ -1,4 +1,5 @@
 import App from "../components/App.tsx"
+import VoteView from "../islands/VoteView.tsx"
 import { Style } from "fresh_utils"
 import { Head } from "$fresh/runtime.ts"
 import { Poll, Question } from "../utils/models.ts"
@@ -41,23 +42,14 @@ export const handler: Handlers<Data> = {
   }
 }
 
-export default function VotePage({ data: { poll, questions } }: PageProps<Data>) {
-  const [ question ] = questions
+export default function VotePage({ data }: PageProps<Data>) {
   return (
     <App>
       <Head>
         <Style fileName="vote.css" />
       </Head>
       <main class="page box-bg">
-        <div class="poll-container">
-          <div class="question-container centered-text">
-            <p>{question?.text}</p>
-          </div>
-          <div class="switch">
-            <button class="btn-red switch-btn" />
-            <button class="btn-blue switch-btn" />
-          </div>
-        </div>
+        <VoteView {...data} />
       </main>
     </App>
   )

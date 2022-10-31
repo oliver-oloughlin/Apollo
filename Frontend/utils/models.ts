@@ -27,7 +27,7 @@ export interface Vote {
   red: number
 }
 
-export interface AccountFormData {
+export interface AccountCredentials {
   email?: string,
   password?: string
 }

@@ -2,7 +2,7 @@ import { Fragment } from "preact"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
 import { useRef } from "preact/hooks"
-import { AccountFormData } from "../utils/models.ts"
+import { AccountCredentials } from "../utils/models.ts"
 import { encrypt } from "../utils/security.ts"
 import { API_HOST } from "../utils/api.ts"
 
@@ -14,13 +14,13 @@ export default function SignUpForm() {
   async function handleSubmit(e: Event) {
     e.preventDefault()
 
-    const data: AccountFormData = {
+    const data: AccountCredentials = {
       email: emailRef.current?.value,
       password: await encrypt(passRef.current!.value)
     }
 
     try {
-      const res = await fetch(`${API_HOST}/sign-up`, {
+      const res = await fetch(`${API_HOST}/account`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -31,6 +31,10 @@ export default function SignUpForm() {
       if (res.ok) {
         const next = new URL(location.origin).searchParams.get("next")
         if (next) window.open(next)
+      }
+      else {
+        const message = await res.text()
+        alert(message)
       }
     } catch(err) {
       console.error(err)

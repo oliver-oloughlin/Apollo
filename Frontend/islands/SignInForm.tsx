@@ -2,7 +2,7 @@ import { Fragment } from "preact"
 import { useRef } from "preact/hooks"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
-import { AccountFormData } from "../utils/models.ts"
+import { AccountCredentials } from "../utils/models.ts"
 import { encrypt } from "../utils/security.ts"
 import { API_HOST } from "../utils/api.ts"
 
@@ -13,7 +13,7 @@ export default function SignInForm() {
   const handleSubmit = async (e: Event) => {
     e.preventDefault()
 
-    const data: AccountFormData = {
+    const data: AccountCredentials = {
       email: emailRef.current!.value,
       password: await encrypt(passRef.current!.value)
     }

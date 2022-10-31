@@ -14,7 +14,10 @@ import model.Account;
 import modelweb.WebAccount;
 import security.AccessControl;
 import security.InputValidator;
+import security.WebLoginCredentials;
 import service.AccountService;
+
+import java.util.HashSet;
 
 public class AccountController {
 
@@ -24,24 +27,11 @@ public class AccountController {
   public AccountController(AccountService accountService, AccountMapper accountMapper, AccessControl accessControl) {
 
     post("/account", (req, res) -> {
-      WebAccount webAccount = gson.fromJson(req.body(), WebAccount.class);
-
-      if (!inputValidator.isVaildWebAccount(webAccount)) {
-        res.status(400);
-        return "Bad request";
-      }
-
-      Account account;
+      WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
+      Account newAccount = new Account(credentials.getEmail(), credentials.getPassword(), false, new HashSet<>(), new HashSet<>());
 
       try {
-        account = accountMapper.mapWebAccountToAccount(webAccount);
-      } catch (Exception e) {
-        res.status(400);
-        return "Bad request";
-      }
-
-      try {
-        boolean success = accountService.addNewAccount(account);
+        boolean success = accountService.addNewAccount(newAccount);
         if (success) {
           res.status(200);
           return "Success";
