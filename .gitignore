@@ -3,3 +3,4 @@ Backend/db
 Backend/target
 Backend/.*
 Frontend/.env
+Backend/createDDL.jdbc
