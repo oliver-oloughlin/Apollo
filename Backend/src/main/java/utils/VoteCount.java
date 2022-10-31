@@ -7,6 +7,7 @@ public class VoteCount {
 
   public VoteCount(int greenVotes, int redVotes) {
     this.greenVotes = greenVotes;
+    this.redVotes = redVotes;
   }
 
   public int getGreenVotes() {

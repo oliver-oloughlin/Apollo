@@ -13,6 +13,7 @@ import modelweb.WebQuestion;
 import security.AccessControl;
 import security.InputValidator;
 import service.QuestionService;
+import utils.VoteCount;
 
 public class QuestionController {
 
@@ -66,6 +67,20 @@ public class QuestionController {
       }
 
       return gson.toJson(questionMapper.mapQuestionToWebQuestion(question));
+    });
+
+    get("/question-score/:id", (req, res) -> {
+      String idString = req.params("id");
+      Question question = questionService.getQuestionFromString(idString);
+
+      if (question == null) {
+        res.status(404);
+        return "Question does not exist";
+      }
+
+      VoteCount voteCount = questionService.getVoteCount(question);
+
+      return gson.toJson(voteCount);
     });
 
     put("/question", (req, res) -> {

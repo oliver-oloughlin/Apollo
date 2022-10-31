@@ -2,6 +2,7 @@ package service;
 
 import dao.QuestionDAO;
 import model.Question;
+import utils.VoteCount;
 
 public class QuestionService {
 
@@ -27,6 +28,13 @@ public class QuestionService {
     } catch (NumberFormatException e) {
       return null;
     }
+  }
+
+  public VoteCount getVoteCount(Question question) {
+    int green = question.getVotes().stream().mapToInt(vote -> vote.getGreen()).sum();
+    int red = question.getVotes().stream().mapToInt(vote -> vote.getRed()).sum();
+
+    return new VoteCount(green, red);
   }
 
   public Question updateQuestion(Question question) {
