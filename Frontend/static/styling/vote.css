@@ -9,9 +9,9 @@
   background-color: var(--bg-secondary);
   border-radius: var(--border-r);
   box-shadow: 0 0 .2rem var(--shadow);
-  font-size: 250%;
-  padding: 2rem;
-  width: min(60ch, 80%);
+  font-size: clamp(100%, 2vw, 200%);
+  padding: 1em 1.5em;
+  max-width: 95vw;
 }
 
 .btn-red {

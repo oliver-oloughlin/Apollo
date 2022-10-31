@@ -18,6 +18,8 @@ export const MockQuestion3: Question = {
   voteIds: []
 }
 
+export const MockQuestions: Question[] = [MockQuestion1, MockQuestion2, MockQuestion3]
+
 export const MockPoll1: Poll = {
   title: "Mocking Poll",
   code: 1,
