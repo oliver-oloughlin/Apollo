@@ -4,8 +4,7 @@
     "preact": "https://esm.sh/preact@10.10.0",
     "preact/": "https://esm.sh/preact@10.10.0/",
     "preact-render-to-string": "https://esm.sh/preact-render-to-string@5.2.1?external=preact",
-    "http/": "https://deno.land/std@0.148.0/http/",
-    "fresh_utils": "https://raw.githubusercontent.com/oliver-oloughlin/fresh_utils/master/mod.ts",
-    "bcrypt": "https://deno.land/x/bcrypt@v0.4.1/mod.ts"
+    "std/": "https://deno.land/std@0.161.0/",
+    "fresh_utils": "https://raw.githubusercontent.com/oliver-oloughlin/fresh_utils/master/mod.ts"
   }
 }

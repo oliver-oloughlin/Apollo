@@ -1,4 +1,3 @@
-
 import App from "../components/App.tsx"
 import { Style } from "fresh_utils"
 import { Head } from "$fresh/runtime.ts"

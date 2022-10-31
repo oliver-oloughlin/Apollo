@@ -1,10 +1,10 @@
-
 import { Fragment } from "preact"
 import { useRef } from "preact/hooks"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
-import { SignInData } from "../utils/models.ts"
-import { encrypt } from "../utils/api.ts"
+import { AccountFormData } from "../utils/models.ts"
+import { encrypt } from "../utils/security.ts"
+import { API_HOST } from "../utils/api.ts"
 
 export default function SignInForm() {
   const emailRef = useRef<HTMLInputElement>(null)
@@ -13,14 +13,13 @@ export default function SignInForm() {
   const handleSubmit = async (e: Event) => {
     e.preventDefault()
 
-    const data: SignInData = {
+    const data: AccountFormData = {
       email: emailRef.current!.value,
-      password: await encrypt(passRef.current!.value),
-      accountType: "Normal"
+      password: await encrypt(passRef.current!.value)
     }
     
     try {
-      const res = await fetch("/some-api-endpoint", {
+      const res = await fetch(`${API_HOST}/sign-in`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -35,14 +34,6 @@ export default function SignInForm() {
     } catch(err) {
       console.error(err)
     }
-  }
-
-  const signInWithFacebook = () => {
-
-  }
-
-  const signInWithGoogle = () => {
-
   }
 
   return (
@@ -68,8 +59,6 @@ export default function SignInForm() {
           ref={passRef}
         />
         <button type="submit">SIGN IN</button>
-        <button onClick={signInWithFacebook} type="button" class="btn-fb">SIGN IN WITH FACEBOOK</button>
-        <button onClick={signInWithGoogle} type="button" class="btn-google">SIGN IN WITH GOOGLE</button>
         <p class="centered-text"><a href="/sign-up" class="link">Create new account</a></p>
       </form>
     </Fragment>

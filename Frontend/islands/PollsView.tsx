@@ -1,15 +1,15 @@
-
 import { Fragment } from "preact"
 import { Style } from "fresh_utils"
 import { Head } from "$fresh/runtime.ts"
 import { useMemo, useState, useRef, useEffect } from "preact/hooks"
 import { Poll } from "../utils/models.ts"
 import { API_HOST } from "../utils/api.ts"
+import { MockPolls } from "../utils/mock-data.ts"
 
 export default function PollsView() {
   const searchRef = useRef<HTMLInputElement>(null)
   const [search, setSearch] = useState<string>("")
-  const [polls, setPolls] = useState<Poll[]>([])
+  const [polls, setPolls] = useState<Poll[]>(MockPolls)
 
   async function fetchPolls() {
     try {

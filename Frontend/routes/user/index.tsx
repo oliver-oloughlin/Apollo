@@ -1,7 +1,7 @@
 
 import App from "../../components/App.tsx"
 import { Handlers } from "$fresh/server.ts"
-import { getCookies } from "http/cookie.ts"
+import { getCookies } from "std/http/cookie.ts"
 import { redirect } from "fresh_utils"
 
 export const handler: Handlers = {
@@ -19,5 +19,5 @@ export default function Home() {
         Account Page
       </main>
     </App>
-  );
+  )
 }

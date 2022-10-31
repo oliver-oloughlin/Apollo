@@ -1,4 +1,3 @@
-
 import { Fragment } from "preact"
 import { useState, useEffect, useRef } from "preact/hooks"
 
@@ -11,8 +10,8 @@ export default function Header() {
       if (!dropDownRef.current?.contains(e.target)) setOpen(false)
     }
     
-    window.addEventListener("pointerdown", closeOnClickOutside)
-    return () => window.removeEventListener("pointerdown", closeOnClickOutside)
+    addEventListener("pointerdown", closeOnClickOutside)
+    return () => removeEventListener("pointerdown", closeOnClickOutside)
   }, [setOpen]);
 
   return (

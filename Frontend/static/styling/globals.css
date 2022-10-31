@@ -93,7 +93,8 @@ button:hover::after {
 
 input {
     outline: none;
-    border: var(--border-w) solid currentColor;
+    border: none;
+    box-shadow: 0 0 .125rem currentColor;
     border-radius: var(--border-r);
 }
 

@@ -17,8 +17,7 @@ export interface Poll {
 export interface Question {
   id: number,
   text: string,
-  voteIds: number[],
-  deviceTokens: number[]
+  voteIds: number[]
 }
 
 export interface Vote {
@@ -28,16 +27,7 @@ export interface Vote {
   red: number
 }
 
-type AccountType = "Normal" | "Facebook" | "Google"
-
-export interface SignUpData {
+export interface AccountFormData {
   email?: string,
-  password?: string,
-  accountType: AccountType
-}
-
-export interface SignInData {
-  email?: string,
-  password?: string,
-  accountType: AccountType
+  password?: string
 }

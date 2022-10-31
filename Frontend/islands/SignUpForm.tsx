@@ -1,11 +1,10 @@
-
 import { Fragment } from "preact"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
 import { useRef } from "preact/hooks"
-import { SignUpData } from "../utils/models.ts"
-import { API_HOST, encrypt } from "../utils/api.ts"
-import { hashSync, genSaltSync } from "bcrypt"
+import { AccountFormData } from "../utils/models.ts"
+import { encrypt } from "../utils/security.ts"
+import { API_HOST } from "../utils/api.ts"
 
 export default function SignUpForm() {
   const emailRef = useRef<HTMLInputElement>(null)
@@ -15,15 +14,13 @@ export default function SignUpForm() {
   async function handleSubmit(e: Event) {
     e.preventDefault()
 
-    const passwordHash = await encrypt(passRef.current!.value)
-    const data: SignUpData = {
+    const data: AccountFormData = {
       email: emailRef.current?.value,
-      password: hashSync(passwordHash, genSaltSync(10)),
-      accountType: "Normal"
+      password: await encrypt(passRef.current!.value)
     }
 
     try {
-      const res = await fetch(`${API_HOST}/account`, {
+      const res = await fetch(`${API_HOST}/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
