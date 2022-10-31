@@ -14,40 +14,39 @@ public class AccountMapper {
 
   PollService pollService;
   VoteService voteService;
-  
+
   public AccountMapper(PollService pollService, VoteService voteService) {
     this.pollService = pollService;
     this.voteService = voteService;
   }
-  
-  public Account mapWebAccountToAccount(WebAccount webAccount) {
+
+  public Account mapWebAccountToAccount(WebAccount webAccount) throws Exception {
+
     Set<Poll> polls = webAccount.getPollCodes().stream()
         .map(code -> pollService.getPoll(code))
         .collect(Collectors.toSet());
-    
+
     Set<Vote> votes = webAccount.getVoteIds().stream()
         .map(id -> voteService.getVote(id))
         .collect(Collectors.toSet());
-    
-    return new Account(webAccount.getEmail(), webAccount.getPassword(),
-        webAccount.isAdmin(), webAccount.getAccountType(), polls, votes);
+
+    return new Account(webAccount.getEmail(), webAccount.getPassword(), webAccount.isAdmin(), polls, votes);
   }
-  
+
   public WebAccount mapAccountToWebAccount(Account account) {
-    
-    if(account == null) {
+
+    if (account == null) {
       return null;
     }
-    
+
     Set<Long> pollCodes = account.getPolls().stream()
         .map(poll -> poll.getCode())
         .collect(Collectors.toSet());
-    
+
     Set<Long> voteIds = account.getVotes().stream()
         .map(vote -> vote.getId())
         .collect(Collectors.toSet());
-    
-    return new WebAccount(account.getEmail(), account.getPassword(), account.isAdmin(),
-        account.getAccountType(), pollCodes, voteIds);
+
+    return new WebAccount(account.getEmail(), account.getPassword(), account.isAdmin(), pollCodes, voteIds);
   }
 }

@@ -1,90 +1,94 @@
 package model;
 
-import javax.persistence.OneToMany;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "ACCOUNT")
 public class Account {
 
-	@Id
-	private String email;
-	private String password;
-	private boolean isAdmin;
-	
-	@Enumerated(EnumType.STRING)
-	private AccountType accountType;
-	
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Poll> polls;
-	
-	@OneToMany(mappedBy = "voter", cascade = CascadeType.PERSIST)
-	private Set<Vote> votes;
-	
-	public Account () {}
-	
-	public Account(String email, String password, boolean isAdmin, AccountType accountType, Set<Poll> polls, Set<Vote> votes) {
-		this.email = email;
-		this.password = password;
-		this.isAdmin = isAdmin;
-		this.accountType = accountType;
-		this.polls = polls;
-		this.votes = votes;
-	}
+  @Id
+  private String email;
+  private String password;
+  private String salt;
+  private boolean isAdmin;
 
-	public AccountType getAccountType() {
-		return accountType;
-	}
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Poll> polls;
 
-	public void setAccountType(AccountType accountType) {
-		this.accountType = accountType;
-	}
+  @OneToMany(mappedBy = "voter", cascade = CascadeType.REMOVE)
+  private Set<Vote> votes;
 
-	public String getEmail() {
-		return email;
-	}
+  public Account() {
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public Account(String email, String password, boolean isAdmin, Set<Poll> polls,
+      Set<Vote> votes) {
+    this.email = email;
+    this.password = password;
+    this.isAdmin = isAdmin;
+    this.polls = polls;
+    this.votes = votes;
+  }
 
-	public String getPassword() {
-		return password;
-	}
+  public String getEmail() {
+    return email;
+  }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-	public boolean isAdmin() {
-		return isAdmin;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-	
-	public Set<Poll> getPolls(){
-		return polls;
-	}
-	
-	public Set<Vote> getVotes(){
-		return votes;
-	}
-	
-	public void addPoll(Poll poll) {
-		polls.add(poll);
-	}
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public void addVote(Vote vote){
-		votes.add(vote);
-	}
+  public String getSalt() {
+    return salt;
+  }
 
+  public void setSalt(String salt) {
+    this.salt = salt;
+  }
+
+  public boolean isAdmin() {
+    return isAdmin;
+  }
+
+  public void setAdmin(boolean isAdmin) {
+    this.isAdmin = isAdmin;
+  }
+
+  public Set<Poll> getPolls() {
+    return polls;
+  }
+
+  public Set<Vote> getVotes() {
+    return votes;
+  }
+
+  public void addPoll(Poll poll) {
+    polls.add(poll);
+  }
+
+  public void removePoll(Poll poll) {
+    polls.remove(poll);
+  }
+
+  public void addVote(Vote vote) {
+    votes.add(vote);
+  }
+
+  public void removeVote(Vote vote) {
+    votes.remove(vote);
+  }
 }

@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -15,46 +17,52 @@ import javax.persistence.Table;
 @Table(name = "QUESTION")
 public class Question {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-	private String text;
-	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private Set<Vote> votes;
-	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<IoTDevice> devices;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String text;
 
-	public Question () {}
-	
-	public Question(String text, Set<Vote> votes, Set<IoTDevice> devices) {
-		this.text = text;
-		this.votes = votes;
-		this.devices = devices;
-	}
+  @ManyToOne
+  @JoinColumn(name = "poll")
+  private Poll poll;
 
-	public Long getId() {
-	  return id;
-	}
-	
-	public String getText() {
-		return text;
-	}
+  @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+  private Set<Vote> votes;
 
-	public void setText(String text) {
-		this.text = text;
-	}
-	
-	public Set<Vote> getVotes() {
-		return votes;
-	}
-	
-	public Set<IoTDevice> getDevices() {
-	  return devices;
-	}
-	
-	public void addVote(Vote vote) {
-		votes.add(vote);
-	}
+  public Question() {
+  }
+
+  public Question(String text, Poll poll, Set<Vote> votes) {
+    this.text = text;
+    this.poll = poll;
+    this.votes = votes;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+  }
+
+  public Poll getPoll() {
+    return poll;
+  }
+
+  public Set<Vote> getVotes() {
+    return votes;
+  }
+
+  public void addVote(Vote vote) {
+    votes.add(vote);
+  }
+
+  public void removeVote(Vote vote) {
+    votes.remove(vote);
+  }
 }
