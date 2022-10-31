@@ -13,6 +13,7 @@ import modelweb.WebQuestion;
 import security.AccessControl;
 import security.InputValidator;
 import service.QuestionService;
+import utils.VoteCount;
 
 public class QuestionController {
 
@@ -68,6 +69,20 @@ public class QuestionController {
       return gson.toJson(questionMapper.mapQuestionToWebQuestion(question));
     });
 
+    get("/question-score/:id", (req, res) -> {
+      String idString = req.params("id");
+      Question question = questionService.getQuestionFromString(idString);
+
+      if (question == null) {
+        res.status(404);
+        return "Question does not exist";
+      }
+
+      VoteCount voteCount = questionService.getVoteCount(question);
+
+      return gson.toJson(voteCount);
+    });
+
     put("/question", (req, res) -> {
       WebQuestion webQuestion = gson.fromJson(req.body(), WebQuestion.class);
 
@@ -89,13 +104,12 @@ public class QuestionController {
         res.status(404);
         return "Question does not exist";
       }
-      if (!accessControl.accessToQuestion(question)) {
-        res.status(401);
-        return "Dont have access to given question";
-      }
 
-      long id = webQuestion.getId(); // ??
-      return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.updateQuestion(question, id)));
+      if (accessControl.accessToQuestion(question)) {
+        return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.updateQuestion(question)));
+      }
+      res.status(401);
+      return "Dont have access to given question";
     });
 
     delete("/question/:id", (req, res) -> {
