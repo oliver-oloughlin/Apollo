@@ -25,6 +25,8 @@ export default function PollsView() {
 
   useEffect(() => {
     fetchPolls()
+    const interval = setInterval(fetchPolls, 60_000) // Re-fetches polls every 60 seconds
+    return () => clearInterval(interval)
   }, [])
 
   const pollRows = useMemo(() => {
