@@ -27,15 +27,14 @@ export default function PollsView() {
     fetchPolls()
   }, [])
 
-  const PollRows = useMemo(() => {
+  const pollRows = useMemo(() => {
     return polls.filter(p => p.title.toLowerCase().includes(search.toLowerCase()) && !p.closed).map((poll, index) => {
       return (
-        <tr class="poll-row" key={`poll-${index}`} onClick={() => window.open(`/vote?code=${poll.code}`, "_self")}>
-          <td>{poll.title}</td>
-          <td>{poll.timeToStop}</td>
-          <td>{poll.closed ? "CLOSED" : "OPEN"}</td>
-          <td>{poll.privatePoll ? "PRIVATE" : "PUBLIC"}</td>
-        </tr>
+        <div class="polls-row" key={`poll-${index}`} onClick={() => window.open(`/vote?code=${poll.code}`, "_self")}>
+          <p class="polls-title">{poll.title}</p>
+          <p>{poll.timeToStop}</p>
+          <p>{poll.privatePoll ? "PRIVATE" : "PUBLIC"}</p>
+        </div>
       )
     })
   }, [search, polls])
@@ -52,15 +51,14 @@ export default function PollsView() {
           onInput={() => setSearch(searchRef.current!.value)}
           ref={searchRef}
         />
-        <table class="poll-table">
-          <tr>
-            <th>Title</th>
-            <th>Ends</th>
-            <th>Status</th>
-            <th>Access</th>
-          </tr>
-          {PollRows}
-        </table>
+        <div class="polls-column">
+          <div class="polls-row">
+            <strong class="polls-heading">Title</strong>
+            <strong class="polls-heading">Ends</strong>
+            <strong class="polls-heading">Access</strong>
+          </div>
+          {pollRows}
+        </div>
       </div>
     </Fragment>
   )
