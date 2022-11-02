@@ -1,6 +1,0 @@
-{
-  "imports": {
-    "amqplib": "https://esm.sh/amqplib@0.10.3",
-    "deno_surreal": "https://deno.land/x/deno_surreal@v1.5.1/mod.ts"
-  }
-}

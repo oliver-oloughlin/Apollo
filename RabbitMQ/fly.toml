@@ -1,0 +1,37 @@
+# fly.toml file generated for apollo-rabbitmq on 2022-11-02T20:11:22+01:00
+
+app = "apollo-rabbitmq"
+
+[build]
+  dockerfile = "Dockerfile"
+
+# rabbitmq main
+[[services]]
+  http_checks = []
+  internal_port = 5672
+  protocol = "tcp"
+  script_checks = []
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
+
+
+# rabbitmq admin
+[[services]]
+  http_checks = []
+  internal_port = 15672
+  protocol = "tcp"
+  script_checks = []
+
+  [[services.ports]]
+    handlers = ["http", "tls"]
+    port = "15672"
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
