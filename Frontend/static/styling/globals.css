@@ -1,17 +1,19 @@
 :root {
     --bg-primary: hsl(220 20% 93%);
     --bg-secondary: hsl(0 0% 100%);
+    --bg-error: hsl(0 50% 90%);
+    --bg-success: hsl(110 50% 90%);
     --clr-primary: hsl(0 0% 15%);
     --clr-secondary: hsl(0 0% 30%);
     --clr-title: hsl(0 0% 0%);
+    --clr-error: hsl(0 50% 55%);
+    --clr-success: hsl(110 50% 55%);
     --glass-primary: hsl(220 20% 93% / .75);
     --glass-secondary: hsl(0 0% 100% / .75);
     --accent: hsl(185 50% 55%);
     --accent-dark: hsl(185 50% 40%);
     --shadow: hsl(0 0% 0% / .35);
     --shadow-light: hsl(0 0% 100% / .5);
-    --error: hsl(0 50% 55%);
-    --success: hsl(110 50% 55%);
 
     --border-r: .15rem;
     --border-w: .075em;

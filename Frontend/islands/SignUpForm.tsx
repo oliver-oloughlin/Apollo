@@ -5,6 +5,7 @@ import { useRef } from "preact/hooks"
 import { AccountCredentials } from "../utils/models.ts"
 import { encrypt } from "../utils/security.ts"
 import { API_HOST } from "../utils/api.ts"
+import { PasswordValidator, regExpToString } from "../utils/validation.ts"
 
 export default function SignUpForm() {
   const emailRef = useRef<HTMLInputElement>(null)
@@ -65,15 +66,16 @@ export default function SignUpForm() {
           type="password"
           placeholder="Password"
           name="password"
-          onChange={checkPasswordsMatch}
+          onInput={checkPasswordsMatch}
           ref={passRef}
+          pattern={regExpToString(PasswordValidator)}
           required
         />
         <input
           type="password"
           placeholder="Repeat Password"
           name="repeatPassword"
-          onChange={checkPasswordsMatch}
+          onInput={checkPasswordsMatch}
           ref={repeatRef}
           required
         />

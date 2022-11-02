@@ -11,11 +11,11 @@
 }
 
 .validation-form input:invalid {
-  border-color: var(--error);
+  background-color: var(--bg-error);
 }
 
 .validation-form input:valid {
-  border-color: var(--success);
+  background-color: var(--bg-success);
 }
 
 .btn-fb {
