@@ -5,7 +5,8 @@ import { UserSignal } from "../../utils/state.ts"
 
 export const handler: Handlers = {
   GET: (_req, ctx) => {
-    if (!UserSignal.value) return redirect("/sign-in")
+    console.log("SERVER: ", UserSignal.value)
+    if (!UserSignal.value) return redirect("/sign-in?next=/user")
     return ctx.render()
   }
 }

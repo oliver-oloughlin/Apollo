@@ -31,6 +31,7 @@ export default function SignInForm() {
       if (res.ok) {
         const account = await res.json() as Account
         UserSignal.value = account
+        console.log(UserSignal.value)
         const next = new URL(location.origin).searchParams.get("next")
         if (next) window.open(next)
       }
