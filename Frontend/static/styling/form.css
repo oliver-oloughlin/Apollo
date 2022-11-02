@@ -18,10 +18,29 @@
   background-color: var(--bg-success);
 }
 
+.validation-form .invalidation-shake:invalid:not(:focus) {
+  animation: shake .3s;
+}
+
 .btn-fb {
   background: hsl(220 50% 40%);
 }
 
 .btn-google {
   background: hsl(0 50% 45%);
+}
+
+@keyframes shake {
+  20% {
+    translate: .25rem;
+  }
+  40% {
+    translate: -.2rem;
+  }
+  60% {
+    translate: .15rem;
+  }
+  80% {
+    translate: -.1rem;
+  }
 }

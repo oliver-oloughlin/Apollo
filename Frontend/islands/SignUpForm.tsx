@@ -12,6 +12,10 @@ export default function SignUpForm() {
   const passRef = useRef<HTMLInputElement>(null)
   const repeatRef = useRef<HTMLInputElement>(null)
 
+  function addInvalidationShaker(elem: HTMLElement) {
+    elem.classList.add("invalidation-shake")
+  }
+
   async function handleSubmit(e: Event) {
     e.preventDefault()
 
@@ -59,6 +63,7 @@ export default function SignUpForm() {
           type="email"
           placeholder="Email"
           name="email"
+          onClick={() => addInvalidationShaker(emailRef.current!)}
           ref={emailRef}
           required
         />
@@ -67,6 +72,7 @@ export default function SignUpForm() {
           placeholder="Password"
           name="password"
           onInput={checkPasswordsMatch}
+          onClick={() => addInvalidationShaker(passRef.current!)}
           ref={passRef}
           pattern={regExpToString(PasswordValidator)}
           required
@@ -76,6 +82,7 @@ export default function SignUpForm() {
           placeholder="Repeat Password"
           name="repeatPassword"
           onInput={checkPasswordsMatch}
+          onClick={() => addInvalidationShaker(repeatRef.current!)}
           ref={repeatRef}
           required
         />
