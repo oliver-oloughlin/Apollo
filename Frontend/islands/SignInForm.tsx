@@ -2,9 +2,10 @@ import { Fragment } from "preact"
 import { useRef } from "preact/hooks"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
-import { AccountCredentials } from "../utils/models.ts"
+import { Account, AccountCredentials } from "../utils/models.ts"
 import { encrypt } from "../utils/security.ts"
 import { API_HOST } from "../utils/api.ts"
+import { UserSignal } from "../utils/state.ts"
 
 export default function SignInForm() {
   const emailRef = useRef<HTMLInputElement>(null)
@@ -19,7 +20,7 @@ export default function SignInForm() {
     }
     
     try {
-      const res = await fetch(`${API_HOST}/sign-in`, {
+      const res = await fetch(`${API_HOST}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -28,6 +29,8 @@ export default function SignInForm() {
       })
   
       if (res.ok) {
+        const account = await res.json() as Account
+        UserSignal.value = account
         const next = new URL(location.origin).searchParams.get("next")
         if (next) window.open(next)
       }

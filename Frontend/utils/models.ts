@@ -27,6 +27,14 @@ export interface Vote {
   red: number
 }
 
+export interface Account {
+  email: string,
+  password: string,
+  isAdmin: boolean,
+  pollCodes: [],
+  voteIds: []
+}
+
 export interface AccountCredentials {
   email?: string,
   password?: string
