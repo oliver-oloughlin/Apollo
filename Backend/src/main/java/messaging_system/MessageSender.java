@@ -22,6 +22,11 @@ public class MessageSender {
     gson = new Gson();
     factory = new ConnectionFactory();
     factory.setHost("localhost");
+    factory.setHost("hawk.rmq.cloudamqp.com");
+    factory.setUsername("glvuxjzx");
+    factory.setVirtualHost("glvuxjzx");
+    factory.setPassword("53ptrDVEGoWII4-bsk7da-jg0R8VKFeo");
+    factory.setPort(5672);
 
     try {
       connection = factory.newConnection();
