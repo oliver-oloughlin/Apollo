@@ -20,7 +20,7 @@ public class AuthenticationService {
     this.hasher = new PasswordHasher();
   }
 
-  public void login(WebLoginCredentials credentials, AccessControl accessControl)
+  public Account login(WebLoginCredentials credentials, AccessControl accessControl)
       throws UnknownAccountException, IncorrectCredentialsException, LockedAccountException, AuthenticationException {
 
     if (credentials == null) {
@@ -35,6 +35,8 @@ public class AuthenticationService {
 
     String hashedPassword = hasher.hashPassword(account.getSalt(), credentials.getPassword());
     accessControl.login(credentials.getEmail(), hashedPassword);
+
+    return account;
   }
 
   public void logout(AccessControl accessControl) {

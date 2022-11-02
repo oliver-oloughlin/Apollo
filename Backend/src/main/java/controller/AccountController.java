@@ -40,6 +40,10 @@ public class AccountController {
         return "Bad request";
       }
 
+      if (accessControl.currentUserIsAdmin()) {
+        account.setAdmin(webAccount.isAdmin());
+      }
+
       try {
         boolean success = accountService.addNewAccount(account);
         if (success) {
@@ -89,13 +93,20 @@ public class AccountController {
         res.status(400);
         return "Bad request";
       }
-      if (account == null) {
-        res.status(404);
-        return "Account does not exist";
-      }
 
       if (accessControl.accessToAccount(account)) {
-        return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.updateAccount(account)));
+
+        if (accessControl.currentUserIsAdmin()) {
+          account.setAdmin(webAccount.isAdmin());
+        }
+
+        Account newAccount = accountService.updateAccount(account);
+
+        if (newAccount == null) {
+          res.status(404);
+          return "Account does not exist";
+        }
+        return gson.toJson(accountMapper.mapAccountToWebAccount(newAccount));
       }
       res.status(401);
       return "Dont have access to given account";

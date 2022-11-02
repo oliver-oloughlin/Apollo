@@ -1,5 +1,6 @@
 package mapper;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,15 +23,22 @@ public class AccountMapper {
 
   public Account mapWebAccountToAccount(WebAccount webAccount) throws Exception {
 
-    Set<Poll> polls = webAccount.getPollCodes().stream()
-        .map(code -> pollService.getPoll(code))
-        .collect(Collectors.toSet());
+    Set<Poll> polls = new HashSet<Poll>();
+    Set<Vote> votes = new HashSet<Vote>();
 
-    Set<Vote> votes = webAccount.getVoteIds().stream()
-        .map(id -> voteService.getVote(id))
-        .collect(Collectors.toSet());
+    if (webAccount.getPollCodes() != null) {
+      polls = webAccount.getPollCodes().stream()
+          .map(code -> pollService.getPoll(code))
+          .collect(Collectors.toSet());
+    }
 
-    return new Account(webAccount.getEmail(), webAccount.getPassword(), webAccount.isAdmin(), polls, votes);
+    if (webAccount.getVoteIds() != null) {
+      votes = webAccount.getVoteIds().stream()
+          .map(id -> voteService.getVote(id))
+          .collect(Collectors.toSet());
+    }
+
+    return new Account(webAccount.getEmail(), webAccount.getPassword(), polls, votes);
   }
 
   public WebAccount mapAccountToWebAccount(Account account) {

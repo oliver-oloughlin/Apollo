@@ -1,9 +1,13 @@
 package service;
 
+import java.util.HashSet;
+
 import javax.persistence.EntityExistsException;
 
 import dao.AccountDAO;
 import model.Account;
+import model.Poll;
+import model.Vote;
 import utils.PasswordHasher;
 
 public class AccountService {
@@ -14,6 +18,12 @@ public class AccountService {
   public AccountService(AccountDAO dao) {
     this.dao = dao;
     this.hasher = new PasswordHasher();
+
+    // Should be put in DB
+    Account admin = new Account("anders@gmail.com", "", new HashSet<Poll>(), new HashSet<Vote>());
+    admin.setAdmin(true);
+    hasher.hashAndSaltPassword(admin, "pass123");
+    dao.saveAccount(admin);
   }
 
   public boolean addNewAccount(Account account) throws EntityExistsException {
@@ -22,11 +32,7 @@ public class AccountService {
       throw new EntityExistsException();
     }
 
-    String salt = hasher.getRandomSalt();
-    String hashedPasswordBase64 = hasher.hashPassword(salt, account.getPassword());
-
-    account.setPassword(hashedPasswordBase64);
-    account.setSalt(salt);
+    hasher.hashAndSaltPassword(account, account.getPassword());
 
     return dao.saveAccount(account);
   }
@@ -35,12 +41,23 @@ public class AccountService {
     return dao.getAccount(email);
   }
 
-  public Account updateAccount(Account account) {
-    return dao.updateAccount(account);
+  public Account updateAccount(Account newAccount) {
+
+    Account oldAccount = dao.getAccount(newAccount.getEmail());
+
+    if (oldAccount == null) {
+      return null;
+    }
+
+    hasher.hashAndSaltPassword(oldAccount, newAccount.getPassword());
+    oldAccount.setAdmin(newAccount.isAdmin());
+
+    return dao.updateAccount(oldAccount);
   }
 
   public Account deleteAccount(Account account) {
     boolean success = dao.deleteAccount(account);
     return success ? account : null;
   }
+
 }
