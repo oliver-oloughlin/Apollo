@@ -1,6 +1,7 @@
 package api;
 
 import static spark.Spark.after;
+import static spark.Spark.options;
 import static spark.Spark.port;
 
 import org.apache.shiro.SecurityUtils;
@@ -61,12 +62,20 @@ public class Api {
       port(8080);
     }
 
+    options("/*", (req, res) -> {
+      res.status(200);
+      return res;
+    });
+
     after((req, res) -> {
       res.type("application/json");
       res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+      res.header("Access-Control-Allow-Headers",
+          "append,delete,entries,foreach,get,has,keys,set,values,Authorization, Content-Type");
     });
 
-    new AuthenticationController(authenticationService, accessControl);
+    new AuthenticationController(authenticationService, accountService, accountMapper, accessControl);
     new AccountController(accountService, accountMapper, accessControl);
     new PollController(pollService, pollMapper, accessControl);
     new QuestionController(questionService, questionMapper, accessControl);

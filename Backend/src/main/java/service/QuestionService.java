@@ -2,6 +2,7 @@ package service;
 
 import dao.QuestionDAO;
 import model.Question;
+import utils.VoteCount;
 
 public class QuestionService {
 
@@ -29,10 +30,15 @@ public class QuestionService {
     }
   }
 
-  public Question updateQuestion(Question question, long id) {
-    Question managedQuestion = dao.getQuestion(id);
-    managedQuestion.setText(question.getText());
-    return managedQuestion;
+  public VoteCount getVoteCount(Question question) {
+    int green = question.getVotes().stream().mapToInt(vote -> vote.getGreen()).sum();
+    int red = question.getVotes().stream().mapToInt(vote -> vote.getRed()).sum();
+
+    return new VoteCount(green, red);
+  }
+
+  public Question updateQuestion(Question question) {
+    return dao.updateQuestion(question);
   }
 
   public Question deleteQuestion(Question question) {

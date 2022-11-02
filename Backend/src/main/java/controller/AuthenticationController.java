@@ -9,21 +9,25 @@ import org.apache.shiro.authc.UnknownAccountException;
 
 import com.google.gson.Gson;
 
+import mapper.AccountMapper;
+import model.Account;
 import security.AccessControl;
 import security.WebLoginCredentials;
+import service.AccountService;
 import service.AuthenticationService;
 
 public class AuthenticationController {
 
   Gson gson = new Gson();
 
-  public AuthenticationController(AuthenticationService authenticationService, AccessControl accessControl) {
+  public AuthenticationController(AuthenticationService authenticationService, AccountService accountService,
+      AccountMapper mapper, AccessControl accessControl) {
 
     post("/login", (req, res) -> {
       WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
       try {
-        authenticationService.login(credentials, accessControl);
-        return String.format("\"%s\" is logged in", accessControl.getCurrentUserEmail());
+        Account account = authenticationService.login(credentials, accessControl);
+        return gson.toJson(mapper.mapAccountToWebAccount(account));
       } catch (UnknownAccountException uae) {
         return "Unknown account";
       } catch (IncorrectCredentialsException ice) {

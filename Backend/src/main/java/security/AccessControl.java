@@ -25,7 +25,7 @@ public class AccessControl {
   }
 
   public String getCurrentUserEmail() {
-    return (String) currentUser.getPrincipals().getPrimaryPrincipal();
+    return (String) currentUser.getPrincipal();
   }
 
   public void login(String email, String password)
@@ -38,6 +38,10 @@ public class AccessControl {
     if (currentUser.isAuthenticated()) {
       currentUser.logout();
     }
+  }
+
+  public boolean currentUserIsAdmin() {
+    return currentUser.isAuthenticated() && currentUser.hasRole("admin");
   }
 
   private boolean currentUserOwnsAccount(Account account) {

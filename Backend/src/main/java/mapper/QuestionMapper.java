@@ -26,8 +26,12 @@ public class QuestionMapper {
         .collect(Collectors.toSet());
 
     Poll poll = pollService.getPoll(webQuestion.getPollCode());
+    long id = webQuestion.getId();
 
-    return new Question(webQuestion.getText(), poll, votes);
+    if (id == 0) {
+      return new Question(webQuestion.getText(), poll, votes);
+    }
+    return new Question(id, webQuestion.getText(), poll, votes);
   }
 
   public WebQuestion mapQuestionToWebQuestion(Question question) {

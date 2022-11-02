@@ -27,11 +27,11 @@ public class Account {
   public Account() {
   }
 
-  public Account(String email, String password, boolean isAdmin, Set<Poll> polls,
+  public Account(String email, String password, Set<Poll> polls,
       Set<Vote> votes) {
     this.email = email;
     this.password = password;
-    this.isAdmin = isAdmin;
+    this.isAdmin = false;
     this.polls = polls;
     this.votes = votes;
   }
