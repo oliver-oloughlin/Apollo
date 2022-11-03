@@ -31,13 +31,12 @@ public class AccessControl {
   public void login(String email, String password)
       throws UnknownAccountException, IncorrectCredentialsException, LockedAccountException, AuthenticationException {
     UsernamePasswordToken token = new UsernamePasswordToken(email, password);
+    token.setRememberMe(true);
     currentUser.login(token);
   }
 
   public void logout() {
-    if (currentUser.isAuthenticated()) {
-      currentUser.logout();
-    }
+    currentUser.logout();
   }
 
   public boolean currentUserIsAdmin() {
@@ -46,7 +45,7 @@ public class AccessControl {
 
   private boolean currentUserOwnsAccount(Account account) {
 
-    if (!currentUser.isAuthenticated()) {
+    if (!(currentUser.isAuthenticated() || currentUser.isRemembered())) {
       return false;
     }
     return account.getEmail().equals(currentUser.getPrincipal());
@@ -56,7 +55,8 @@ public class AccessControl {
     if (account == null) {
       return false;
     }
-    return currentUser.isAuthenticated() && (currentUser.hasRole("admin") || currentUserOwnsAccount(account));
+    return (currentUser.isAuthenticated() || currentUser.isRemembered())
+        && (currentUserIsAdmin() || currentUserOwnsAccount(account));
   }
 
   public boolean accessToPoll(Poll poll) {
