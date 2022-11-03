@@ -25,6 +25,7 @@ public class AuthenticationController {
 
     post("/login", (req, res) -> {
       WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
+      res.cookie("user", credentials.getEmail(), 60 * 60);
       try {
         Account account = authenticationService.login(credentials, accessControl);
         return gson.toJson(mapper.mapAccountToWebAccount(account));
@@ -42,6 +43,7 @@ public class AuthenticationController {
     post("/logout", (req, res) -> {
       String resultString = String.format("\"%s\" is logged out", accessControl.getCurrentUserEmail());
       authenticationService.logout(accessControl);
+      res.removeCookie("user");
       return resultString;
     });
   }
