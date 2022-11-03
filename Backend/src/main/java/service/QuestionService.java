@@ -38,6 +38,15 @@ public class QuestionService {
   }
 
   public Question updateQuestion(Question question) {
+
+    Question oldQuestion = dao.getQuestion(question.getId());
+
+    if (oldQuestion == null) {
+      return null;
+    }
+
+    question.setVotes(oldQuestion.getVotes());
+
     return dao.updateQuestion(question);
   }
 

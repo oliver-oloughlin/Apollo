@@ -1,5 +1,6 @@
 package mapper;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,16 @@ public class QuestionMapper {
   }
 
   public Question mapWebQuestionToQuestion(WebQuestion webQuestion) {
-    Set<Vote> votes = webQuestion.getVoteIds().stream()
-        .map(id -> voteService.getVote(id))
-        .collect(Collectors.toSet());
 
-    Poll poll = pollService.getPoll(webQuestion.getPollCode());
+    Set<Vote> votes = new HashSet<Vote>();
+    Poll poll = null;
+
+    long pollCode = webQuestion.getPollCode();
     long id = webQuestion.getId();
+
+    if (pollCode != 0) {
+      poll = pollService.getPoll(pollCode);
+    }
 
     if (id == 0) {
       return new Question(webQuestion.getText(), poll, votes);

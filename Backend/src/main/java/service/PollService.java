@@ -45,6 +45,20 @@ public class PollService {
   }
 
   public Poll updatePoll(Poll poll) {
+
+    Poll oldPoll = dao.getPoll(poll.getCode());
+
+    if (oldPoll == null) {
+      return null;
+    }
+
+    poll.setQuestions(oldPoll.getQuestions());
+    poll.setOwner(oldPoll.getOwner());
+
+    if (!oldPoll.isClosed() && poll.isClosed()) {
+      closePoll(poll.getCode());
+    }
+
     return dao.updatePoll(poll);
   }
 
