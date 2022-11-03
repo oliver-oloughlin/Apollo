@@ -17,9 +17,9 @@ public class PasswordHasher {
     return new Sha256Hash(password, salt, 1024).toBase64();
   }
 
-  public void hashAndSaltPassword(Account account, String password) {
+  public void hashAndSaltPassword(Account account) {
     String salt = getRandomSalt();
-    String hashedPasswordBase64 = hashPassword(salt, password);
+    String hashedPasswordBase64 = hashPassword(salt, account.getPassword());
 
     account.setPassword(hashedPasswordBase64);
     account.setSalt(salt);

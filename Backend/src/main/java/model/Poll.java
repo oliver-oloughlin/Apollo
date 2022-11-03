@@ -75,8 +75,16 @@ public class Poll {
     return owner;
   }
 
+  public void setOwner(Account owner) {
+    this.owner = owner;
+  }
+
   public Set<Question> getQuestions() {
     return questions;
+  }
+
+  public void setQuestions(Set<Question> questions) {
+    this.questions = questions;
   }
 
   public void addQuestion(Question question) {

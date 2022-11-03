@@ -1,5 +1,6 @@
 package mapper;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,10 +22,15 @@ public class PollMapper {
   }
 
   public Poll mapWebPollToPoll(WebPoll webPoll) {
-    Account owner = accountService.getAccount(webPoll.getOwnerEmail());
-    Set<Question> questions = webPoll.getQuestionIds()
-        .stream().map(id -> questionService.getQuestion(id))
-        .collect(Collectors.toSet());
+
+    Account owner = null;
+
+    if (webPoll.getOwnerEmail() != null) {
+      owner = accountService.getAccount(webPoll.getOwnerEmail());
+    }
+
+    Set<Question> questions = new HashSet<Question>();
+
     return new Poll(webPoll.getCode(), webPoll.getTitle(), webPoll.getTimeToStop(),
         webPoll.isPrivatePoll(), webPoll.isClosed(), owner, questions);
   }
