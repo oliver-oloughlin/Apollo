@@ -25,7 +25,7 @@ type Answer = {
 
 type Poll = {
   title: string,
-  ansers: Answer[]
+  answers: Answer[]
 }
 
 const queue = "PollQueue"
@@ -41,20 +41,22 @@ ch1.consume(queue, async (msg) => {
   if (msg) {
     try {
       const poll = JSON.parse(msg.content.toString()) as Poll
+      const answers = poll.answers
 
-      const totalYes = poll.ansers.reduce((acc, { yes }) => acc + yes, 0)
-      const totalNo = poll.ansers.reduce((acc, { no }) => acc + no, 0)
+      const totalYes = answers.reduce((acc, { yes }) => acc + yes, 0)
+      const totalNo = answers.reduce((acc, { no }) => acc + no, 0)
       const totalVotes = totalYes + totalNo
-      const avgYes = totalYes / poll.ansers.length
-      const avgNo = totalNo / poll.ansers.length
+      const avgYes = totalYes / answers.length
+      const avgNo = totalNo / answers.length
 
       const created = await db.create("poll", {
         title: poll.title,
-        totalVotes,
-        totalYes,
-        totalNo,
-        avgYes,
-        avgNo
+        totalQuestions: answers.length ?? 0,
+        totalVotes: totalVotes ?? 0,
+        totalYes: totalYes ?? 0,
+        totalNo: totalNo ?? 0,
+        avgYes: avgYes ?? 0,
+        avgNo: avgNo ?? 0
       })
       
       console.log(created)
