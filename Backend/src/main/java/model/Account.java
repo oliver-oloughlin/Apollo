@@ -72,8 +72,16 @@ public class Account {
     return polls;
   }
 
+  public void setPolls(Set<Poll> polls) {
+    this.polls = polls;
+  }
+
   public Set<Vote> getVotes() {
     return votes;
+  }
+
+  public void setVotes(Set<Vote> votes) {
+    this.votes = votes;
   }
 
   public void addPoll(Poll poll) {

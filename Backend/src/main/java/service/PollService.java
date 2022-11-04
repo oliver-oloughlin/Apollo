@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityExistsException;
 
 import dao.PollDAO;
+import dweet.DweetSender;
 import messaging_system.MessageSender;
 import model.Poll;
 
@@ -12,10 +13,12 @@ public class PollService {
 
   PollDAO dao;
   MessageSender messageSender;
+  DweetSender dweetSender;
 
   public PollService(PollDAO dao) {
     this.dao = dao;
     this.messageSender = new MessageSender();
+    this.dweetSender = new DweetSender();
   }
 
   public boolean addNewPoll(Poll poll) throws EntityExistsException {
@@ -23,6 +26,8 @@ public class PollService {
     if (dao.getPoll(poll.getCode()) != null) {
       throw new EntityExistsException();
     }
+
+    dweetSender.Send(poll, "active");
 
     return dao.savePoll(poll);
   }
@@ -45,6 +50,20 @@ public class PollService {
   }
 
   public Poll updatePoll(Poll poll) {
+
+    Poll oldPoll = dao.getPoll(poll.getCode());
+
+    if (oldPoll == null) {
+      return null;
+    }
+
+    poll.setQuestions(oldPoll.getQuestions());
+    poll.setOwner(oldPoll.getOwner());
+
+    if (!oldPoll.isClosed() && poll.isClosed()) {
+      closePoll(poll.getCode());
+    }
+
     return dao.updatePoll(poll);
   }
 
@@ -62,6 +81,7 @@ public class PollService {
     }
 
     messageSender.sendPoll(poll);
+    dweetSender.Send(poll, "closed");
 
     poll.setClosed(true);
     System.out.println("Closed poll: " + poll.getTitle());

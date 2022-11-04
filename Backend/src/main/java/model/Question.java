@@ -65,6 +65,10 @@ public class Question {
     return votes;
   }
 
+  public void setVotes(Set<Vote> votes) {
+    this.votes = votes;
+  }
+
   public void addVote(Vote vote) {
     votes.add(vote);
   }

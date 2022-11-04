@@ -99,13 +99,15 @@ public class PollController {
         res.status(400);
         return "Bad request";
       }
+      if (accessControl.accessToPoll(pollService.getPoll(poll.getCode()))) {
 
-      if (poll == null) {
-        res.status(404);
-        return "Poll does not exist";
-      }
+        Poll newPoll = pollService.updatePoll(poll);
 
-      if (accessControl.accessToPoll(poll)) {
+        if (newPoll == null) {
+          res.status(404);
+          return "Poll does not exist";
+        }
+
         return gson.toJson(pollMapper.mapPollToWebPoll(pollService.updatePoll(poll)));
       }
       res.status(401);
