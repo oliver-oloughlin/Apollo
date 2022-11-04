@@ -13,9 +13,9 @@ import model.Poll;
 
 public class DweetSender {
 
-  public void Send(Poll poll, boolean active) {
+  public void Send(Poll poll, String status) {
 
-    PollResultWithStatus result = new PollResultWithStatus(poll, active);
+    PollResultWithStatus result = new PollResultWithStatus(poll, status);
     Gson gson = new Gson();
     String message = gson.toJson(result);
 
@@ -41,6 +41,7 @@ public class DweetSender {
     }
 
     System.out.println("API Sent: " + message + " to Dweet.io");
+    System.out.println("Check it out at: https://dweet.io/follow/Poll" + poll.getCode());
   }
 
 }
