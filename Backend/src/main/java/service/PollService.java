@@ -27,7 +27,7 @@ public class PollService {
       throw new EntityExistsException();
     }
 
-    dweetSender.Send(poll, true);
+    dweetSender.Send(poll, "active");
 
     return dao.savePoll(poll);
   }
@@ -81,7 +81,7 @@ public class PollService {
     }
 
     messageSender.sendPoll(poll);
-    dweetSender.Send(poll, false);
+    dweetSender.Send(poll, "closed");
 
     poll.setClosed(true);
     System.out.println("Closed poll: " + poll.getTitle());

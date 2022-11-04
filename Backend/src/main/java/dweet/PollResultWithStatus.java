@@ -6,11 +6,11 @@ import model.Poll;
 @SuppressWarnings("unused")
 public class PollResultWithStatus extends PollResult {
 
-  private boolean active;
+  private String status;
 
-  public PollResultWithStatus(Poll poll, boolean active) {
+  public PollResultWithStatus(Poll poll, String status) {
     super(poll);
-    this.active = active;
+    this.status = status;
   }
 
 }
