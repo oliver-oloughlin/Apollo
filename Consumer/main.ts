@@ -17,6 +17,17 @@ const conn = await AMQP.connect({
   port: 5672
 })
 
+type Answer = {
+  question: string,
+  yes: number,
+  no: number
+}
+
+type Poll = {
+  title: string,
+  ansers: Answer[]
+}
+
 const queue = "PollQueue"
 
 const ch1 = await conn.createChannel()
@@ -29,8 +40,23 @@ await ch1.assertQueue(queue, {
 ch1.consume(queue, async (msg) => {
   if (msg) {
     try {
-      const poll = JSON.parse(msg.content.toString())
-      const created = await db.create("poll", poll)
+      const poll = JSON.parse(msg.content.toString()) as Poll
+
+      const totalYes = poll.ansers.reduce((acc, { yes }) => acc + yes, 0)
+      const totalNo = poll.ansers.reduce((acc, { no }) => acc + no, 0)
+      const totalVotes = totalYes + totalNo
+      const avgYes = totalYes / poll.ansers.length
+      const avgNo = totalNo / poll.ansers.length
+
+      const created = await db.create("poll", {
+        title: poll.title,
+        totalVotes,
+        totalYes,
+        totalNo,
+        avgYes,
+        avgNo
+      })
+      
       console.log(created)
       ch1.ack(msg)
     }
