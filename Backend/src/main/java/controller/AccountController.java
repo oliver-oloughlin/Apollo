@@ -122,7 +122,9 @@ public class AccountController {
       }
 
       if (accessControl.accessToAccount(account)) {
-        return gson.toJson(accountMapper.mapAccountToWebAccount(accountService.deleteAccount(account)));
+        boolean success = accountService.deleteAccount(account);
+        res.status(success ? 200 : 500);
+        return success ? "Success" : "Error";
       }
       res.status(401);
       return "Dont have access to given account";

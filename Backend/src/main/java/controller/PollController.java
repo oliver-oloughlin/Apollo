@@ -124,7 +124,9 @@ public class PollController {
       }
 
       if (accessControl.accessToPoll(poll)) {
-        return gson.toJson(pollMapper.mapPollToWebPoll(pollService.deletePoll(poll)));
+        boolean success = pollService.deletePoll(poll);
+        res.status(success ? 200 : 500);
+        return success ? "Success" : "Error";
       }
       res.status(401);
       return "Dont have access to given poll";

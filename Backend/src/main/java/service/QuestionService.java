@@ -50,11 +50,7 @@ public class QuestionService {
     return dao.updateQuestion(question);
   }
 
-  public Question deleteQuestion(Question question) {
-    if (question == null) {
-      return null;
-    }
-    boolean success = dao.deleteQuestion(question);
-    return success ? question : null;
+  public boolean deleteQuestion(Question question) {
+    return dao.deleteQuestion(question);
   }
 }
