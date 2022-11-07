@@ -19,10 +19,10 @@ public class AccountService {
     this.dao = dao;
     this.hasher = new PasswordHasher();
 
-    // Should be put in DB
-    Account admin = new Account("anders@gmail.com", "pass123", new HashSet<Poll>(), new HashSet<Vote>());
+    Account admin = new Account("anders@gmail.com", null, new HashSet<Poll>(), new HashSet<Vote>());
     admin.setAdmin(true);
-    hasher.hashAndSaltPassword(admin);
+    admin.setSalt("Yyk+ifw2G+Qx5kWYKkyPRw==");
+    admin.setPassword("fO3TaGQG+ypORCH+Hjbcz+xo03muG+NPWFTt2SK/ysw=");
     dao.saveAccount(admin);
   }
 
@@ -57,8 +57,7 @@ public class AccountService {
     return dao.updateAccount(account);
   }
 
-  public Account deleteAccount(Account account) {
-    boolean success = dao.deleteAccount(account);
-    return success ? account : null;
+  public boolean deleteAccount(Account account) {
+    return dao.deleteAccount(account);
   }
 }
