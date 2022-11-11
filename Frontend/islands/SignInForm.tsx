@@ -2,16 +2,15 @@ import { Fragment } from "preact"
 import { useRef } from "preact/hooks"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
-import { Account, AccountCredentials } from "../utils/models.ts"
+import { AccountCredentials } from "../utils/models.ts"
 import { encrypt } from "../utils/security.ts"
 import { API_HOST } from "../utils/api.ts"
-import { UserSignal } from "../utils/state.ts"
 
 export default function SignInForm() {
   const emailRef = useRef<HTMLInputElement>(null)
   const passRef = useRef<HTMLInputElement>(null)
 
-  const handleSubmit = async (e: Event) => {
+  async function handleSubmit(e: Event) {
     e.preventDefault()
 
     const data: AccountCredentials = {
@@ -29,11 +28,8 @@ export default function SignInForm() {
       })
   
       if (res.ok) {
-        const account = await res.json() as Account
-        UserSignal.value = account
-        console.log(UserSignal.value)
-        const next = new URL(location.origin).searchParams.get("next")
-        if (next) window.open(next)
+        const next = new URLSearchParams(location.search).get("next")
+        if (next) window.open(next, "_self")
       }
     } catch(err) {
       console.error(err)

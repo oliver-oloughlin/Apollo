@@ -67,10 +67,16 @@ public class PollController {
     get("/poll/:code", (req, res) -> {
       String code = req.params("code");
       Poll poll = pollService.getPollFromString(code);
+      String userCookie = req.cookie("user");
 
       if (poll == null) {
         res.status(404);
-        return "Poll does not exist";
+        return "Not found";
+      }
+
+      if (poll.isPrivatePoll() && userCookie == null) {
+        res.status(401);
+        return "Unauthorized";
       }
 
       return gson.toJson(pollMapper.mapPollToWebPoll(poll));

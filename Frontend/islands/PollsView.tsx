@@ -4,16 +4,14 @@ import { Head } from "$fresh/runtime.ts"
 import { useMemo, useState, useRef, useEffect } from "preact/hooks"
 import { Poll } from "../utils/models.ts"
 import { API_HOST } from "../utils/api.ts"
-import { MockPolls } from "../utils/mock-data.ts"
 
 export default function PollsView() {
   const searchRef = useRef<HTMLInputElement>(null)
   const [search, setSearch] = useState<string>("")
-  const [polls, setPolls] = useState<Poll[]>(MockPolls)
+  const [polls, setPolls] = useState<Poll[]>([])
 
   async function fetchPolls() {
     try {
-      throw Error("API not ready")
       const res = await fetch(`${API_HOST}/poll`)
       if (!res.ok) throw Error(res.statusText)
       const _polls = await res.json() as Poll[]
@@ -26,7 +24,7 @@ export default function PollsView() {
 
   useEffect(() => {
     fetchPolls()
-    const interval = setInterval(fetchPolls, 60_000) // Re-fetches polls every 60 seconds
+    const interval = setInterval(fetchPolls, 30_000) // Re-fetches polls every 30 seconds
     return () => clearInterval(interval)
   }, [])
 
