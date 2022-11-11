@@ -67,9 +67,8 @@ public class PollService {
     return dao.updatePoll(poll);
   }
 
-  public Poll deletePoll(Poll poll) {
-    boolean success = dao.deletePoll(poll);
-    return success ? poll : null;
+  public boolean deletePoll(Poll poll) {
+    return dao.deletePoll(poll);
   }
 
   public Poll closePoll(long code) {

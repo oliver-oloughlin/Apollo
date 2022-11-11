@@ -7,8 +7,8 @@ import org.apache.shiro.authc.UnknownAccountException;
 
 import model.Account;
 import security.AccessControl;
+import security.PasswordHasher;
 import security.WebLoginCredentials;
-import utils.PasswordHasher;
 
 public class AuthenticationService {
 

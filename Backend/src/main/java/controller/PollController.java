@@ -99,6 +99,7 @@ public class PollController {
         res.status(400);
         return "Bad request";
       }
+
       if (accessControl.accessToPoll(pollService.getPoll(poll.getCode()))) {
 
         Poll newPoll = pollService.updatePoll(poll);
@@ -107,8 +108,7 @@ public class PollController {
           res.status(404);
           return "Poll does not exist";
         }
-
-        return gson.toJson(pollMapper.mapPollToWebPoll(pollService.updatePoll(poll)));
+        return gson.toJson(pollMapper.mapPollToWebPoll(newPoll));
       }
       res.status(401);
       return "Dont have access to given poll";
@@ -124,7 +124,9 @@ public class PollController {
       }
 
       if (accessControl.accessToPoll(poll)) {
-        return gson.toJson(pollMapper.mapPollToWebPoll(pollService.deletePoll(poll)));
+        boolean success = pollService.deletePoll(poll);
+        res.status(success ? 200 : 500);
+        return success ? "Success" : "Error";
       }
       res.status(401);
       return "Dont have access to given poll";

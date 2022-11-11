@@ -100,13 +100,15 @@ public class QuestionController {
         return "Bad request";
       }
 
-      if (question == null) {
-        res.status(404);
-        return "Question does not exist";
-      }
+      if (accessControl.accessToQuestion(questionService.getQuestion(question.getId()))) {
 
-      if (accessControl.accessToQuestion(question)) {
-        return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.updateQuestion(question)));
+        Question newQuestion = questionService.updateQuestion(question);
+
+        if (newQuestion == null) {
+          res.status(404);
+          return "Question does not exist";
+        }
+        return gson.toJson(questionMapper.mapQuestionToWebQuestion(newQuestion));
       }
       res.status(401);
       return "Dont have access to given question";
@@ -120,12 +122,13 @@ public class QuestionController {
         res.status(404);
         return "Question does not exist";
       }
-      if (!accessControl.accessToQuestion(question)) {
-        res.status(401);
-        return "Dont have access to given question";
+      if (accessControl.accessToQuestion(question)) {
+        boolean success = questionService.deleteQuestion(question);
+        res.status(success ? 200 : 500);
+        return success ? "Success" : "Error";
       }
-
-      return gson.toJson(questionMapper.mapQuestionToWebQuestion(questionService.deleteQuestion(question)));
+      res.status(401);
+      return "Dont have access to given question";
     });
 
   }
