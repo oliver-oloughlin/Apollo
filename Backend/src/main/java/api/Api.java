@@ -10,6 +10,7 @@ import org.apache.shiro.mgt.SecurityManager;
 
 import controller.AccountController;
 import controller.AuthenticationController;
+import controller.PingController;
 import controller.PollController;
 import controller.QuestionController;
 import controller.VoteController;
@@ -80,5 +81,6 @@ public class Api {
     new PollController(pollService, pollMapper, accessControl);
     new QuestionController(questionService, questionMapper, accessControl);
     new VoteController(voteService, voteMapper, accessControl);
+    new PingController();
   }
 }
