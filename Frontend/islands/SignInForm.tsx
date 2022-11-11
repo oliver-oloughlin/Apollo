@@ -2,7 +2,7 @@ import { Fragment } from "preact"
 import { useRef } from "preact/hooks"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
-import { AccountCredentials } from "../utils/models.ts"
+import { AccountCredentials, Account } from "../utils/models.ts"
 import { encrypt } from "../utils/security.ts"
 import { API_HOST } from "../utils/api.ts"
 
@@ -28,6 +28,8 @@ export default function SignInForm() {
       })
   
       if (res.ok) {
+        const account = await res.json() as Account
+        localStorage.setItem("user", JSON.stringify(account))
         const next = new URLSearchParams(location.search).get("next")
         if (next) window.open(next, "_self")
       }
@@ -62,5 +64,5 @@ export default function SignInForm() {
         <p class="centered-text"><a href="/sign-up" class="link">Create new account</a></p>
       </form>
     </Fragment>
-  );
+  )
 }

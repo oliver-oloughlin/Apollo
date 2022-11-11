@@ -29,6 +29,7 @@ public class PollController {
     post("/poll", (req, res) -> {
       WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
 
+
       if (!inputValidator.isValidWebPoll(webPoll, true)) {
         res.status(400);
         return "Bad request";
@@ -67,16 +68,10 @@ public class PollController {
     get("/poll/:code", (req, res) -> {
       String code = req.params("code");
       Poll poll = pollService.getPollFromString(code);
-      String userCookie = req.cookie("user");
 
       if (poll == null) {
         res.status(404);
         return "Not found";
-      }
-
-      if (poll.isPrivatePoll() && userCookie == null) {
-        res.status(401);
-        return "Unauthorized";
       }
 
       return gson.toJson(pollMapper.mapPollToWebPoll(poll));

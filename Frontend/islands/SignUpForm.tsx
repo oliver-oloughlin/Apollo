@@ -34,8 +34,9 @@ export default function SignUpForm() {
       })
 
       if (res.ok) {
-        const next = new URL(location.origin).searchParams.get("next")
-        if (next) window.open(next)
+        const next = new URLSearchParams(location.search).get("next")
+        if (next) window.open(next, "_self")
+        else window.open("/sign-in", "_self")
       }
       else {
         const message = await res.text()

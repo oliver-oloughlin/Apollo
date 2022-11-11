@@ -14,13 +14,13 @@ async function fetcher(): Promise<ResData> {
     const code = new URLSearchParams(location.search).get("code")
     const res = await fetch(`${API_HOST}/poll/${code}`)
 
-    if (!res.ok) {
-      let redirect = "/"
-      if (res.status === 401) redirect = `/sign-in?next=${location.origin}`
-      return { redirect }
-    }
+    if (!res.ok) return { redirect: "/" }
 
     const poll = await res.json() as Poll
+    const user = localStorage.getItem("user")
+    
+    if (poll.privatePoll && !user) return { redirect: `/sign-in?next=/vote?code=${code}` }
+
     const qFetchers = poll.questionIds.map(id => fetch(`${API_HOST}/question/${id}`).then(res => res.json())) as Promise<Question>[]
     const questions = await Promise.all(qFetchers)
     return {
@@ -35,6 +35,7 @@ async function fetcher(): Promise<ResData> {
 }
 
 export default function VoteView() {
+  const [loading, setLoading] = useState<boolean>(true)
   const [poll, setPoll] = useState<Poll | null>(null)
   const [questions, setQuestions] = useState<Question[] | null>(null)
   const [questionIndex, setQuestionIndex] = useState<number>(0)
@@ -49,6 +50,7 @@ export default function VoteView() {
         }
         setPoll(poll!)
         setQuestions(questions!)
+        setLoading(false)
       })
   }, [])
 
@@ -57,6 +59,8 @@ export default function VoteView() {
     console.log("Casting")
     setQuestionIndex(index => index + 1)
   }
+
+  if (loading) return <div>Loading...</div>
 
   return (
     <div class="poll-container">

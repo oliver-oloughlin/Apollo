@@ -2,6 +2,7 @@ package controller;
 
 import static spark.Spark.post;
 
+import modelweb.WebAccount;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -27,9 +28,9 @@ public class AuthenticationController {
       WebLoginCredentials credentials = gson.fromJson(req.body(), WebLoginCredentials.class);
       try {
         Account account = authenticationService.login(credentials, accessControl);
-        res.cookie("/", "user", account.getEmail(), 60 * 60, false, true);
+        WebAccount webAccount = mapper.mapAccountToWebAccount(account);
         res.status(201);
-        return "Success";
+        return gson.toJson(webAccount);
       } catch (UnknownAccountException uae) {
         res.status(400);
         return "Bad Request";

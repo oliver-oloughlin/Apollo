@@ -1,3 +1,7 @@
+.centered-x {
+  margin-inline: auto;
+}
+
 .page {
   width: 100%;
   min-height: var(--view-h);

@@ -1,0 +1,25 @@
+.user-container {
+  padding: 2rem;
+  border-radius: var(--border-r);
+  background-color: var(--bg-secondary);
+  box-shadow: 0 .2rem 4rem var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.user-container button {
+  width: fit-content;
+}
+
+.create-poll-form {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.create-poll-form > span {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}

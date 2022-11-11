@@ -67,12 +67,17 @@ public class Api {
       return res;
     });
 
+    options("/*/*", (req, res) -> {
+      res.status(200);
+      return res;
+    });
+
     after((req, res) -> {
       res.type("application/json");
       res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
       res.header("Access-Control-Allow-Headers",
-          "append,delete,entries,foreach,get,has,keys,set,values,Authorization, Content-Type");
+          "mode,append,delete,entries,foreach,get,has,keys,set,values,Authorization, Content-Type");
     });
 
     new AuthenticationController(authenticationService, accountService, accountMapper, accessControl);
