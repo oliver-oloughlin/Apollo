@@ -47,7 +47,7 @@ public class Api {
 
   public static void main(String[] args) {
 
-    // Setting up Authentication environment
+    // Setting up Security environment
     ApolloRealm apolloRealm = new ApolloRealm(accountService);
     SecurityManager securityManager = new DefaultSecurityManager(apolloRealm);
     SecurityUtils.setSecurityManager(securityManager);
