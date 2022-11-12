@@ -1,6 +1,6 @@
 .user-container {
   width: min(90ch, 90vw);
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 4rem);
   border-radius: var(--border-r);
   background-color: var(--bg-secondary);
   box-shadow: 0 .5rem 1.25rem var(--shadow);
@@ -14,7 +14,7 @@
 }
 
 .create-poll-form {
-  width: clamp(30%, 40ch, 75%);
+  width: clamp(30%, 40ch, 100%);
   display: flex;
   flex-direction: column;
   gap: .75rem;
@@ -24,33 +24,4 @@
   display: flex;
   gap: .5rem;
   align-items: center;
-}
-
-.polls-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.polls-row {
-  display: grid;
-  grid-template-columns: 3fr 1.5fr 1fr;
-  cursor: pointer;
-}
-
-.polls-row:not(:first-child) {
-  border-bottom: .1rem solid black;
-}
-
-.polls-row > * {
-  padding: var(--padding);
-}
-
-.polls-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.polls-heading {
-  background-color: hsl(0 0% 70%);
 }

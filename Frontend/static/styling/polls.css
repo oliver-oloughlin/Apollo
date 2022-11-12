@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.polls-row:hover {
+  background-color: hsl(0 0% 92%);
+}
+
 .polls-row:not(:first-child) {
   border-bottom: .1rem solid black;
 }

@@ -8,6 +8,7 @@ import { API_HOST } from "../utils/api.ts"
 import { setUser } from "./AppState.tsx"
 
 export default function SignInForm() {
+  const formRef = useRef<HTMLFormElement>(null)
   const emailRef = useRef<HTMLInputElement>(null)
   const passRef = useRef<HTMLInputElement>(null)
 
@@ -32,7 +33,8 @@ export default function SignInForm() {
         const account = await res.json() as Account
         setUser(account)
         const next = new URLSearchParams(location.search).get("next")
-        //if (next) window.open(next, "_self")
+        if (next) window.open(next, "_self")
+        else formRef.current?.reset()
       }
     } catch(err) {
       console.error(err)
@@ -44,7 +46,7 @@ export default function SignInForm() {
       <Head>
         <Style fileName="form.css" />
       </Head>
-      <form onSubmit={handleSubmit} class="form">
+      <form ref={formRef} onSubmit={handleSubmit} class="form">
         <p class="error-msg"></p>
         <p class="success-msg"></p>
         <input

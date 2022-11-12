@@ -8,6 +8,7 @@ export default function Home() {
     <App>
       <Head>
         <Style fileName="user.css" />
+        <Style fileName="polls.css" />
       </Head>
       <main>
         <UserView />

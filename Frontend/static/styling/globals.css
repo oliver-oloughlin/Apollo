@@ -98,13 +98,17 @@ button:hover::after {
     opacity: .15;
 }
 
-input {
+input:not([type="checkbox"]) {
     outline: none;
     border: none;
     box-shadow: 0 0 .125rem currentColor;
     border-radius: var(--border-r);
 }
 
-input:focus {
+input:not([type="checkbox"]):focus {
     box-shadow: 0 0 .25rem var(--accent);
+}
+
+input[type="checkbox"] {
+    accent-color: var(--accent);
 }

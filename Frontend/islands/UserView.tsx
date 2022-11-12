@@ -1,7 +1,10 @@
 import { useEffect, useState, useMemo, useRef } from "preact/hooks"
+import { Fragment } from "preact"
 import { API_HOST } from "../utils/api.ts"
 import { Poll } from "../utils/models.ts"
 import { getUser, setUser } from "./AppState.tsx"
+import { Head } from "$fresh/runtime.ts"
+import { Style } from "fresh_utils"
 
 async function pollsFetcher() {
   try {
