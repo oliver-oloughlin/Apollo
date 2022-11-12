@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks"
 import { Fragment } from "preact"
 import { Poll, Question } from "../utils/models.ts"
 import { API_HOST } from "../utils/api.ts"
+import { getUser } from "./AppState.tsx"
 
 interface ResData {
   redirect?: string,
@@ -17,7 +18,7 @@ async function fetcher(): Promise<ResData> {
     if (!res.ok) return { redirect: "/" }
 
     const poll = await res.json() as Poll
-    const user = localStorage.getItem("user")
+    const user = await getUser()
     
     if (poll.privatePoll && !user) return { redirect: `/sign-in?next=/vote?code=${code}` }
 

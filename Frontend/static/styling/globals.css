@@ -17,7 +17,8 @@
 
     --border-r: .15rem;
     --border-w: .075em;
-    --padding: .5rem 1rem;
+    --padding: .5em 1rem;
+    --padding-y: .5em;
     --trs: 200ms;
     --header-h: 3rem;
     --view-h: calc(100vh - var(--header-h));
@@ -54,8 +55,12 @@ h1, h2, h3, h4, h5, h6, strong {
     color: var(--clr-title);
 }
 
-h1, h2, h3, h4, h5, h6, p, input, textarea, button {
+input, textarea, button {
     padding: var(--padding);
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    padding-block: var(--padding-y);
 }
 
 button {

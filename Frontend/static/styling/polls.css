@@ -1,5 +1,5 @@
 .polls-container {
-  width: min(75ch, 95vw);
+  width: min(90ch, 95vw);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -16,7 +16,7 @@
 
 .polls-row {
   display: grid;
-  grid-template-columns: 2.5fr 1fr 1fr;
+  grid-template-columns: 3fr 1.5fr 1fr;
   cursor: pointer;
 }
 

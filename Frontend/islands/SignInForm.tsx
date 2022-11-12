@@ -5,6 +5,7 @@ import { Style } from "fresh_utils"
 import { AccountCredentials, Account } from "../utils/models.ts"
 import { encrypt } from "../utils/security.ts"
 import { API_HOST } from "../utils/api.ts"
+import { setUser } from "./AppState.tsx"
 
 export default function SignInForm() {
   const emailRef = useRef<HTMLInputElement>(null)
@@ -29,9 +30,9 @@ export default function SignInForm() {
   
       if (res.ok) {
         const account = await res.json() as Account
-        localStorage.setItem("user", JSON.stringify(account))
+        setUser(account)
         const next = new URLSearchParams(location.search).get("next")
-        if (next) window.open(next, "_self")
+        //if (next) window.open(next, "_self")
       }
     } catch(err) {
       console.error(err)

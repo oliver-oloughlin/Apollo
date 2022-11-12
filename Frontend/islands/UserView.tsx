@@ -1,11 +1,14 @@
 import { useEffect, useState, useMemo, useRef } from "preact/hooks"
 import { API_HOST } from "../utils/api.ts"
-import { Account, Poll } from "../utils/models.ts"
+import { Poll } from "../utils/models.ts"
+import { getUser, setUser } from "./AppState.tsx"
 
 async function pollsFetcher() {
   try {
-    return await fetch(`${API_HOST}/poll`)
-      .then(res => res.json()) as Poll[]
+    const user = await getUser()
+    if (!user) window.open("/sign-in?next=/user", "_self")
+    const polls = await fetch(`${API_HOST}/poll`).then(res => res.json()) as Poll[]
+    return polls.filter(poll => !poll.closed && poll.ownerEmail === user?.email)
   }
   catch (err) {
     console.error(err)
@@ -15,7 +18,6 @@ async function pollsFetcher() {
 
 export default function UserView() {
   const [loading, setLoading] = useState<boolean>(true)
-  const [user, setUser] = useState<Account | null>(null)
   const [polls, setPolls] = useState<Poll[] | null>(null)
   const formRef = useRef<HTMLFormElement>(null)
   const titleRef = useRef<HTMLInputElement>(null)
@@ -23,58 +25,41 @@ export default function UserView() {
   const timeRef = useRef<HTMLInputElement>(null)
   const privacyRef = useRef<HTMLInputElement>(null)
 
-  const pollsList = useMemo(() => {
-    return (
-      <ul>
-        <li>
-          <p class="poll-title-heading">Title</p>
-          <p class="poll-time-heading">Time</p>
-          <p class="poll-privacy-heading">Privacy</p>
-        </li>
-        {polls?.map(p => {
-          return (
-            <li>
-              <p class="poll-title">{p.title}</p>
-              <p class="poll-time">{p.timeToStop}</p>
-              <p class="poll-privacy">{p.privatePoll}</p>
-            </li>
-          )
-        })}
-      </ul>
-    )
+  const pollRows = useMemo(() => {
+    return polls?.map((poll, index) => {
+      return (
+        <div class="polls-row" key={`poll-${index}`} onClick={() => window.open(`/user/poll?code=${poll.code}`, "_self")}>
+          <p class="polls-title">{poll.title}</p>
+          <p>{poll.timeToStop}</p>
+          <p>{poll.privatePoll ? "PRIVATE" : "PUBLIC"}</p>
+        </div>
+      )
+    })
   }, [polls])
 
   useEffect(() => {
-    const userStr = localStorage.getItem("user")
-
-    if (!userStr) {
-      window.open("/sign-in?next=/user", "_self")
-      return
-    }
-
-    const _user = JSON.parse(userStr) as Account
-    pollsFetcher()
-      .then(_polls => {
-        setUser(_user)
-        setPolls(_polls.filter(p => p.ownerEmail === _user.email))
-        setLoading(false)
-      })
+    pollsFetcher().then(polls => {
+      setPolls(polls)
+      setLoading(false)
+    })
   }, [])
   
   async function handleSignOut() {
     const res = await fetch(`${API_HOST}/logout`)
-    localStorage.removeItem("user")
     setUser(null)
     window.open("/", "_self")
   }
 
   async function handleCreatePoll(e: Event) {
     e.preventDefault()
+
+    const user = await getUser()
+    if (!user) window.open("/sign-in?next=/user", "_self")
     
     const title = titleRef.current!.value
     const date = dateRef.current!.value
     const time = timeRef.current!.value
-    const privatePoll = privacyRef.current!.value === "private"
+    const privatePoll = privacyRef.current!.checked
 
     const data: Partial<Poll> = {
       title,
@@ -95,7 +80,7 @@ export default function UserView() {
 
     if (res.ok) {
       formRef.current!.reset()
-      pollsFetcher()
+      pollsFetcher().then(setPolls)
     }
   }
 
@@ -103,12 +88,12 @@ export default function UserView() {
 
   return (
     <div class="page-content">
-      <div class="user-container text-container centered-x">
+      <div class="user-container centered-x">
         <h1 class="centered-text">Account Page</h1>
-        <button onClick={handleSignOut}>SIGN OUT</button>
+        <a class="link" onClick={handleSignOut}>Sign Out</a>
         <div>
-          <h2>Create New Poll</h2>
           <form class="create-poll-form" ref={formRef} onSubmit={handleCreatePoll}>
+            <h2>Create New Poll</h2>
             <input
               type="text"
               name="title"
@@ -144,7 +129,15 @@ export default function UserView() {
           </form>
         </div>
         <div>
-          
+          <h2>My Polls</h2>
+          <div class="polls-column">
+            <div class="polls-row">
+              <strong class="polls-heading">Title</strong>
+              <strong class="polls-heading">Ends</strong>
+              <strong class="polls-heading">Access</strong>
+            </div>
+            {pollRows}
+          </div>
         </div>
       </div>
     </div>

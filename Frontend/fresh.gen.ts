@@ -12,12 +12,13 @@ import * as $5 from "./routes/user/index.tsx";
 import * as $6 from "./routes/user/manage-poll.tsx";
 import * as $7 from "./routes/user/manage-system.tsx";
 import * as $8 from "./routes/vote.tsx";
-import * as $$0 from "./islands/Header.tsx";
-import * as $$1 from "./islands/PollsView.tsx";
-import * as $$2 from "./islands/SignInForm.tsx";
-import * as $$3 from "./islands/SignUpForm.tsx";
-import * as $$4 from "./islands/UserView.tsx";
-import * as $$5 from "./islands/VoteView.tsx";
+import * as $$0 from "./islands/AppState.tsx";
+import * as $$1 from "./islands/Header.tsx";
+import * as $$2 from "./islands/PollsView.tsx";
+import * as $$3 from "./islands/SignInForm.tsx";
+import * as $$4 from "./islands/SignUpForm.tsx";
+import * as $$5 from "./islands/UserView.tsx";
+import * as $$6 from "./islands/VoteView.tsx";
 
 const manifest = {
   routes: {
@@ -32,12 +33,13 @@ const manifest = {
     "./routes/vote.tsx": $8,
   },
   islands: {
-    "./islands/Header.tsx": $$0,
-    "./islands/PollsView.tsx": $$1,
-    "./islands/SignInForm.tsx": $$2,
-    "./islands/SignUpForm.tsx": $$3,
-    "./islands/UserView.tsx": $$4,
-    "./islands/VoteView.tsx": $$5,
+    "./islands/AppState.tsx": $$0,
+    "./islands/Header.tsx": $$1,
+    "./islands/PollsView.tsx": $$2,
+    "./islands/SignInForm.tsx": $$3,
+    "./islands/SignUpForm.tsx": $$4,
+    "./islands/UserView.tsx": $$5,
+    "./islands/VoteView.tsx": $$6,
   },
   baseUrl: import.meta.url,
   config,
