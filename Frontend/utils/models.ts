@@ -17,7 +17,8 @@ export interface Poll {
 export interface Question {
   id: number,
   text: string,
-  voteIds: number[]
+  voteIds: number[],
+  pollCode: number
 }
 
 export interface Vote {
@@ -31,8 +32,8 @@ export interface Account {
   email: string,
   password: string,
   isAdmin: boolean,
-  pollCodes: [],
-  voteIds: []
+  pollCodes: number[],
+  voteIds: number[]
 }
 
 export interface AccountCredentials {

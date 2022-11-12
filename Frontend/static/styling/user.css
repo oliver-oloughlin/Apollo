@@ -1,5 +1,5 @@
 .user-container {
-  width: min(90ch, 90vw);
+  width: min(100ch, 90vw);
   padding: clamp(1rem, 3vw, 4rem);
   border-radius: var(--border-r);
   background-color: var(--bg-secondary);
