@@ -17,22 +17,23 @@ export interface Poll {
 export interface Question {
   id: number,
   text: string,
-  voteIds: number[]
+  voteIds: number[],
+  pollCode: number
 }
 
 export interface Vote {
-  id: number,
-  poll: Poll,
+  questionId: number,
   green: number,
-  red: number
+  red: number,
+  voterEmail: string
 }
 
 export interface Account {
   email: string,
   password: string,
   isAdmin: boolean,
-  pollCodes: [],
-  voteIds: []
+  pollCodes: number[],
+  voteIds: number[]
 }
 
 export interface AccountCredentials {

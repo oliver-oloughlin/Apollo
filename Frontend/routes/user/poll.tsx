@@ -1,17 +1,16 @@
 import App from "../../components/App.tsx"
-import UserView from "../../islands/UserView.tsx"
+import ManagePollView from "../../islands/ManagePollView.tsx"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
 
-export default function Home() {
+export default function ManagePollPage() {
   return (
     <App>
       <Head>
-        <Style fileName="user.css" />
-        <Style fileName="polls.css" />
+        <Style fileName="poll.css" />
       </Head>
       <main>
-        <UserView />
+        <ManagePollView />
       </main>
     </App>
   )

@@ -1,3 +1,7 @@
+.centered-x {
+  margin-inline: auto;
+}
+
 .page {
   width: 100%;
   min-height: var(--view-h);
@@ -9,7 +13,7 @@
   min-height: var(--view-h);
   display: flex;
   flex-direction: column;
-  padding-top: 4vh;
+  padding-block: 4vh;
 }
 
 .text-container {

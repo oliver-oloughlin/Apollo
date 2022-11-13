@@ -2,6 +2,7 @@ import { Fragment, JSX } from "preact"
 import { Head } from "$fresh/runtime.ts"
 import { Style } from "fresh_utils"
 import Header from "../islands/Header.tsx"
+import AppState from "../islands/AppState.tsx";
 
 export default function App({ children }: { children?: any }) {
   return (
@@ -11,6 +12,7 @@ export default function App({ children }: { children?: any }) {
         <Style fileName="view.css" />
         <Style fileName="header.css" />
       </Head>
+      <AppState />
       <Header />
       <Layout>
         {children}
@@ -20,5 +22,5 @@ export default function App({ children }: { children?: any }) {
 }
 
 function Layout({ children }: { children?: JSX.Element }) {
-  return <div class="layout">{children}</div>;
+  return <div class="layout">{children}</div>
 }

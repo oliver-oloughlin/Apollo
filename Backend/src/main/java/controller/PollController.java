@@ -29,6 +29,7 @@ public class PollController {
     post("/poll", (req, res) -> {
       WebPoll webPoll = gson.fromJson(req.body(), WebPoll.class);
 
+
       if (!inputValidator.isValidWebPoll(webPoll, true)) {
         res.status(400);
         return "Bad request";
@@ -70,7 +71,7 @@ public class PollController {
 
       if (poll == null) {
         res.status(404);
-        return "Poll does not exist";
+        return "Not found";
       }
 
       return gson.toJson(pollMapper.mapPollToWebPoll(poll));
