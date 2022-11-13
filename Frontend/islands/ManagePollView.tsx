@@ -55,7 +55,7 @@ export default function ManagePollView() {
       const [ date, time ] = poll?.timeToStop.split(" ")
       titleRef.current!.value = poll.title
       dateRef.current!.value = date
-      timeRef.current!.value = time
+      timeRef.current!.value = time.substring(0, time.length - 3)
       privacyRef.current!.checked = poll.privatePoll
     }
 
@@ -91,6 +91,31 @@ export default function ManagePollView() {
     if (res.ok) await pollFetcher().then(setPoll)
   }
 
+  async function handleUpdatePoll(e: Event) {
+    e.preventDefault()
+
+    const date = dateRef.current!.value
+    const time = timeRef.current!.value
+
+    const data: Partial<Poll> = {
+      code: poll!.code,
+      closed: poll!.closed,
+      privatePoll: privacyRef.current!.checked,
+      title: titleRef.current!.value,
+      timeToStop: `${date} ${time}:00`,
+    }
+
+    const res = await fetch(`${API_HOST}/poll`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (res.ok) res.json().then(setPoll)
+  }
+
   if (loading) return <div>Loading...</div>
 
   return (
@@ -99,7 +124,7 @@ export default function ManagePollView() {
         <h1 class="centered-text">Manage Poll Page</h1>
         <div>
           <h2>Poll Settings</h2>
-          <form class="manage-poll-form">
+          <form class="manage-poll-form" onSubmit={handleUpdatePoll} >
             <div>
               <strong>Code</strong>
               <div>{poll?.code}</div>
@@ -140,7 +165,6 @@ export default function ManagePollView() {
                 id="poll-privacy"
                 name="poll-privacy"
                 type="checkbox"
-                required
                 ref={privacyRef}
               />
             </span>
