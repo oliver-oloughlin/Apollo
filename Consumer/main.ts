@@ -1,8 +1,9 @@
 import AMQP from "https://esm.sh/amqplib@0.10.3"
-import { SurrealDB } from "https://deno.land/x/deno_surreal@v1.5.1/mod.ts"
+import { SurrealDB } from "https://deno.land/x/deno_surreal@v1.6.0/mod.ts"
 
 const db = new SurrealDB({
-  host: "https://apollo.fly.dev",
+  host: "apollo.fly.dev",
+  port: 8080,
   user: "root",
   pass: "anderserliten69",
   namespace: "apollo",
