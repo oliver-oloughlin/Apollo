@@ -12,7 +12,7 @@ async function questionsFetcher(poll: Poll | null) {
 
 async function pollFetcher() {
   const user = await getUser()
-  if (!user) window.open(`/sign-in?next=${location.origin}`, "_self")
+  if (!user) window.open(`/sign-in?next=${location.href}`, "_self")
   const code = new URLSearchParams(location.search).get("code")
   const poll = await fetch(`${API_HOST}/poll/${code}`).then(res => res.json()) as Poll
   if (!poll) window.open("/user", "_self")

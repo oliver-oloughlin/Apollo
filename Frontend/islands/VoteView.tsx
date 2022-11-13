@@ -20,7 +20,7 @@ async function fetcher(): Promise<ResData> {
     const poll = await res.json() as Poll
     const user = await getUser()
     
-    if (poll.privatePoll && !user) return { redirect: `/sign-in?next=${location.origin}` }
+    if (poll.privatePoll && !user) return { redirect: `/sign-in?next=${location.href}` }
 
     const qFetchers = poll.questionIds.map(id => fetch(`${API_HOST}/question/${id}`).then(res => res.json())) as Promise<Question>[]
     const questions = await Promise.all(qFetchers)
