@@ -22,10 +22,10 @@ export interface Question {
 }
 
 export interface Vote {
-  id: number,
-  poll: Poll,
+  questionId: number,
   green: number,
-  red: number
+  red: number,
+  voterEmail: string
 }
 
 export interface Account {

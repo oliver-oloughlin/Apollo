@@ -1,6 +1,6 @@
-import { useEffect, useState } from "preact/hooks"
+import { useCallback, useEffect, useState } from "preact/hooks"
 import { Fragment } from "preact"
-import { Poll, Question } from "../utils/models.ts"
+import { Poll, Question, Vote } from "../utils/models.ts"
 import { API_HOST } from "../utils/api.ts"
 import { getUser } from "./AppState.tsx"
 
@@ -20,7 +20,7 @@ async function fetcher(): Promise<ResData> {
     const poll = await res.json() as Poll
     const user = await getUser()
     
-    if (poll.privatePoll && !user) return { redirect: `/sign-in?next=/vote?code=${code}` }
+    if (poll.privatePoll && !user) return { redirect: `/sign-in?next=${location.origin}` }
 
     const qFetchers = poll.questionIds.map(id => fetch(`${API_HOST}/question/${id}`).then(res => res.json())) as Promise<Question>[]
     const questions = await Promise.all(qFetchers)
@@ -45,21 +45,32 @@ export default function VoteView() {
   useEffect(() => {
     fetcher()
       .then(({ redirect, poll, questions}) => {
-        if (redirect) {
-          window.open(redirect, "_self")
-          return
-        }
+        if (redirect) window.open(redirect, "_self")
         setPoll(poll!)
         setQuestions(questions!)
         setLoading(false)
       })
   }, [])
 
-  function castVote({ green, red }: { green: number, red: number}) {
-    // TODO: Process and send vote to API
-    console.log("Casting")
-    setQuestionIndex(index => index + 1)
-  }
+  const castVote = useCallback(async (vote: { green: number, red: number }) => {
+    const user = await getUser()
+
+    const data: Partial<Vote> = {
+      ...vote,
+      questionId: question?.id,
+      voterEmail: user?.email
+    }
+
+    const res = await fetch(`${API_HOST}/vote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (res.ok) setQuestionIndex(index => index + 1)
+  }, [question])
 
   if (loading) return <div>Loading...</div>
 
