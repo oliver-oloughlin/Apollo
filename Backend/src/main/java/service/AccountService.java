@@ -8,7 +8,7 @@ import dao.AccountDAO;
 import model.Account;
 import model.Poll;
 import model.Vote;
-import utils.PasswordHasher;
+import security.PasswordHasher;
 
 public class AccountService {
 
