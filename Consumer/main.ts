@@ -1,4 +1,5 @@
-import AMQP from "https://esm.sh/amqplib@0.10.3"
+// @deno-types="npm:@types/amqplib"
+import AMQP from "npm:amqplib@0.10.3"
 import { SurrealDB } from "https://deno.land/x/deno_surreal@v1.6.0/mod.ts"
 
 const db = new SurrealDB({
