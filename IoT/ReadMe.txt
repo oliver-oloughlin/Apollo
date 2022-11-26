@@ -19,3 +19,5 @@ Finally to upload the program you simply need to connect the arduino via usb,
 choose the correct COM port and use the Arduino IDE upload function.
 
 Good luck! - Group 1
+
+PS: If you find a way to use the ArduinoJson.h library in the loop function please let me know... 
