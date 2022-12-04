@@ -27,7 +27,6 @@ public class QuestionDAOImpl implements QuestionDAO {
       poll.addQuestion(question);
       em.persist(question);
       em.merge(poll);
-      tx.commit();
       return true;
     } catch (RollbackException e) {
       return false;
